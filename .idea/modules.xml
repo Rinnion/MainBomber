@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MineBomber/MineBomber.iml" filepath="$PROJECT_DIR$/MineBomber/MineBomber.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MineBomber-android/MineBomber-android.iml" filepath="$PROJECT_DIR$/MineBomber-android/MineBomber-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MineBomber-desktop/MineBomber-desktop.iml" filepath="$PROJECT_DIR$/MineBomber-desktop/MineBomber-desktop.iml" />
+    </modules>
+  </component>
+</project>
+
