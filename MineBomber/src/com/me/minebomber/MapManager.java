@@ -202,6 +202,7 @@ public class MapManager {
 
 
         player=new Player();
+        Gdx.input.setInputProcessor(new FightInputProcessor(player));
 
 
          //maskTexture=new Texture(mask);

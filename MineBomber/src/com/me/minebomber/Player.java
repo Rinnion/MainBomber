@@ -7,11 +7,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by alekseev on 20.03.2014.
  */
-public class Player {
+public class Player  implements IFightInputListener {
+
+    @Override
+    public void onFix(Vector2 v) {
+        this.v = v;
+    }
+
+    Vector2 v = new Vector2(0.7f,0.7f);
 
     public static class PlayerDeriction
     {
@@ -30,27 +38,22 @@ public class Player {
 
 
     private void handleInput() {
-         float x=0;
+/*
+        float x=0;
         float y=0;
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-
             x=-1;
-
            sprite.translateX(-1);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-
             x=1;
             sprite.translateX(1);
-
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-
             y=1;
             sprite.translateY(1);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-
             y=-1;
             sprite.translateY(-1);
 
@@ -58,21 +61,24 @@ public class Player {
 
         //x=5;
         //sprite.translateX(x*Gdx.graphics.getDeltaTime());
+        //sprite.translateX(realMoveX);
 
         float realMoveX=10*Gdx.graphics.getDeltaTime();
-        //sprite.translateX(realMoveX);
         float realMoveY=10*Gdx.graphics.getDeltaTime();
+
         if(MapManager.DrawPixMap(pixMap,(int)(sprite.getX()+sprite.getOriginX()+realMoveX),((int)(sprite.getY()+sprite.getOriginY()+realMoveY))))
         {
             sprite.translateX(realMoveX);
-
             sprite.translateY(realMoveY);
         }
+*/
+        float realMoveX=10*Gdx.graphics.getDeltaTime() * v.x;
+        float realMoveY=10*Gdx.graphics.getDeltaTime() * v.y;
 
-
-
-
-
+        if(MapManager.DrawPixMap(pixMap,(int)(sprite.getX()+sprite.getOriginX()+realMoveX),((int)(sprite.getY()+sprite.getOriginY()+realMoveY))))
+        {
+            sprite.translate(realMoveX,realMoveY);
+        }
 
     }
 
