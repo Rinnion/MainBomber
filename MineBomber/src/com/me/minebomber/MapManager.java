@@ -148,6 +148,27 @@ public class MapManager {
     }
 
 
+    static int getMaxPower(int power,int size)
+    {
+        int startPower=1;
+        int retpower=power;
+        while (true)
+        {
+
+
+               //retpower = (int) Math.pow((double) 2, (double) power);
+              retpower=retpower*power;
+
+            //startPower++;
+            if(retpower>=size)
+                return retpower;
+
+        }
+
+
+    }
+
+
     public static void Initialize()
     {
 
@@ -169,8 +190,11 @@ public class MapManager {
         scrH=Integer.parseInt((String) mMap.getProperties().get("scrH"));
 
 
+
         backGroundBuffer=new FrameBuffer(Pixmap.Format.RGB888 ,scrW,scrH,false);
         foreGroundBuffer=new FrameBuffer(Pixmap.Format.RGBA8888,scrW,scrH,false);
+
+
          tilesList=new HashMap<Integer, TilesInfo>();
         //mMap.getTileSets().getTileSet(0).i
 
