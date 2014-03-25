@@ -30,7 +30,7 @@ public class Player  implements IFightInputListener {
     }
 
     public Texture mTexture;
-    public Pixmap pixMap;
+
 
     TextureRegion tRegion;
     Sprite sprite;
@@ -72,10 +72,13 @@ public class Player  implements IFightInputListener {
             sprite.translateY(realMoveY);
         }
 */
-        float realMoveX=10*Gdx.graphics.getDeltaTime() * v.x;
-        float realMoveY=10*Gdx.graphics.getDeltaTime() * v.y;
+        float realMoveX=50*Gdx.graphics.getDeltaTime() * v.x;
+        float realMoveY=50*Gdx.graphics.getDeltaTime() * v.y;
 
-        if(MapManager.DrawPixMap(pixMap,(int)(sprite.getX()+sprite.getOriginX()+realMoveX),((int)(sprite.getY()+sprite.getOriginY()+realMoveY))))
+        int newX = (int) (sprite.getX() + sprite.getOriginX() + realMoveX);
+        int newY = (int) (sprite.getY() + sprite.getOriginY() + realMoveY);
+
+        if(MapManager.DrawPixMap(newX, newY))
         {
             sprite.translate(realMoveX,realMoveY);
         }
@@ -93,16 +96,12 @@ public class Player  implements IFightInputListener {
 
         sprite=new Sprite(tRegion);
         sprite.flip(false,true);
-        sprite.setSize(8,8);
+        sprite.setSize(12,12);
         sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f);
 
         //sprite.rotate(90);
-        sprite.setPosition(-sprite.getOriginX()+10,-sprite.getOriginY()+10 );
+        sprite.setPosition(-sprite.getOriginX()+(sprite.getWidth()/2),-sprite.getOriginY()+(sprite.getHeight()/2) );
 
-        pixMap=new Pixmap(4,4, Pixmap.Format.RGBA8888);
-        pixMap.setBlending(Pixmap.Blending.None);
-         pixMap.setColor(0,0,0,0.0f);
-        pixMap.drawCircle(0, 0, 10);
 
 
         //pixMap.setBlending(Pixmap.Blending.SourceOver);

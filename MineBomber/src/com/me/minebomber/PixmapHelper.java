@@ -28,31 +28,23 @@ public class PixmapHelper {
 
          mapHelper =AssetLoader.GetPixmap(Settings.TEX_MAP_OBJECTS);
 
-        miniObject=new Pixmap(4,4, Pixmap.Format.RGBA8888);
+        miniObject=new Pixmap(2,2, Pixmap.Format.RGBA8888 );
         miniObject.setBlending(Pixmap.Blending.None);
-        miniObject.setColor(Color.BLACK);
-
-        miniObject.fill();
-        miniObject.setBlending(Pixmap.Blending.SourceOver);
+        mapHelper.setBlending(Pixmap.Blending.None);
 
     }
 
     static void Draw(TextureRegion textureRegion,Texture dstTexture,int dstX,int dstY)
     {
 
-        miniObject.setBlending(Pixmap.Blending.None);
-        mapHelper.setBlending(Pixmap.Blending.None);
+
 
        // dstTexture.
-       miniObject.drawPixmap(mapHelper,0,0, textureRegion.getRegionX(),textureRegion.getRegionY(),textureRegion.getRegionWidth()-4,textureRegion.getRegionHeight()-4);
+       miniObject.drawPixmap(mapHelper,0,0, textureRegion.getRegionX(),textureRegion.getRegionY(),textureRegion.getRegionWidth(),textureRegion.getRegionHeight());
 
-
-       // Gdx.gl.glBindTexture(GL10.GL_TEXTURE_2D, dstTexture.getTextureObjectHandle());
-      //  Gdx.gl.glTexSubImage2D(GL10.GL_TEXTURE_2D, 0, dstX, dstY, miniObject.getWidth(), miniObject.getHeight(), miniObject.getGLFormat(), miniObject.getGLType(), miniObject.getPixels());
 
         dstTexture.draw(miniObject,dstX,dstY);
-        miniObject.setBlending(Pixmap.Blending.SourceOver);
-        mapHelper.setBlending(Pixmap.Blending.SourceOver);
+
     }
 
 

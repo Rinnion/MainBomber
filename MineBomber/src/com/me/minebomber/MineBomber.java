@@ -107,6 +107,9 @@ public class MineBomber implements ApplicationListener {
         camera.update();
 
 
+        TextOut.SetText(Gdx.graphics.getDeltaTime() + "");
+
+
 
         Gdx.gl.glViewport((int)viewPort.getX() ,(int)viewPort.getY(),(int)viewPort.getWidth(),(int)viewPort.getHeight());
 

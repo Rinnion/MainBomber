@@ -65,13 +65,17 @@ public class MapManager {
     static int maxCel;
     static int maxRow;
 
-    static int rowH=4;
-    static int rowW=4;
+    static int rowH=2;
+    static int rowW=2;
 
-    public static boolean DrawPixMap(Pixmap pixMap,int x,int y)
+    static float radiusDig=4.5f;
+    static float radiusGo=1.7f;
+
+    public static boolean DrawPixMap(int x,int y)
     {
-        Integer [] indexes= createBoundList(x,y);
-        boolean dogo=true;
+        Integer [] indexes= createBoundList(x,y,radiusDig);
+        Integer [] indexesGo= createBoundList(x,y,radiusGo);
+        boolean dogo=false;
         int id;
         if(indexes.length >0) {
 
@@ -80,7 +84,7 @@ public class MapManager {
                 MapInfo info= mapsInfo[indexes[i]];
                 id=info.mId;
                 if(info.mLife>0) {
-                   info.mLife-=1;
+                   info.mLife-=2;
 
                     if(info.mLife<1)
                     {
@@ -92,30 +96,49 @@ public class MapManager {
                             info.mLife=tilesList.get(id).mLife;
                         }
 
-                        TextOut.SetText(info.mId+"");
+                        //TextOut.SetText(info.mId+"");
                         PixmapHelper.Draw(tilesList.get(info.mId).mTexRegion,mTextureForeground,info.mX,info.mY);
-                        //ParticleManager.Fire(info.mX,info.mY);
+                        if(info.mId==0)
+                        ParticleManager.Fire(info.mX,info.mY);
                     }
 
-                   dogo=false;
-                }
 
-                if(dogo==true) {
-                    //Gdx.gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureForeground.getTextureObjectHandle());
-                    //Gdx.gl.glTexSubImage2D(GL10.GL_TEXTURE_2D, 0, (int) info.mX, (int) info.mY, pixMap.getWidth(), pixMap.getHeight(), pixMap.getGLFormat(), pixMap.getGLType(), pixMap.getPixels());
+                }
+                // if(indexesGo.length==0)
+                  //   dogo=true;
+
+            }
+
+
+
+        }
+         dogo=true;
+        if(indexesGo.length >0) {
+            for (int i = 0; i < indexesGo.length; i++) {
+
+                MapInfo info = mapsInfo[indexesGo[i]];
+                id=info.mId;
+                if(tilesList.get(id).mLife>0)
+                {
+                  dogo=false;
                 }
             }
         }
-        return dogo;
+        else
+            dogo=true;
+
+        return     dogo;
     }
 
 
-    static int radius=1;
 
-    private static Integer[] createBoundList(int startX, int startY)
+
+    private static Integer[] createBoundList(int startX, int startY, float radiusFloat)
     {
         int sx=startX/rowW;
         int sy=startY/rowH;
+
+        int radius = (int)Math.ceil(radiusFloat);
 
         int left = sx-radius-1;
         int top = sy-radius-1;
@@ -127,16 +150,12 @@ public class MapManager {
         if (top<1) top = 1;
         if (bottom>maxRow-2) bottom = maxRow-1;
 
-
-        int width = (right-left);
-        int height = bottom - top;
-
         ArrayList<Integer> al = new ArrayList<Integer>();
         for(int x=left;x<right;x++)
         for(int y=top; y<bottom;y++){
             int fx = x*rowW+(rowW/2);
             int fy = y*rowH+(rowH/2);
-            if ((fx-startX)*(fx-startX) + (fy-startY)*(fy-startY) < radius*radius*rowW*rowH){
+            if ((fx-startX)*(fx-startX) + (fy-startY)*(fy-startY) < radiusFloat*radiusFloat*rowW*rowH){
                 int index = (y*maxCel)+x;
                 al.add(index);
             }
@@ -318,10 +337,14 @@ public class MapManager {
         int h=(int)tilesLayer.getTileHeight();
         int w=(int)tilesLayer.getTileWidth();
 
-
-        maxCel=colCount*2;//(w/rowW);
-        maxRow=rowCount*2;//(h/rowH);
+        int stepY=h/rowH;
+        int stepX=w/rowW;
+        maxCel=colCount*stepX;
+        maxRow=rowCount*stepY;
         int count=(colCount*(w/rowW))*(rowCount*(h/rowH));//((h+w)/(rowH+rowW));
+
+
+
         mapsInfo=new MapInfo[count];
 
         for(int col=0;col<colCount;col++)
@@ -339,7 +362,17 @@ public class MapManager {
 
                 int id=Integer.parseInt((String) cell.getTile().getProperties().get("id"));
 
-                int rowIndex1=(row*2)*maxCel; // +-
+                for(int iY=0;iY<stepY;iY++)
+                for(int iX=0;iX<stepX;iX++)
+                  {
+                     int rowIndex=((row*stepY)+iY)*maxCel;
+                     int colIndex=((col*stepX)+iX);
+                     int rowX=((col*stepX)+iX)*rowW;
+                     int rowY=((row*stepY)+iY)*rowH;
+                     mapsInfo[rowIndex + colIndex] = new MapInfo(id, rowX, rowY, tilesList.get(id).mLife);
+                 }    /**/
+
+               /* int rowIndex1=(row*2)*maxCel; // +-
                 int colIndex1=(col*2);          // --
 
                 int rowIndex2=(row*2)*maxCel; // -+
@@ -368,7 +401,7 @@ public class MapManager {
                 mapsInfo[rowIndex2+colIndex2]=new MapInfo( id, rowX2,rowY2,tilesList.get(id).mLife);
                 mapsInfo[rowIndex3+colIndex3]=new MapInfo( id, rowX3,rowY3,tilesList.get(id).mLife);
                 mapsInfo[rowIndex4+colIndex4]=new MapInfo( id,rowX4,rowY4,tilesList.get(id).mLife);
-
+                /**/
             }
 
 
