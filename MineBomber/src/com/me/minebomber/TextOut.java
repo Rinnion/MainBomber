@@ -28,7 +28,7 @@ public class TextOut {
     public static void Draw(SpriteBatch sb,int x,int y)
     {
 
-        bitmapFont.draw(sb, mText,(float)x+50,(float)y+50);
+        bitmapFont.draw(sb, mText,(float)x+20,(float)y+20);
 
 
     }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.me.Particles.ParticleManager;
 import com.sun.org.apache.xalan.internal.lib.ExsltDynamic;
 
 import java.awt.*;
@@ -59,7 +60,7 @@ public class MapManager {
 
 
     static HashMap<Integer,TilesInfo> tilesList;
-    static MapInfo[] mapsInfo;
+    public static MapInfo[] mapsInfo;
 
     static int maxCel;
     static int maxRow;
@@ -69,12 +70,6 @@ public class MapManager {
 
     public static boolean DrawPixMap(Pixmap pixMap,int x,int y)
     {
-
-        //mTextureForeground.draw(pixMap, x, y);
-        //Gdx.gl.glBlendFunc();
-        //Gdx.gl.glBlendFunc();
-        //Gdx.gl.glBlendFunc(Gdx.gl20.GL_SRC_ALPHA,Gdx.gl20.GL_DST_ALPHA);
-
         Integer [] indexes= createBoundList(x,y);
         boolean dogo=true;
         int id;
@@ -85,9 +80,9 @@ public class MapManager {
                 MapInfo info= mapsInfo[indexes[i]];
                 id=info.mId;
                 if(info.mLife>0) {
-                   info.mLife-=5;
+                   info.mLife-=1;
 
-                    if(info.mLife==0)
+                    if(info.mLife<1)
                     {
                         if(tilesList.get(id).mNextid!=-1)
                         if(tilesList.get(id).mNextid!=info.mId)
@@ -99,6 +94,7 @@ public class MapManager {
 
                         TextOut.SetText(info.mId+"");
                         PixmapHelper.Draw(tilesList.get(info.mId).mTexRegion,mTextureForeground,info.mX,info.mY);
+                        //ParticleManager.Fire(info.mX,info.mY);
                     }
 
                    dogo=false;

@@ -1,6 +1,7 @@
 package com.me.minebomber;
 
 import com.badlogic.gdx.graphics.Pixmap;
+import com.me.Particles.ParticleManager;
 import com.me.assetloader.AssetLoader;
 import com.me.logger.Log;
 
@@ -20,6 +21,8 @@ public class Initializer {
         MapManager.Initialize();
         Log.d("Initialize PixmapHelper");
         PixmapHelper.Initialize();
+        Log.d("Initialize ParticleManager");
+        ParticleManager.Initialize();
 
     }
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.me.Particles.ParticleManager;
 
 
 public class MineBomber implements ApplicationListener {
@@ -118,6 +119,7 @@ public class MineBomber implements ApplicationListener {
         batch.begin();
         MapManager.Render(batch);
         TextOut.Draw(batch,0,0);
+        ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());
         batch.end();
 
         //batch.getProjectionMatrix().setToOrtho2D(0, 0,Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());

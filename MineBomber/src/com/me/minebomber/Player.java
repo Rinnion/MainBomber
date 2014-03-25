@@ -59,9 +59,9 @@ public class Player {
         //x=5;
         //sprite.translateX(x*Gdx.graphics.getDeltaTime());
 
-        float realMoveX=50*Gdx.graphics.getDeltaTime();
+        float realMoveX=10*Gdx.graphics.getDeltaTime();
         //sprite.translateX(realMoveX);
-        float realMoveY=50*Gdx.graphics.getDeltaTime();
+        float realMoveY=10*Gdx.graphics.getDeltaTime();
         if(MapManager.DrawPixMap(pixMap,(int)(sprite.getX()+sprite.getOriginX()+realMoveX),((int)(sprite.getY()+sprite.getOriginY()+realMoveY))))
         {
             sprite.translateX(realMoveX);
