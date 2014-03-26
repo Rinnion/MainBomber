@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.*;
 import com.me.assetloader.AssetLoader;
 import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion;
 
@@ -28,22 +29,23 @@ public class PixmapHelper {
 
          mapHelper =AssetLoader.GetPixmap(Settings.TEX_MAP_OBJECTS);
 
-        miniObject=new Pixmap(2,2, Pixmap.Format.RGBA8888 );
+        miniObject=new Pixmap(MapManager.rowW,MapManager.rowH, Pixmap.Format.RGBA8888 );
         miniObject.setBlending(Pixmap.Blending.None);
         mapHelper.setBlending(Pixmap.Blending.None);
 
     }
 
-    static void Draw(TextureRegion textureRegion,Texture dstTexture,int dstX,int dstY)
+    static void Draw(TextureRegion textureRegion, com.badlogic.gdx.math.Rectangle texStep, Texture dstTexture,int dstX,int dstY)
     {
 
 
 
        // dstTexture.
-       miniObject.drawPixmap(mapHelper,0,0, textureRegion.getRegionX(),textureRegion.getRegionY(),textureRegion.getRegionWidth(),textureRegion.getRegionHeight());
-
-
-        dstTexture.draw(miniObject,dstX,dstY);
+       synchronized (miniObject) {
+           miniObject.drawPixmap(mapHelper, 0, 0, textureRegion.getRegionX()+(int)texStep.getX(), textureRegion.getRegionY()+(int)texStep.getY(),(int)texStep.getWidth(),(int)texStep.getHeight());
+                   //textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
+           dstTexture.draw(miniObject, dstX, dstY);
+       }
 
     }
 

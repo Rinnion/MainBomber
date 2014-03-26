@@ -2,21 +2,19 @@ package com.me.minebomber;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.maps.MapLayers;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
+import com.me.Particles.IParticleCallback;
 import com.me.Particles.ParticleManager;
-import com.sun.org.apache.xalan.internal.lib.ExsltDynamic;
+import com.me.Players.Player;
+import com.me.Players.PlayerController;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -54,7 +52,7 @@ public class MapManager {
 
 
     //static Sprite mSprite;
-      static Player player;
+      //static Player player;
 
     static Pixmap mapObjects;
 
@@ -77,11 +75,13 @@ public class MapManager {
         Integer [] indexesGo= createBoundList(x,y,radiusGo);
         boolean dogo=false;
         int id;
+        boolean playAnimation;
         if(indexes.length >0) {
 
 
             for(int i=0;i<indexes.length;i++) {
-                MapInfo info= mapsInfo[indexes[i]];
+                playAnimation=false;
+                final MapInfo info= mapsInfo[indexes[i]];
                 id=info.mId;
                 if(info.mLife>0) {
                    info.mLife-=2;
@@ -94,12 +94,22 @@ public class MapManager {
                             //info.mId=tilesList.get(info.mId).mNextid;
                             info.mId=tilesList.get(id).mNextid;
                             info.mLife=tilesList.get(id).mLife;
+                            if(info.mId==0)
+                                info.mFree=true;
+                                //playAnimation=true;
+
                         }
 
                         //TextOut.SetText(info.mId+"");
-                        PixmapHelper.Draw(tilesList.get(info.mId).mTexRegion,mTextureForeground,info.mX,info.mY);
-                        if(info.mId==0)
-                        ParticleManager.Fire(info.mX,info.mY);
+                        PixmapHelper.Draw(tilesList.get(info.mId).mTexRegion,info.mTextureSteps,mTextureForeground,info.mX,info.mY);
+                       /*
+                        if(playAnimation) //.mId==0)
+                         ParticleManager.Fire(info.mX,info.mY,new IParticleCallback() {
+                             @Override
+                             public void AnimationEnd() {
+                                 info.mFree=true;
+                             }
+                         });*/
                     }
 
 
@@ -118,7 +128,7 @@ public class MapManager {
 
                 MapInfo info = mapsInfo[indexesGo[i]];
                 id=info.mId;
-                if(tilesList.get(id).mLife>0)
+                if(!info.mFree) //tilesList.get(id).mLife>0)
                 {
                   dogo=false;
                 }
@@ -244,8 +254,8 @@ public class MapManager {
        // mask.setColor(new Color(1,0,1,0.5f));
 
 
-        player=new Player();
-        Gdx.input.setInputProcessor(new FightInputProcessor(player));
+
+
 
 
          //maskTexture=new Texture(mask);
@@ -301,7 +311,8 @@ public class MapManager {
         mSpriteBackground.draw(batch);
         mSpriteForeground.draw(batch);
 
-        player.Render(batch);
+        //player.Render(batch);
+        PlayerController.Render(batch);
 
         //batch.draw(mTexture,0,0);
         //batch.draw(maskTexture,0,0);
@@ -369,7 +380,8 @@ public class MapManager {
                      int colIndex=((col*stepX)+iX);
                      int rowX=((col*stepX)+iX)*rowW;
                      int rowY=((row*stepY)+iY)*rowH;
-                     mapsInfo[rowIndex + colIndex] = new MapInfo(id, rowX, rowY, tilesList.get(id).mLife);
+
+                     mapsInfo[rowIndex + colIndex] = new MapInfo(id, rowX, rowY,new Rectangle(iX*rowW,iY*rowH,rowW,rowH), tilesList.get(id).mLife,tilesList.get(id).mId==0);
                  }    /**/
 
                /* int rowIndex1=(row*2)*maxCel; // +-

@@ -5,6 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.minebomber.Settings;
+import sun.nio.ch.ThreadPool;
+
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,12 +17,14 @@ import com.me.minebomber.Settings;
  * To change this template use File | Settings | File Templates.
  */
 public  class ParticleManager {
-    static final int pCount=100;
+    static final int pCount=200;
     static  ParticleManager[]pFire=new ParticleManager[pCount];
 
     ParticleEffect pEffect;
     boolean isFree=true;
     static Object syncObject=new Object();
+    private IParticleCallback mCallBack;
+
 
     static public void Initialize()
     {
@@ -31,34 +36,42 @@ public  class ParticleManager {
                 pFire[i]=new ParticleManager();
                 pFire[i].pEffect=new ParticleEffect();
                 pFire[i].pEffect.load(Gdx.files.internal(Settings.PARTICLE_001),Gdx.files.internal("data/particles"));
-
+                pFire[i].mCallBack=null;
             }
 
     }
 
-    private void  Start(float x,float y)
+    private void  Start(float x,float y,IParticleCallback callback)
     {
         isFree=false;
         pEffect.setPosition(x,y);
         pEffect.start();
-
+        mCallBack=callback;
 
 
     }
-
     static  public void Fire(float x,float y)
     {
+        Fire(x,y,null);
+    }
+
+    static  public void Fire(float x,float y,IParticleCallback callback)
+    {
+
         synchronized (syncObject)
         {
+            boolean found=false;
             for(int i=0;i<pCount;i++)
             {
                 if(pFire[i].isFree)
                 {
-                    pFire[i].Start(x,y);
+                    pFire[i].Start(x,y,callback);
+                    found=true;
                     break;
                 }
-
             }
+            if((!found)&&(callback!=null))
+                callback.AnimationEnd();
         }
     }
 
@@ -68,29 +81,22 @@ public  class ParticleManager {
         {
            if(!pFire[i].isFree)
            {
-
-              pFire[i].pEffect.draw(batch,delta);
-               if(pFire[i].pEffect.isComplete() )
+               pFire[i].pEffect.draw(batch,delta);
+               if(pFire[i].pEffect.isComplete())
                {
-                   //      pFire[i].pEffect.reset();
-                   //    pFire[i].pEffect.
                    pFire[i].isFree=true;
-                   continue;
+                   if(pFire[i].mCallBack!=null)
+                   pFire[i].mCallBack.AnimationEnd();
+                  // continue;
                }
-
-           }
+            }
         }
-
     }
 
 
     public static void dispose() {
         for(int i=0;i<pCount;i++)
-        {
-                pFire[i].pEffect.dispose();
-
-        }
-
+            pFire[i].pEffect.dispose();
 
     }
 }

@@ -6,5 +6,6 @@ package com.me.minebomber;
 public class Settings {
 
     public static final String TEX_MAP_OBJECTS="data/objects.png";
-    public static final String PARTICLE_001="data/particles/payer-destroy-field.p";
+    public static final String TEX_MAN="data/mans.png";
+    public static final String PARTICLE_001="data/particles/payer-destroy-field2.p";
 }

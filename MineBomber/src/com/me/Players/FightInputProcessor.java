@@ -1,22 +1,37 @@
-package com.me.minebomber;
+package com.me.Players;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.me.logger.Log;
 
+
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by tretyakov on 21.03.2014.
  */
-public class FightInputProcessor implements InputProcessor {
+public class FightInputProcessor implements InputProcessor, IListenerRegistrator {
     public static final long DELTA_TIME = 10;
     private static final long MULTIPLE_PRESS_DELTA_TIME = 20;
-    private IFightInputListener mListener;
-    private boolean mDoublePress;
 
-    public void setListener(IFightInputListener mListener) {
-        this.mListener = mListener;
+    private IPlayerControlls mListener;
+    private boolean mDoublePress;
+    private Rectangle mArea;
+
+    @Override
+    public void setListener(IPlayerControlls listener) {
+        this.mListener = listener;
     }
+
+    @Override
+    public void removeListener(IPlayerControlls listener)
+    {
+        this.mListener = null;
+    }
+
 
     class PointerInfo{
         public int downX;
@@ -31,8 +46,15 @@ public class FightInputProcessor implements InputProcessor {
 
     PointerInfo[] pi = new PointerInfo[]{new PointerInfo(), new PointerInfo()};
 
-    public FightInputProcessor(IFightInputListener listener){
-        setListener(listener);
+   // public FightInputProcessor(IFightInputListener listener){
+     //   setListener(listener);
+    //}
+    public FightInputProcessor(Rectangle area)
+    {
+        mArea = area;
+        mListener= null;
+        //Gdx.input.setInputProcessor(this);
+
     }
 
     @Override
@@ -52,6 +74,11 @@ public class FightInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        Log.d(mArea.toString());
+        Log.d(screenX + ", " + screenY);
+
+        if (!mArea.contains(screenX, screenY)) return false;
+
         if (pi[0].onScreen == false ){
             updatePointerInfoDown(pi[0], screenX, screenY, pointer);
             setDoublePress();
@@ -77,6 +104,7 @@ public class FightInputProcessor implements InputProcessor {
         pointerInfo.downY = screenY;
         pointerInfo.downTime = new Date().getTime();
         pointerInfo.onScreen = true;
+
     }
 
     @Override
@@ -85,13 +113,15 @@ public class FightInputProcessor implements InputProcessor {
 
         if (pi[0].onScreen && pi[0].index == pointer){
             processPointerInfoUp(pi[0], screenX, screenY, time);
+            return true;
         }
 
         if (pi[1].onScreen && pi[1].index == pointer){
             processPointerInfoUp(pi[1], screenX, screenY, time);
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     private void processPointerInfoUp(PointerInfo pointerInfo, int screenX, int screenY, long time) {
@@ -112,7 +142,12 @@ public class FightInputProcessor implements InputProcessor {
         float d = (float)Math.sqrt(nv.x*nv.x+nv.y*nv.y);
         if (d != 0) {
             Vector2 v = new Vector2(nv.x / d, nv.y / d);
-            mListener.onFix(v);
+            if (mListener != null)
+                mListener.ChangeMoveDeriction(v);
+            //for(int i=0;i<mListener.size();i++)
+            //    mListener.get(i).ChangeMoveDeriction(v);
+
+
         }
     }
 
