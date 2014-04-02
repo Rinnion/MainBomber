@@ -11,7 +11,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.me.Bombs.BombPlaser;
+import com.me.Map.MapManager;
 import com.me.Particles.ParticleManager;
+import com.me.Players.PlayerController;
+
+import javax.xml.crypto.Data;
+import java.util.Date;
 
 
 public class MineBomber implements ApplicationListener {
@@ -40,7 +46,7 @@ public class MineBomber implements ApplicationListener {
 	public void create() {
         Initializer.Initialize();
 
-        scrW =MapManager.scrW; //Gdx.graphics.getWidth();
+        scrW = MapManager.scrW; //Gdx.graphics.getWidth();
         scrH =MapManager.scrH ; //Gdx.graphics.getHeight();
 
 
@@ -107,9 +113,6 @@ public class MineBomber implements ApplicationListener {
         camera.update();
 
 
-        TextOut.SetText(Gdx.graphics.getDeltaTime() + "");
-
-
 
         Gdx.gl.glViewport((int)viewPort.getX() ,(int)viewPort.getY(),(int)viewPort.getWidth(),(int)viewPort.getHeight());
 
@@ -119,11 +122,24 @@ public class MineBomber implements ApplicationListener {
 
 
         batch.setProjectionMatrix(camera.combined);
+
+        long dtStart = new Date().getTime();
+
         batch.begin();
         MapManager.Render(batch);
         TextOut.Draw(batch,0,0);
+        BombPlaser.Draw(batch);
         ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());
         batch.end();
+
+        long dtEnd = new Date().getTime();
+
+        TextOut.SetText(Long.toString(dtEnd-dtStart));
+
+        PlayerController.AfterBatch(camera.combined);
+
+
+
 
         //batch.getProjectionMatrix().setToOrtho2D(0, 0,Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
 	/*	batch.setProjectionMatrix(camera.combined);

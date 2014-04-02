@@ -2,10 +2,16 @@ package com.me.Players;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.me.Bombs.IBomb;
+import com.me.Graphics.ShapeProgressBar;
+
 
 import java.util.ArrayList;
 
@@ -18,6 +24,9 @@ public class PlayerController {
 
     static FightInputProcessor inputProcessor1;
     static FightInputProcessor inputProcessor2;
+
+    static ShapeProgressBar shapeProgressBar;
+
     public static void Initialize()
     {
         //Gdx.input.setInputProcessor(new FightInputProcessor());
@@ -31,15 +40,40 @@ public class PlayerController {
         im.addProcessor(inputProcessor2);
         Gdx.input.setInputProcessor(im);
 
-        //Player inputPlayer=new Player();
+        //AiPlayer inputPlayer=new AiPlayer();
         //inputProcessor.setListener(inputPlayer);
         Add(new Player(inputProcessor2, new Vector2(0, 10)));
         Add(new Player(inputProcessor1, new Vector2(100,10)));
-        //Add(new Player(inputProcessor,new Vector2(200,10)));
-        //Add(new Player(inputProcessor,new Vector2(300,10)));
-        //Add(new Player(inputProcessor,new Vector2(400,10)));
-        //Add(new Player(inputProcessor,new Vector2(500,10)));
-        //Add(new Player(inputProcessor,new Vector2(600,10)));
+
+      //
+      //
+      Add(new AiPlayer(0,new Vector2(100,400)));
+        Add(new AiPlayer(1,new Vector2(400,300)));
+
+        //Add(new AiPlayer(0,new Vector2(200,400)));
+        //Add(new AiPlayer(1,new Vector2(500,300)));
+
+        //Add(new AiPlayer(0,new Vector2(300,400)));
+       // Add(new AiPlayer(1,new Vector2(600,300)));
+
+       // Add(new AiPlayer(0,new Vector2(400,400)));
+       // Add(new AiPlayer(1,new Vector2(700,300)));
+
+        //Add(new AiPlayer(0,new Vector2(500,400)));
+        //Add(new AiPlayer(1,new Vector2(800,300)));
+
+        shapeProgressBar=new ShapeProgressBar();
+
+        //Add(new AiPlayer(inputProcessor,new Vector2(200,10)));
+        //Add(new AiPlayer(inputProcessor,new Vector2(300,10)));
+        //Add(new AiPlayer(inputProcessor,new Vector2(400,10)));
+        //Add(new AiPlayer(inputProcessor,new Vector2(500,10)));
+        //Add(new AiPlayer(inputProcessor,new Vector2(600,10)));
+    }
+
+    public static IPlayer GetPlayer(int index)
+    {
+        return players.get(index);
     }
 
     public static void Add(IPlayer player)
@@ -47,16 +81,45 @@ public class PlayerController {
         players.add(player);
     }
 
+    public static void DealDamage(ArrayList<IPlayer> playerBuffer, float x,float y,IBomb bomb)
+    {
+       //player.DealDamage(dmg);
+       // if(player.GetLifeBar()!=null)
+       // player.GetLifeBar().DoItVisible();
+        for(IPlayer player : players)
+        {
+            if(playerBuffer.contains(player))
+                continue;
+            if((x>player.getX() && x<player.getX()+player.getW()) && (y>player.getY() && y<player.getY()+player.getH()))
+            {
+               player.DealDamage(bomb);
+               playerBuffer.add(player);
+            }
+        }
+
+
+    }
+
+
+
     public static void Render(SpriteBatch sb)
     {
         IPlayer player;
         for(int i=0;i<players.size();i++) {
             player=players.get(i);
-            player.Render();
-            if(player.isVisible())
-                player.getPlayerSprite().draw(sb);
+            player.Render(sb);
+
 
         }
+
+
+
+    }
+
+
+    public static  void AfterBatch(Matrix4 projectionMatrix)
+    {
+        shapeProgressBar.Draw(players,projectionMatrix);
     }
 
 

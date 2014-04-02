@@ -35,6 +35,7 @@ public  class ParticleManager {
             {
                 pFire[i]=new ParticleManager();
                 pFire[i].pEffect=new ParticleEffect();
+
                 pFire[i].pEffect.load(Gdx.files.internal(Settings.PARTICLE_001),Gdx.files.internal("data/particles"));
                 pFire[i].mCallBack=null;
             }
@@ -45,7 +46,10 @@ public  class ParticleManager {
     {
         isFree=false;
         pEffect.setPosition(x,y);
+
         pEffect.start();
+
+
         mCallBack=callback;
 
 
@@ -81,13 +85,24 @@ public  class ParticleManager {
         {
            if(!pFire[i].isFree)
            {
+
+
+
+
                pFire[i].pEffect.draw(batch,delta);
+
+               //float percent=pFire[i].pEffect.getEmitters().get(0).getPercentComplete();
+
                if(pFire[i].pEffect.isComplete())
                {
+
+                   if(pFire[i].mCallBack!=null) {
+
+
+                       pFire[i].mCallBack.AnimationEnd();
+                   }
                    pFire[i].isFree=true;
-                   if(pFire[i].mCallBack!=null)
-                   pFire[i].mCallBack.AnimationEnd();
-                  // continue;
+                   continue;
                }
             }
         }
