@@ -3,6 +3,7 @@ package com.me.TileDamager;
 import com.me.Map.MapInfo;
 import com.me.Map.MapManager;
 import com.me.Map.TilesInfo;
+import com.me.minebomber.DrawManager;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -36,6 +37,7 @@ public class DamageController {
             if(live-dmg>0)
             {
                info.SetInfo(info.GetId(),live-dmg);
+
                return destroy;
             }
             else
@@ -48,6 +50,7 @@ public class DamageController {
 
                 if(tile.mId==tile.mNextid) {
                     info.SetInfo(tile.mNextid,0,tile.mType==TilesInfo.TYPE_GROUND);
+
                     return destroy;
                 }
                 else
@@ -70,7 +73,9 @@ public class DamageController {
           for(int i=0;i<indexes.length;i++)
           {
                 if(goDestroy(indexes[i],dmg))
-                MapManager.Redraw(indexes[i]);
+                    DrawManager.Append(indexes[i]);
+
+                //MapManager.Redraw(indexes[i]);
           }
 
     }
@@ -80,7 +85,9 @@ public class DamageController {
         //synchronized (syncObject)
 
             if(goDestroy(index,dmg))
-               MapManager.Redraw(index);
+                DrawManager.Append(index);
+
+               //MapManager.Redraw(index);
 
     }
 

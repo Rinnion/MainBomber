@@ -137,6 +137,7 @@ public class MineBomber implements ApplicationListener {
         TextOut.SetText(Long.toString(dtEnd-dtStart));
 
         PlayerController.AfterBatch(camera.combined);
+        BombPlaser.Reset();
 
 
 

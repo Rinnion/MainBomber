@@ -88,8 +88,8 @@ public class Dynamite implements IBomb {
     {
         ParticleManager.Fire(pX,pY);
 
-        MapManager.doCircleDamage((int)pX,(int)pY,20f,10f,60,this);
-
+        //MapManager.doCircleDamage((int)pX,(int)pY,20f,10f,60,this);
+        MapManager.doBombDamage((int)pX,(int) pY,this);
         destroyed=true;
         raiseEvent_CanBeRemove();
 

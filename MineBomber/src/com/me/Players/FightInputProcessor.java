@@ -67,6 +67,7 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
     @Override
     public boolean keyDown(int keycode) {
 
+        Vector2 v=new Vector2();
         switch (keycode) {
 
             case Input.Keys.SPACE:
@@ -75,7 +76,27 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
             case Input.Keys.TAB:
                 mListener.DetonateBomb();
                 return true;
+            case Input.Keys.UP:
+                v.y=-1;
+                break;
+            case Input.Keys.DOWN:
+                v.y=1;
+                break;
+
+
+            case Input.Keys.LEFT:
+                v.x=-1;
+                break;
+            case Input.Keys.RIGHT:
+                v.x=1;
+                break;
         }
+        if((v.x!=0)||(v.y!=0))
+        {
+            mListener.ChangeMoveDirection(v);
+            return true;
+        }
+
             return false;
     }
 

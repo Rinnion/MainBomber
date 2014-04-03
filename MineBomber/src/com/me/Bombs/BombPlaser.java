@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.me.Players.IPlayer;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by alekseev on 27.03.2014.
@@ -13,11 +14,38 @@ import java.util.ArrayList;
 public class BombPlaser {
 
     private static ArrayList<IBomb> mBombList=null;
-
+    static boolean canDetonate=true;
+    final static Object syncDetonator=new Object();
+    static int curBombsDetonations=0;
 
     public static void Initialize()
     {
         mBombList=new ArrayList<IBomb>();
+
+
+    }
+
+    public static void Reset()
+    {
+        synchronized (syncDetonator) {
+            curBombsDetonations = 0;
+            canDetonate = true;
+        }
+    }
+
+
+    public static boolean CanDetonate()
+    {
+
+        //return true;
+
+        synchronized (syncDetonator) {
+          curBombsDetonations++;
+          if (curBombsDetonations > 10)
+              canDetonate = false;
+
+          return canDetonate;
+      }
 
     }
 
@@ -47,6 +75,7 @@ public class BombPlaser {
             // player.GetLifeBar().DoItVisible();
             for(IBomb tmpBomb : mBombList)
             {
+
                 if(tmpBomb.equals(bomb))
                     continue;
 
@@ -55,6 +84,7 @@ public class BombPlaser {
                     //player.DealDamage(bomb);
                     //playerBuffer.add(player);
                     tmpBomb.ImmediatelyDetonate();
+                    //return;
                 }
             }
 

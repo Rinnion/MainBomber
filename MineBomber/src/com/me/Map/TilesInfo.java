@@ -1,5 +1,6 @@
 package com.me.Map;
 
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
@@ -10,6 +11,9 @@ public class TilesInfo {
     public int mId;
     public int mNextid;
     public TextureRegion mTexRegion;
+
+    public Pixmap[] miniMap;
+
     public int mType;
 
     public final static int TYPE_GROUND=0;
@@ -21,6 +25,7 @@ public class TilesInfo {
          mNextid=nextid;
          mTexRegion=new TextureRegion(textureRegion);
          mType=type;
+
      }
 
 }

@@ -16,6 +16,9 @@ public class MapInfo
     final public int index;
     private Rectangle mTextureSteps;
 
+    public boolean redraw;
+
+
     public int GetX()
     {
         return mX;

@@ -14,6 +14,11 @@ import com.me.Utility.DelayTimer;
 import com.me.assetloader.AssetLoader;
 import com.me.minebomber.Settings;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 
 /**
  * Created by alekseev on 27.03.2014.
@@ -44,6 +49,9 @@ public class DestBomb implements IBomb {
 
     IBombCallback callBack;
 
+
+    private DelayTimer mDetonateDelay=new DelayTimer(100,false);
+
     public DestBomb(BombProperty property, Vector2 position, IBombCallback callback)
     {
 
@@ -55,6 +63,7 @@ public class DestBomb implements IBomb {
         dmgMax=property.dmgMax;
         dmgMin=property.dmgMin;
         this.callBack=callback;
+        //lockObj=new ReentrantLock();
 
         TextureAtlas dynamiteTex= AssetLoader.GetAtlas(Settings.BOMB_DYNAMITE);
         //dynamiteTex.createSprites("dyn");
@@ -82,14 +91,23 @@ public class DestBomb implements IBomb {
 
     private void   doDetonate()
     {
-        visible=false;
-        ParticleManager.Fire(pX,pY);
 
-        MapManager.doCircleDamage((int)pX,(int)pY,20f,10f,60,this);
 
-        destroyed=true;
+                if (BombPlaser.CanDetonate()) {
 
-        raiseEvent_CanBeRemove();
+                    BombPlaser.canDetonate = false;
+                    ParticleManager.Fire(pX, pY);
+
+                    //MapManager.doCircleDamage((int) pX, (int) pY, 20f, 10f, 60, this);
+                    MapManager.doBombDamage((int)pX,(int) pY,this);
+
+                    visible = false;
+                    destroyed = true;
+
+                    raiseEvent_CanBeRemove();
+                    //lockObj.unlock();
+                }
+
 
     }
 
@@ -109,6 +127,7 @@ public class DestBomb implements IBomb {
 
         if(active)
         {
+            //if(mDetonateDelay.CheckTimeOut())
             doDetonate();
         }
 

@@ -2,6 +2,7 @@ package com.me.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.me.Map.MapManager;
 import com.me.assetloader.AssetLoader;
@@ -22,6 +23,19 @@ public class PixmapHelper {
         miniObject.setColor(Color.CLEAR);
         miniObject.setBlending(Pixmap.Blending.None);
         mapHelper.setBlending(Pixmap.Blending.None);
+    }
+
+    static public void Bind(Texture dstTexture)
+    {
+        //dstTexture.bind();
+        Gdx.gl.glBindTexture(Gdx.gl20.GL_TEXTURE_2D,dstTexture.getTextureObjectHandle());
+
+    }
+
+    static public void BindDraw(TextureRegion textureRegion, com.badlogic.gdx.math.Rectangle texStep,int dstX,int dstY)
+    {
+        miniObject.drawPixmap(mapHelper, 0, 0, textureRegion.getRegionX()+(int)texStep.getX(), textureRegion.getRegionY()+(int)texStep.getY(),(int)texStep.getWidth(),(int)texStep.getHeight());
+        Gdx.gl.glTexSubImage2D(Gdx.gl20.GL_TEXTURE_2D,0,dstX,dstY,miniObject.getWidth(),miniObject.getHeight(),miniObject.getGLFormat(),miniObject.getGLType(),miniObject.getPixels());
     }
 
 

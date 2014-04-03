@@ -47,8 +47,8 @@ public class PlayerController {
 
       //
       //
-      Add(new AiPlayer(0,new Vector2(100,400)));
-        Add(new AiPlayer(1,new Vector2(400,300)));
+     // Add(new AiPlayer(0,new Vector2(100,400)));
+       // Add(new AiPlayer(1,new Vector2(400,300)));
 
         //Add(new AiPlayer(0,new Vector2(200,400)));
         //Add(new AiPlayer(1,new Vector2(500,300)));
