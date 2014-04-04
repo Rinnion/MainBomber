@@ -152,6 +152,11 @@ public class Dynamite implements IBomb {
     }
 
     @Override
+    public void Refresh() {
+
+    }
+
+    @Override
     public BombProperty GetProperty() {
         return property;
     }

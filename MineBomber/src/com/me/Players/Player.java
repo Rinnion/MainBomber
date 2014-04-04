@@ -185,8 +185,8 @@ public class Player  implements IPlayer,IPlayerControls {
 
 
 
-        //if(MapManager.doCircleDamage(newX,newY,radiusDig,radiusGo,digDmg,null))
-        if(MapManager.doPlayerDamage(newX,newY,this))
+        if(MapManager.doCircleDamage(newX,newY,radiusDig,radiusGo,digDmg,null))
+        //if(MapManager.doPlayerDamage(newX,newY,this))
          sprite.translate(realMoveX,realMoveY);
     }
 

@@ -210,14 +210,30 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="400" name="tree" tilewidth="64" tileheight="64" spacing="1">
+  <image source="tree.png" trans="ffffff" width="64" height="64"/>
+ </tileset>
  <layer name="Слой тайлов 1" width="100" height="75">
   <data encoding="base64" compression="zlib">
-   eJztzjERAAAIBKC3nf0TmULPgYGdSlIAAAAAAAAAAAAAAAAAAACs6gcHAAAAAAAAAAAAAAAAALgwCr8dlA==
+   eJztw0ENAAAMA6Grf9MzsSckrJqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq6sMDsYMdTQ==
   </data>
  </layer>
  <layer name="Слой тайлов 2" width="100" height="75">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
+ <objectgroup name="Слой объектов 1" width="100" height="75">
+  <object gid="400" x="105" y="357"/>
+  <object gid="400" x="238" y="246"/>
+  <object gid="400" x="486" y="255"/>
+  <object gid="400" x="624" y="245"/>
+  <object gid="400" x="612" y="137"/>
+  <object gid="400" x="364" y="93"/>
+  <object gid="400" x="73" y="173"/>
+  <object gid="400" x="236" y="84"/>
+  <object gid="400" x="228" y="463"/>
+  <object gid="400" x="418" y="475"/>
+  <object gid="400" x="646" y="427"/>
+ </objectgroup>
 </map>
