@@ -77,6 +77,21 @@ public class AiPlayer implements IPlayer,IPlayerControls {
     }
 
     @Override
+    public float GetDmgRadius() {
+        return radiusDig;
+    }
+
+    @Override
+    public float GetGoRadius() {
+        return radiusGo;
+    }
+
+    @Override
+    public float GetDigDmg() {
+        return digDmg;
+    }
+
+    @Override
     public float GetMaxLife() {
         return maxLife;
     }

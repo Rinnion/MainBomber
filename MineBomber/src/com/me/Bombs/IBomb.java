@@ -12,7 +12,10 @@ public interface IBomb {
     void Render(Batch sb);
     void Activate();
     void ImmediatelyDetonate();
+    void ImmediatelyDetonate(long activationTime);
     IPlayer GetOwner();
+    long GetActivationTime();
+
     BombProperty GetProperty();
 
     float getX();

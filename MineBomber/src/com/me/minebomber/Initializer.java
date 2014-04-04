@@ -19,10 +19,11 @@ public class Initializer {
         PrepareAssetsFiles.Prepare();
         Log.d("Initialize fonts");
         TextOut.Initialize();
-        Log.d("Initialize MapManager");
-        MapManager.Initialize();
         Log.d("Initialize PixmapHelper");
         PixmapHelper.Initialize();
+        Log.d("Initialize MapManager");
+        MapManager.Initialize();
+
         Log.d("Initialize BombPlaser");
         BombPlaser.Initialize();
         Log.d("Initialize ParticleManager");

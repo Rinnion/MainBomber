@@ -34,7 +34,7 @@ public class DrawManager {
             for(int i=0;i<refreshFields.size();i++)
             {
                 //refreshFields[]
-                MapManager.RedrawWoBind (refreshFields.get(i));
+                MapManager.RedrawPixmap (refreshFields.get(i));
             }
             Clear();
 

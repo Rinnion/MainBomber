@@ -25,12 +25,23 @@ public class PixmapHelper {
         mapHelper.setBlending(Pixmap.Blending.None);
     }
 
+    public static void DrawMiniObject(Pixmap dstPixmap,int srcX,int srcY)
+    {
+        dstPixmap.drawPixmap(mapHelper,0,0,srcX,srcY,dstPixmap.getWidth(),dstPixmap.getHeight());
+    }
+
     static public void Bind(Texture dstTexture)
     {
         //dstTexture.bind();
         Gdx.gl.glBindTexture(Gdx.gl20.GL_TEXTURE_2D,dstTexture.getTextureObjectHandle());
 
     }
+
+    public static void DrawPixmap(Pixmap pixmap,int x,int y)
+    {
+        Gdx.gl.glTexSubImage2D(Gdx.gl20.GL_TEXTURE_2D,0,x,y,pixmap.getWidth(),pixmap.getHeight(),pixmap.getGLFormat(),pixmap.getGLType(),pixmap.getPixels());
+    }
+
 
     static public void BindDraw(TextureRegion textureRegion, com.badlogic.gdx.math.Rectangle texStep,int dstX,int dstY)
     {

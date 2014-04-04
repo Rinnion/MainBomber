@@ -14,11 +14,6 @@ import com.me.Utility.DelayTimer;
 import com.me.assetloader.AssetLoader;
 import com.me.minebomber.Settings;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 
 /**
  * Created by alekseev on 27.03.2014.
@@ -31,7 +26,7 @@ public class DestBomb implements IBomb {
     boolean detonate;
     boolean active;
     boolean visible;
-
+    long activateTime;
     //Sprite sprite;
     BombProperty property;
 
@@ -93,7 +88,7 @@ public class DestBomb implements IBomb {
     {
 
 
-                if (BombPlaser.CanDetonate()) {
+                if (BombPlaser.CanDetonate(this)) {
 
                     BombPlaser.canDetonate = false;
                     ParticleManager.Fire(pX, pY);
@@ -153,11 +148,23 @@ public class DestBomb implements IBomb {
     public void ImmediatelyDetonate() {
         detonate=true;
         active=true;
+        //Gdx.graphics.get
+    }
+
+    @Override
+    public void ImmediatelyDetonate(long activationTime) {
+        this.activateTime =activationTime;
+        ImmediatelyDetonate();
     }
 
     @Override
     public IPlayer GetOwner() {
         return property.owner;
+    }
+
+    @Override
+    public long GetActivationTime() {
+        return activateTime;
     }
 
     @Override

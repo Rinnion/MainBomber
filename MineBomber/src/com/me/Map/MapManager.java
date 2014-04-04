@@ -65,12 +65,11 @@ public class MapManager {
 
     public static boolean full_redraw=false;
 
-    public static void Redraw(int mapIndex)
+    public static void RedrawPixmap(int mapIndex)
     {
         MapInfo info=mapInfo[mapIndex];
         TilesInfo tile=mapTiles.get(info.GetId());
-        PixmapHelper.Draw(tile.mTexRegion, info.GetTextureStpes() , mTextureForeground, info.GetX() , info.GetY() );
-
+        PixmapHelper.DrawPixmap(tile.miniMap[info.GetPixmapIndex()],info.GetX(),info.GetY() );
     }
 
     public static void BindForeground()
@@ -78,13 +77,6 @@ public class MapManager {
         PixmapHelper.Bind(mTextureForeground);
     }
 
-    public static void RedrawWoBind(int mapIndex)
-    {
-        MapInfo info=mapInfo[mapIndex];
-        TilesInfo tile=mapTiles.get(info.GetId());
-        PixmapHelper.BindDraw (tile.mTexRegion, info.GetTextureStpes() ,  info.GetX() , info.GetY() );
-
-    }
 
 
     public static   void doBombDamage(int startX, int startY,IBomb bomb)
@@ -101,12 +93,12 @@ public class MapManager {
         for(int i=0;i<mask.length;i++)
         {
             Vector2 pos=mask[i];
-            x=(int)pos.x+(startX/2);
-            y=(int)pos.y+(startY/2);
+            x=(int)pos.x+(startX/rowW);
+            y=(int)pos.y+(startY/rowH);
 
             if((x<0)||(y<0))
                 continue;
-            if((x>maxCel)||(y>maxRow))
+            if((x>maxCel-1)||(y>maxRow-1))
                 continue;
 
             int index = ((y*MapManager.maxCel)+x);
@@ -117,60 +109,81 @@ public class MapManager {
 
         }
 
+    }
 
 
-        /*int sx=startX/ MapManager.rowW;
-        int sy=startY/MapManager.rowH;
+    public static boolean doPlayerDamage(int startX, int startY,IPlayer player)
+    {
+        float dmgRad=player.GetDmgRadius();
+        float dmgGo=player.GetGoRadius();
 
-        int radius = (int)Math.ceil(radiusDig);
+        Vector2 []maskDig=MaskController.GetMask(dmgRad);
+        Vector2 []maskGo=MaskController.GetMask(dmgGo);
+        int x;
+        int y;
 
-        int left = sx-radius-1;
-        int top = sy-radius-1;
-        int right = sx+radius+1;
-        int bottom = sy+radius+1;
+        boolean dmgOnTile=false;
+        boolean canGO=true;
 
-        if (left<1) left = 1;
-        if (right>MapManager.maxCel-2) right = MapManager.maxCel-1;
-        if (top<1) top = 1;
-        if (bottom>MapManager.maxRow-2) bottom = MapManager.maxRow-1;
+        if(dmgRad>dmgGo)
+        {
+            for(int i=0;i<maskDig.length;i++)
+            {
+                doPlayerDmgOnTile(startX, startY, player, maskDig[i]);
 
-        float radDig= radiusDig*radiusDig*MapManager.rowW*MapManager.rowH;
-        float radGo= radiusGo*radiusGo*MapManager.rowW*MapManager.rowH;
-        ArrayList<IPlayer> buffer=null;
-        if(bomb!=null)
-            buffer=new ArrayList<IPlayer>();
+                if((maskGo.length-1)>i)
+                 {
+                     if(!canPlayerGo(startX,startY,player,maskGo[i]))
+                         canGO=false;
+                 }
 
-
-        boolean isEmpty=true;
-        for(int x=left;x<right;x++)
-            for(int y=top; y<bottom;y++){
-                int fx = (x*MapManager.rowW+(MapManager.rowW/2))-startX;
-                int fy = (y*MapManager.rowH+(MapManager.rowH/2))-startY;
-
-                int sum=(fx*fx)+(fy*fy);
-                int index = (y*MapManager.maxCel)+x;
-                if (sum <radDig ){
-
-
-                    if(bomb!=null) {
-                        DamageController.damageOnTile(index, bomb.GetProperty ().dmgMin + (float)Math.random()*bomb.GetProperty().dmgMax);
-                        PlayerController.DealDamage(buffer, x * MapManager.rowW, y * MapManager.rowH, bomb);
-                        BombPlaser.DealDamage(x * MapManager.rowW, y * MapManager.rowH, bomb);
-                    }
-                    else
-                        DamageController.damageOnTile(index, dmg);
-                }
-
-                if(sum<radGo)
-                {
-                    if(!MapManager.mapInfo[index].isFree())
-                        isEmpty=false;
-                }
             }
 
+        }
 
-        return isEmpty;
-       */
+         return canGO;
+    }
+
+    private static boolean canPlayerGo(int startX, int startY, IPlayer player, Vector2 vector2) {
+        int x;
+        int y;
+        Vector2 pos= vector2;
+
+        x=(int)pos.x+(startX/rowW);
+        y=(int)pos.y+(startY/rowH);
+
+        if((x<0)||(y<0))
+            return false;
+
+        if((x>maxCel-1)||(y>maxRow-1))
+            return false;
+
+        int index = ((y* MapManager.maxCel)+x);
+
+        return mapInfo[index].isFree();
+        //DamageController.damageOnTile(index, player.GetDigDmg());
+
+    }
+
+
+    private static void doPlayerDmgOnTile(int startX, int startY, IPlayer player, Vector2 vector2) {
+        int x;
+        int y;
+        Vector2 pos= vector2;
+
+        x=(int)pos.x+(startX/rowW);
+        y=(int)pos.y+(startY/rowH);
+
+        if((x<0)||(y<0))
+            return;
+
+        if((x>maxCel-1)||(y>maxRow-1))
+            return;
+
+        int index = ((y* MapManager.maxCel)+x);
+
+        DamageController.damageOnTile(index, player.GetDigDmg());
+
     }
 
 
@@ -374,48 +387,63 @@ public class MapManager {
                   {
                      int rowIndex=((row*stepY)+iY)*maxCel;
                      int colIndex=((col*stepX)+iX);
+
                      int rowX=((col*stepX)+iX)*rowW;
                      int rowY=((row*stepY)+iY)*rowH;
+
                      int index= rowIndex + colIndex;
 
 
 
-                     mapInfo[index] = new MapInfo(index,id, rowX, rowY,new Rectangle(iX*rowW,iY*rowH,rowW,rowH), tmpInfo.mLife,mapTiles.get(id).mId==0);
+                     mapInfo[index] = new MapInfo(index,id, rowX, rowY,iY*stepX+iX, tmpInfo.mLife,mapTiles.get(id).mId==0);
                  }    /**/
 
 
             }
 
 
+        UpdateTilesPixmap(stepX,stepY);
 
 
-        for(TilesInfo tileInfo : mapTiles.values())
-        {
-
-        }
 
 
     }
+
+   private static void UpdateTilesPixmap(int stepX,int stepY)
+   {
+
+       int count=stepX*stepY;
+
+
+
+       for(TilesInfo tileInfo : mapTiles.values())
+       {
+           tileInfo.miniMap=new Pixmap[count];
+
+           for(int iY=0;iY<stepY;iY++)
+               for(int iX=0;iX<stepX;iX++)
+               {
+                   int index=iY*stepX+iX;
+
+                   int startX=tileInfo.mTexRegion.getRegionX()+iX*rowW;
+                   int startY=tileInfo.mTexRegion.getRegionY()+iY*rowH;
+
+                   tileInfo.miniMap[index]=new Pixmap(rowW,rowH, Pixmap.Format.RGBA8888);
+                   PixmapHelper.DrawMiniObject(tileInfo.miniMap[index],startX,startY);
+
+
+               }
+       }
+
+   }
+
+
 
     static long mCurId;
 
     static public void RedrawMap()
     {
         DrawManager.RedrawAll();
-
-        if(!full_redraw)
-            return;
-
-        int l = mapInfo.length;
-
-        for(int i=0; i<l; i++)
-        {
-            //mCurId += i;//= mapInfo[i].GetId();
-            if(mapInfo[i].redraw) {
-                mapInfo[i].redraw=false;
-                Redraw(i);
-            }
-        }
     }
 
     static  public   void Refresh()

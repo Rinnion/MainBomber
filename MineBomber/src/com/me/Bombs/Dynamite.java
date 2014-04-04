@@ -1,11 +1,9 @@
 package com.me.Bombs;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.me.Map.MapInfo;
 import com.me.Map.MapManager;
 import com.me.Particles.ParticleManager;
 import com.me.Players.IPlayer;
@@ -139,8 +137,18 @@ public class Dynamite implements IBomb {
     }
 
     @Override
+    public void ImmediatelyDetonate(long activationTime) {
+
+    }
+
+    @Override
     public IPlayer GetOwner() {
         return property.owner;
+    }
+
+    @Override
+    public long GetActivationTime() {
+        return 0;
     }
 
     @Override

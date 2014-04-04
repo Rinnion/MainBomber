@@ -14,7 +14,7 @@ public class MapInfo
     private int mId;
     private boolean mFree;
     final public int index;
-    private Rectangle mTextureSteps;
+    private int mPixmapIndex;
 
     public boolean redraw;
 
@@ -39,9 +39,9 @@ public class MapInfo
         return  mId;
     }
 
-    public Rectangle GetTextureStpes()
+    public int GetPixmapIndex()
     {
-        return  mTextureSteps;
+        return  mPixmapIndex;
     }
 
     public boolean isFree()
@@ -68,14 +68,14 @@ public class MapInfo
 
 
 
-    public MapInfo(int index,int id,int x,int y,Rectangle texSteps,float life,boolean free)
+    public MapInfo(int index,int id,int x,int y,int pixmapIndex,float life,boolean free)
     {
         mX=x;
         mY=y;
         mId=id;
         mLife=life;
         mFree=free;
-        mTextureSteps=texSteps;
+        mPixmapIndex=pixmapIndex;
         this.index=index;
     }
 
@@ -87,7 +87,7 @@ public class MapInfo
        mId=mapInfo.mId;
        mLife=mapInfo.mLife;
        mFree=mapInfo.mFree;
-       mTextureSteps=mapInfo.mTextureSteps;
+        mPixmapIndex=mapInfo.mPixmapIndex;
         index=mapInfo.index;
     }
 }

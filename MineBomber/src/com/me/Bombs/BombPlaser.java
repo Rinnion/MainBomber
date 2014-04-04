@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Players.IPlayer;
+import com.me.minebomber.MineBomber;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -34,28 +36,39 @@ public class BombPlaser {
     }
 
 
-    public static boolean CanDetonate()
+    public static boolean CanDetonate(IBomb bomb)
     {
 
         //return true;
 
-        synchronized (syncDetonator) {
+        boolean canDetonate=(bomb.GetActivationTime()< MineBomber.BeginDrawTime);
+        if(canDetonate)
+            curBombsDetonations++;
+
+        if(curBombsDetonations>5)
+            canDetonate=false;
+
+        return canDetonate;
+
+
+        /*synchronized (syncDetonator) {
           curBombsDetonations++;
           if (curBombsDetonations > 10)
               canDetonate = false;
 
           return canDetonate;
-      }
+      }*/
 
     }
 
 
     public static void DetonateBomb(IPlayer owner)
     {
+
         for(int i=0;i<mBombList.size();i++)
         {
             if(mBombList.get(i).GetOwner().equals(owner)) {
-                mBombList.get(i).ImmediatelyDetonate();
+                mBombList.get(i).ImmediatelyDetonate(Calendar.getInstance().getTimeInMillis());
                 return;
             }
         }
@@ -73,6 +86,7 @@ public class BombPlaser {
             //player.DealDamage(dmg);
             // if(player.GetLifeBar()!=null)
             // player.GetLifeBar().DoItVisible();
+           long aTime= Calendar.getInstance().getTimeInMillis();
             for(IBomb tmpBomb : mBombList)
             {
 
@@ -83,7 +97,7 @@ public class BombPlaser {
                 {
                     //player.DealDamage(bomb);
                     //playerBuffer.add(player);
-                    tmpBomb.ImmediatelyDetonate();
+                    tmpBomb.ImmediatelyDetonate(aTime);
                     //return;
                 }
             }

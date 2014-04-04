@@ -11,6 +11,11 @@ import com.me.Bombs.IBomb;
  */
 public interface IPlayer {
 
+    float GetDmgRadius();
+    float GetGoRadius();
+    float GetDigDmg();
+
+
     float GetMaxLife();
     float GetLife();
 

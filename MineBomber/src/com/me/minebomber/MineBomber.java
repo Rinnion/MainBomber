@@ -17,6 +17,7 @@ import com.me.Particles.ParticleManager;
 import com.me.Players.PlayerController;
 
 import javax.xml.crypto.Data;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -26,7 +27,7 @@ public class MineBomber implements ApplicationListener {
 	private Texture texture;
 	private Sprite sprite;
     private Sprite sprite2;
-
+    public static long BeginDrawTime;
     private Rectangle viewPort;
 
     float sX=0.008f;
@@ -57,7 +58,7 @@ public class MineBomber implements ApplicationListener {
             viewPort=new Rectangle( (int)((Gdx.graphics.getWidth() -scrW)/2f),(int)((Gdx.graphics.getHeight()-scrH)/2f) ,(int)scrW,(int)scrH);
         else
             viewPort=new Rectangle( 0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-
+        //camera.zoom=0.5f;
         MapManager.SetView(camera);
         MapManager.Refresh();
 
@@ -116,6 +117,8 @@ public class MineBomber implements ApplicationListener {
 
         Gdx.gl.glViewport((int)viewPort.getX() ,(int)viewPort.getY(),(int)viewPort.getWidth(),(int)viewPort.getHeight());
 
+        //Gdx.gl.glViewport((int)viewPort.getX() ,(int)viewPort.getY(),(int)viewPort.getWidth(),(int)viewPort.getHeight());
+
         //Gdx.gl.glViewport(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
       //  MapManager.mapRenderer.getSpriteBatch().getProjectionMatrix().setToOrtho2D(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -123,7 +126,8 @@ public class MineBomber implements ApplicationListener {
 
         batch.setProjectionMatrix(camera.combined);
 
-        long dtStart = new Date().getTime();
+        long dtStart = Calendar.getInstance().getTimeInMillis(); //new Date().getTime();
+        BeginDrawTime=dtStart;
 
         batch.begin();
         MapManager.Render(batch);
@@ -132,7 +136,7 @@ public class MineBomber implements ApplicationListener {
         ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());
         batch.end();
 
-        long dtEnd = new Date().getTime();
+        long dtEnd = Calendar.getInstance().getTimeInMillis();
 
         TextOut.SetText(Long.toString(dtEnd-dtStart));
 

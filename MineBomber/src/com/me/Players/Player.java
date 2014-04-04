@@ -35,7 +35,7 @@ public class Player  implements IPlayer,IPlayerControls {
     //}
 
     float radiusDig=4.5f;
-    float radiusGo=1.7f;
+    float radiusGo=1.7f ;
     float digDmg=1f;
     float playerSpd=40;
 
@@ -61,6 +61,21 @@ public class Player  implements IPlayer,IPlayerControls {
 
         sprite.draw(batch);
 
+    }
+
+    @Override
+    public float GetDmgRadius() {
+        return radiusDig;
+    }
+
+    @Override
+    public float GetGoRadius() {
+        return radiusGo;
+    }
+
+    @Override
+    public float GetDigDmg() {
+        return digDmg;
     }
 
     @Override
@@ -134,7 +149,7 @@ public class Player  implements IPlayer,IPlayerControls {
     public void PlaceBomb() {
         if(mDie)
            return;
-        BombPlaser.Place(new BombProperty(this,BombType.DSTBOMB, 3000, 10, 80, 20), new Vector2(sprite.getX(),sprite.getY()) );
+        BombPlaser.Place(new BombProperty(this,BombType.DSTBOMB, 3000, 10, 80, 10), new Vector2(sprite.getX(),sprite.getY()) );
     }
 
     @Override
@@ -170,7 +185,8 @@ public class Player  implements IPlayer,IPlayerControls {
 
 
 
-        if(MapManager.doCircleDamage(newX,newY,radiusDig,radiusGo,digDmg,null))
+        //if(MapManager.doCircleDamage(newX,newY,radiusDig,radiusGo,digDmg,null))
+        if(MapManager.doPlayerDamage(newX,newY,this))
          sprite.translate(realMoveX,realMoveY);
     }
 
