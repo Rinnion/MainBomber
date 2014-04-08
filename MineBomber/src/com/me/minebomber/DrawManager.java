@@ -5,8 +5,10 @@ import com.me.Bombs.BombPlaser;
 import com.me.Map.MapInfo;
 import com.me.Map.MapManager;
 import com.me.Map.PixmapHelper;
+import com.me.logger.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 /**
@@ -28,17 +30,21 @@ public class DrawManager {
 
     public static void RedrawAll()
     {
+        long lstart=Calendar.getInstance().getTimeInMillis();
         synchronized (syncObject) {
             //PixmapHelper.Bind(MapManager.);
             MapManager.BindForeground();
-            for(int i=0;i<refreshFields.size();i++)
+            for(int i=0;i<objCount;i++)
             {
                 //refreshFields[]
-                MapManager.RedrawPixmap (refreshFields.get(i));
+                MapManager.RedrawPixmap(refreshFields.get(i));
             }
             Clear();
 
         }
+        long lend=Calendar.getInstance().getTimeInMillis();
+        Log.d((lend-lstart)+"");
+
     }
 
 

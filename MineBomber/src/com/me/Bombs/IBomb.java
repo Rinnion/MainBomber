@@ -15,6 +15,8 @@ public interface IBomb {
     void ImmediatelyDetonate(long activationTime);
     IPlayer GetOwner();
     long GetActivationTime();
+    void Refresh();
+
 
     BombProperty GetProperty();
 

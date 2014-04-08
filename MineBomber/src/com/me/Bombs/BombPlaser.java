@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Players.IPlayer;
+import com.me.logger.Log;
 import com.me.minebomber.MineBomber;
 
 import java.util.ArrayList;
@@ -42,12 +43,12 @@ public class BombPlaser {
         //return true;
 
         boolean canDetonate=(bomb.GetActivationTime()< MineBomber.BeginDrawTime);
-        if(canDetonate)
+    /*    if(canDetonate)
             curBombsDetonations++;
 
         if(curBombsDetonations>5)
             canDetonate=false;
-
+       */
         return canDetonate;
 
 
@@ -148,10 +149,25 @@ public class BombPlaser {
 
     public static void Draw(Batch bt)
     {
+        IBomb bomb;
+
+        long lStart = Calendar.getInstance().getTimeInMillis();
         for (int i=0;i<mBombList.size();i++)
         {
-            mBombList.get(i).Render(bt);
+            bomb=mBombList.get(i);
+            bomb.Refresh();
         }
+        long lLogic = Calendar.getInstance().getTimeInMillis();
+
+        for (int i=0;i<mBombList.size();i++)
+        {
+            bomb=mBombList.get(i);
+            bomb.Render(bt);
+        }
+        long lDraw = Calendar.getInstance().getTimeInMillis();
+
+        Log.d((lLogic - lStart) + "; " + (lDraw - lLogic));
+
     }
 
 

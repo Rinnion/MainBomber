@@ -133,6 +133,7 @@ public class MineBomber implements ApplicationListener {
         MapManager.Render(batch);
         TextOut.Draw(batch,0,0);
         BombPlaser.Draw(batch);
+
         ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());
         batch.end();
 

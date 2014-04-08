@@ -120,11 +120,6 @@ public class DestBomb implements IBomb {
         if(destroyed)
             return;
 
-        if(active)
-        {
-            //if(mDetonateDelay.CheckTimeOut())
-            doDetonate();
-        }
 
 
         if(visible)
@@ -165,6 +160,16 @@ public class DestBomb implements IBomb {
     @Override
     public long GetActivationTime() {
         return activateTime;
+    }
+
+    @Override
+    public void Refresh() {
+        if(destroyed)
+            return;
+
+        if(active)
+            doDetonate();
+
     }
 
     @Override

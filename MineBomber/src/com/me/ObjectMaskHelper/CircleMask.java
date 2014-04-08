@@ -17,7 +17,7 @@ public class CircleMask implements IMask {
 
     private float mMaskRadius;
 
-    private Vector2[] mMask;
+    private MaskVector[] mMask;
 
     public CircleMask(float radius)
     {
@@ -43,7 +43,7 @@ public class CircleMask implements IMask {
         float radDig= radius*radius*MapManager.rowW*MapManager.rowH;
 
 
-        ArrayList<Vector2> vectors=new ArrayList<Vector2>();
+        ArrayList<MaskVector> vectors=new ArrayList<MaskVector>();
          //Vector2 retVectors=
 
 
@@ -56,18 +56,18 @@ public class CircleMask implements IMask {
                 //int index = (y*MapManager.maxCel)+x;
                 if (sum <radDig ){
 
-                    vectors.add(new Vector2(x,y));
+                    vectors.add(new MaskVector(x,y));
                 }
 
             }
 
-          mMask=(Vector2[])vectors.toArray(new Vector2[vectors.size()]);
+          mMask=(MaskVector[])vectors.toArray(new MaskVector[vectors.size()]);
 
     }
 
 
     @Override
-    public Vector2[] GetMask() {
+    public MaskVector[] GetMask() {
         return mMask;
     }
 

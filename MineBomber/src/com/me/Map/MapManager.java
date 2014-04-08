@@ -6,8 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.maps.MapLayers;
-import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.*;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -16,6 +17,7 @@ import com.me.Bombs.BombPlaser;
 import com.me.Bombs.IBomb;
 import com.me.ObjectMaskHelper.IMask;
 import com.me.ObjectMaskHelper.MaskController;
+import com.me.ObjectMaskHelper.MaskVector;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
 import com.me.TileDamager.DamageController;
@@ -62,7 +64,7 @@ public class MapManager {
 
     static int[] backGroundIndex=new int[]{0};
     static int[] foreGroundIndex=new int[]{1};
-
+    static int[] objectsIndex=new int[]{2};
     public static boolean full_redraw=false;
 
     public static void RedrawPixmap(int mapIndex)
@@ -83,7 +85,7 @@ public class MapManager {
     {
 
         float radius=bomb.GetProperty().range;
-        Vector2[] mask= MaskController.GetMask(radius);
+        MaskVector[] mask= MaskController.GetMask(radius);
 
         ArrayList<IPlayer> buffer=new ArrayList<IPlayer>();
 
@@ -92,9 +94,9 @@ public class MapManager {
 
         for(int i=0;i<mask.length;i++)
         {
-            Vector2 pos=mask[i];
-            x=(int)pos.x+(startX/rowW);
-            y=(int)pos.y+(startY/rowH);
+            MaskVector pos=mask[i];
+            x=pos.x+(startX/rowW);
+            y=pos.y+(startY/rowH);
 
             if((x<0)||(y<0))
                 continue;
@@ -117,23 +119,25 @@ public class MapManager {
         float dmgRad=player.GetDmgRadius();
         float dmgGo=player.GetGoRadius();
 
-        Vector2 []maskDig=MaskController.GetMask(dmgRad);
-        Vector2 []maskGo=MaskController.GetMask(dmgGo);
+        MaskVector []maskDig=MaskController.GetMask(dmgRad);
+        MaskVector []maskGo=MaskController.GetMask(dmgGo);
         int x;
         int y;
 
         boolean dmgOnTile=false;
         boolean canGO=true;
 
+        int fixX=(startX/rowW);
+        int fixY=(startY/rowH);
         if(dmgRad>dmgGo)
         {
             for(int i=0;i<maskDig.length;i++)
             {
-                doPlayerDmgOnTile(startX, startY, player, maskDig[i]);
+                doPlayerDmgOnTile(fixX, fixY, player, maskDig[i]);
 
                 if((maskGo.length-1)>i)
                  {
-                     if(!canPlayerGo(startX,startY,player,maskGo[i]))
+                     if(!canPlayerGo(fixX,fixY,player,maskGo[i]))
                          canGO=false;
                  }
 
@@ -144,13 +148,13 @@ public class MapManager {
          return canGO;
     }
 
-    private static boolean canPlayerGo(int startX, int startY, IPlayer player, Vector2 vector2) {
+    private static boolean canPlayerGo(int startX, int startY, IPlayer player, MaskVector vector2) {
         int x;
         int y;
-        Vector2 pos= vector2;
+        MaskVector pos= vector2;
 
-        x=(int)pos.x+(startX/rowW);
-        y=(int)pos.y+(startY/rowH);
+        x=pos.x+startX;
+        y=pos.y+startY;
 
         if((x<0)||(y<0))
             return false;
@@ -166,13 +170,13 @@ public class MapManager {
     }
 
 
-    private static void doPlayerDmgOnTile(int startX, int startY, IPlayer player, Vector2 vector2) {
+    private static void doPlayerDmgOnTile(int startX, int startY, IPlayer player, MaskVector vector2) {
         int x;
         int y;
-        Vector2 pos= vector2;
+        MaskVector pos= vector2;
 
-        x=(int)pos.x+(startX/rowW);
-        y=(int)pos.y+(startY/rowH);
+        x=pos.x+(startX);
+        y=pos.y+(startY);
 
         if((x<0)||(y<0))
             return;
@@ -206,6 +210,7 @@ public class MapManager {
 
         float radDig= radiusDig*radiusDig*MapManager.rowW*MapManager.rowH;
         float radGo= radiusGo*radiusGo*MapManager.rowW*MapManager.rowH;
+
         ArrayList<IPlayer> buffer=null;
         if(bomb!=null)
             buffer=new ArrayList<IPlayer>();
@@ -219,7 +224,7 @@ public class MapManager {
 
                 int sum=(fx*fx)+(fy*fy);
                 int index = (y*MapManager.maxCel)+x;
-                if (sum <radDig ){
+                if ( sum < radDig ){
 
 
                     if(bomb!=null) {
@@ -243,40 +248,6 @@ public class MapManager {
     }
 
 
-     public static Integer[] createBoundList(int startX, int startY, float radiusFloat)
-    {
-        int sx=startX/rowW;
-        int sy=startY/rowH;
-
-        int radius = (int)Math.ceil(radiusFloat);
-
-        int left = sx-radius-1;
-        int top = sy-radius-1;
-        int right = sx+radius+1;
-        int bottom = sy+radius+1;
-
-        if (left<1) left = 1;
-        if (right>maxCel-2) right = maxCel-1;
-        if (top<1) top = 1;
-        if (bottom>maxRow-2) bottom = maxRow-1;
-       // int countArray=0;
-
-        ArrayList<Integer> al = new ArrayList<Integer>();
-
-
-        for(int x=left;x<right;x++)
-        for(int y=top; y<bottom;y++){
-            int fx = x*rowW+(rowW/2);
-            int fy = y*rowH+(rowH/2);
-            if ((fx-startX)*(fx-startX) + (fy-startY)*(fy-startY) < radiusFloat*radiusFloat*rowW*rowH){
-                int index = (y*maxCel)+x;
-                al.add(index);
-
-            }
-        }
-
-         return al.toArray(new Integer[al.size()]);
-     }
 
 
      public static void Initialize()
@@ -344,7 +315,26 @@ public class MapManager {
 
         mSpriteBackground.draw(batch);
         mSpriteForeground.draw(batch);
+
+        //mapRenderer.render();
+
         PlayerController.Render(batch);
+
+
+         /*
+        MapObjects objects= mMap.getLayers().get(objectsIndex[0]).getObjects();
+        for(MapObject object : objects) {
+
+            TiledMapTile tile= mMap.getTileSets().getTile (400);
+
+            RectangleMapObject rect=(RectangleMapObject)object;
+
+
+            batch.draw(tile.getTextureRegion(),rect.getRectangle().getX() , rect.getRectangle().getY());
+
+        }
+           **/
+
     }
 
     static private void updateMapInfo(boolean flipX,boolean flipY)
@@ -453,9 +443,28 @@ public class MapManager {
             mapRenderer.render(backGroundIndex);
         backGroundBuffer.end();
 
+
+
         foreGroundBuffer.begin();
             mapRenderer.render(foreGroundIndex);
+        //apRenderer.render(objectsIndex);
+           //mapRenderer.renderObject(mMap.);
+        //mapRenderer.renderObject(mMap.getLayers().get(2).getObjects().get(0));
+
+
+
+            //mapRenderer.render(objectsIndex);
+        //  mapRenderer.render();
+
+        //mapRenderer.render();
         foreGroundBuffer.end();
+        MapObjects objects= mMap.getLayers().get(objectsIndex[0]).getObjects();
+        for(MapObject object : objects) {
+
+            TiledMapTile tile = mMap.getTileSets().getTile(400);
+
+            tile.getTextureRegion().flip(false, true);
+        }
 
         mTextureBackground=backGroundBuffer.getColorBufferTexture();
         mTextureForeground=foreGroundBuffer.getColorBufferTexture();
