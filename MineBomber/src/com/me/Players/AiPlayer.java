@@ -21,7 +21,7 @@ import com.me.minebomber.Settings;
 /**
  * Created by alekseev on 20.03.2014.
  */
-public class AiPlayer implements IPlayer,IPlayerControls {
+public class AiPlayer implements IPlayer, IPlayerControls {
 
    // @Override
    // public void onFix(Vector2 v) {
@@ -102,6 +102,11 @@ public class AiPlayer implements IPlayer,IPlayerControls {
     }
 
     @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
     public boolean isVisible() {
         return true;
     }
@@ -143,20 +148,41 @@ public class AiPlayer implements IPlayer,IPlayerControls {
         return sprite.getY();
     }
 
-
-
-    @Override
     public void ChangeMoveDirection(Vector2 vec) {
         v=vec;
     }
 
+    public void PlaceBomb() {}
+
+    public void DetonateBomb() {}
+
     @Override
-    public void PlaceBomb() {
+    public void onDoubleTap() {
 
     }
 
     @Override
-    public void DetonateBomb() {
+    public void onDoubleSwipe(Vector2 v) {
+
+    }
+
+    @Override
+    public void onTap() {
+
+    }
+
+    @Override
+    public void onSwipe(Vector2 v) {
+
+    }
+
+    @Override
+    public void onPan(Vector2 v) {
+
+    }
+
+    @Override
+    public void onDoublePan(Vector2 v) {
 
     }
 

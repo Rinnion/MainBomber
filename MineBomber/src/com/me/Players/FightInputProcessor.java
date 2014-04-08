@@ -1,31 +1,22 @@
 package com.me.Players;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.BombPlaser;
-import com.me.Bombs.BombProperty;
-import com.me.Bombs.BombType;
 import com.me.logger.Log;
-import javafx.scene.input.KeyCode;
 
 
-import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by tretyakov on 21.03.2014.
- */
 public class FightInputProcessor implements InputProcessor, IListenerRegistration {
-    public static final long DELTA_TIME = 10;
-    private static final long MULTIPLE_PRESS_DELTA_TIME = 50;
-    private static final long ONE_PRESS_DELTA_TIME = 70;
+    public static final int DELTA_TAP = 80;
+    public static final int DELTA_SWIPE_DISTANCE = 25;
+    public static final int DELTA_DOUBLE_TAP = 150;
+    private static final int DELTA_PAN_DISTANCE = 15; //px
 
     private IPlayerControls mListener;
     private boolean mDoublePress;
-    private boolean mOnePress;
     private Rectangle mArea;
 
     @Override
@@ -49,19 +40,16 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
         public long downTime;
         public long upTime;
         public boolean onScreen;
+        public int curX;
+        public int curY;
     }
 
     PointerInfo[] pi = new PointerInfo[]{new PointerInfo(), new PointerInfo()};
 
-   // public FightInputProcessor(IFightInputListener listener){
-     //   setListener(listener);
-    //}
     public FightInputProcessor(Rectangle area)
     {
         mArea = area;
         mListener= null;
-        //Gdx.input.setInputProcessor(this);
-
     }
 
     @Override
@@ -71,10 +59,10 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
         switch (keycode) {
 
             case Input.Keys.SPACE:
-                    mListener.PlaceBomb();
+                mListener.onTap();
                 return true;
             case Input.Keys.TAB:
-                mListener.DetonateBomb();
+                mListener.onDoubleTap();
                 return true;
             case Input.Keys.UP:
                 v.y=-1;
@@ -93,11 +81,9 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
         }
         if((v.x!=0)||(v.y!=0))
         {
-            mListener.ChangeMoveDirection(v);
+            mListener.onPan(v);
             return true;
-        }
-
-            return false;
+        }return false;
     }
 
     @Override
@@ -115,31 +101,22 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
         Log.d(mArea.toString());
         Log.d(screenX + ", " + screenY);
 
+        //check if this authorized controller
         if (!mArea.contains(screenX, screenY)) return false;
 
-        if (pi[0].onScreen == false ){
+        if (!pi[0].onScreen){
             updatePointerInfoDown(pi[0], screenX, screenY, pointer);
-            setDoublePress();
-
+            mDoublePress = pi[0].onScreen && pi[1].onScreen;
             return true;
         }
 
-        if (pi[1].onScreen == false ){
+        if (!pi[1].onScreen){
             updatePointerInfoDown(pi[1], screenX, screenY, pointer);
-            setDoublePress();
-
+            mDoublePress = pi[0].onScreen && pi[1].onScreen;
             return true;
         }
 
         return false;
-    }
-
-    private void setDoublePress() {
-        mDoublePress = (pi[0].onScreen == true && (pi[0].downTime - pi[1].downTime < MULTIPLE_PRESS_DELTA_TIME));
-    }
-
-    private void setOnePress(int x,int y) {
-        mOnePress = ((pi[0].onScreen == true && pi[0].downX==x && pi[0].downY==y) &&( (pi[0].downTime - (new Date()).getTime())< ONE_PRESS_DELTA_TIME));
     }
 
     private void updatePointerInfoDown(PointerInfo pointerInfo, int screenX, int screenY, int pointer) {
@@ -148,73 +125,129 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
         pointerInfo.downY = screenY;
         pointerInfo.downTime = new Date().getTime();
         pointerInfo.onScreen = true;
+        updatePointerInfoDrag(pointerInfo, screenX, screenY);
+    }
 
+    private void updatePointerInfoUp(PointerInfo pointerInfo, int screenX, int screenY, int pointer) {
+        pointerInfo.index = pointer;
+        pointerInfo.upX = screenX;
+        pointerInfo.upY = screenY;
+        pointerInfo.upTime = new Date().getTime();
+        pointerInfo.onScreen = false;
+        updatePointerInfoDrag(pointerInfo, screenX, screenY);
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        long time = new Date().getTime();
 
-        if (pi[0].onScreen && pi[0].index == pointer){
-            setOnePress(screenX,screenY);
-            processPointerInfoUp(pi[0], screenX, screenY, time);
+        PointerInfo p1 = pi[0];
+        PointerInfo p2 = pi[1];
+
+        return (updatePointerInfo(screenX, screenY, pointer, p1, p2) ||
+                updatePointerInfo(screenX, screenY, pointer, p2, p1));
+
+    }
+
+    private boolean updatePointerInfo(int screenX, int screenY, int pointer, PointerInfo p1, PointerInfo p2) {
+        if (p1.onScreen && p1.index == pointer){
+            updatePointerInfoUp(p1, screenX, screenY, pointer);
+            if (mDoublePress){
+                updatePointerInfoUp(p2, screenX, screenY, pointer);
+                if (isDoubleTapTime(p1)) {
+                    mListener.onDoubleTap();
+                }else{
+                    Vector2 middle = getMiddleVector();
+                    Vector2 v = normalizeVector(middle);
+                    mListener.onDoubleSwipe(v);
+                }
+                mDoublePress = false;
+            }else{
+                if (isTap(p1)) mListener.onTap();
+                Vector2 v = normalizeVector(new Vector2(p1.upX - p2.downX, p1.upY - p2.downY));
+                if (isSwipe(p1)) mListener.onSwipe(v);
+            }
 
             return true;
         }
-
-        if (pi[1].onScreen && pi[1].index == pointer){
-            processPointerInfoUp(pi[1], screenX, screenY, time);
-            return true;
-        }
-
         return false;
     }
 
-    private void processPointerInfoUp(PointerInfo pointerInfo, int screenX, int screenY, long time) {
-        if (mDoublePress){
-            //TODO: send two button info
-            mDoublePress = false;
-            mListener.DetonateBomb();
-            pointerInfo.onScreen = false;
-            mOnePress=false;
-            return;
-        }
+    private Vector2 getMiddleVector() {
+        float downX = (pi[0].downX-pi[1].downX)/2f;
+        float downY = (pi[0].downY-pi[1].downY)/2f;
 
-        if(mOnePress)
-        {
-            mOnePress=false;
-            mListener.PlaceBomb();
-            pointerInfo.onScreen = false;
-            mDoublePress=false;
-            return;
-        }
-
-
-        if (time - pointerInfo.downTime > DELTA_TIME) {
-            if (mListener != null) {
-                sendFixEvent(pointerInfo, screenX, screenY);
-            }
-        }
-        pointerInfo.onScreen = false;
+        float curX = (pi[0].curX-pi[1].curX)/2f;
+        float curY = (pi[0].curY-pi[1].curY)/2f;
+        return new Vector2(curX - downX, curY - downY);
     }
 
-    private void sendFixEvent(PointerInfo pointerInfo, int screenX, int screenY) {
-        Vector2 nv = new Vector2(screenX - pointerInfo.downX, screenY - pointerInfo.downY);
+    private boolean isSwipe(PointerInfo pointerInfo) {
+        return (isSwipeDistance(pointerInfo) && isTapTime(pointerInfo));
+    }
+
+    private boolean isSwipeDistance(PointerInfo pointerInfo) {
+        long dx = pointerInfo.upX - pointerInfo.downX;
+        long dy = pointerInfo.upY - pointerInfo.downY;
+        return dx*dx + dy*dy > DELTA_SWIPE_DISTANCE*DELTA_SWIPE_DISTANCE;
+    }
+
+    private boolean isTap(PointerInfo pointerInfo) {
+        return (!isSwipeDistance(pointerInfo) && isTapTime(pointerInfo));
+    }
+
+    private boolean isTapTime(PointerInfo pointerInfo) {
+        return (pointerInfo.upTime - pointerInfo.downTime) < DELTA_TAP;
+    }
+
+    private boolean isDoubleTapTime(PointerInfo pointerInfo) {
+        return (pointerInfo.upTime - pointerInfo.downTime) < DELTA_DOUBLE_TAP;
+    }
+
+    private Vector2 normalizeVector(Vector2 nv) {
         float d = (float)Math.sqrt(nv.x*nv.x+nv.y*nv.y);
+        Vector2 v;
         if (d != 0) {
-            Vector2 v = new Vector2(nv.x / d, nv.y / d);
-            if (mListener != null)
-                mListener.ChangeMoveDirection(v);
-            //for(int i=0;i<mListener.size();i++)
-            //    mListener.get(i).ChangeMoveDeriction(v);
-
-
+         v = new Vector2(nv.x / d, nv.y / d);
         }
+        else
+        v = new Vector2(Vector2.Zero);
+        return v;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (pi[0].onScreen && pi[0].index == pointer && (!pi[1].onScreen || pi[0].downTime < pi[1].downTime)){
+            if (updatePointerInfoDrag(pi[0], screenX, screenY)){
+                Vector2 v = normalizeVector(new Vector2(screenX - pi[0].downX, screenY - pi[0].downY));
+                if (mDoublePress) {
+                    mListener.onDoublePan(v);
+                }else{
+                    mListener.onPan(v);
+                }
+            }
+        }
+
+        if (pi[1].onScreen && pi[1].index == pointer && (!pi[0].onScreen || pi[1].downTime < pi[0].downTime)){
+            if (updatePointerInfoDrag(pi[1], screenX, screenY)) {
+                Vector2 v = normalizeVector(new Vector2(screenX - pi[1].downX, screenY - pi[1].downY));
+                if (mDoublePress) {
+                    mListener.onDoublePan(v);
+                } else {
+                    mListener.onPan(v);
+                }
+            }
+        }
+
         return false;
+    }
+
+    private boolean updatePointerInfoDrag(PointerInfo pointerInfo, int screenX, int screenY) {
+        int dx = pointerInfo.curX - screenX;
+        int dy = pointerInfo.curY - screenY;
+        if (dx*dx + dy*dy < DELTA_PAN_DISTANCE) return false;
+        pointerInfo.curX = screenX;        
+        pointerInfo.curY = screenY;
+        return true;
     }
 
     @Override

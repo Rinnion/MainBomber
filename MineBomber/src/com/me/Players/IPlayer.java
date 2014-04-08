@@ -15,9 +15,10 @@ public interface IPlayer {
     float GetGoRadius();
     float GetDigDmg();
 
-
     float GetMaxLife();
     float GetLife();
+
+    String getName();
 
 
     boolean isVisible();

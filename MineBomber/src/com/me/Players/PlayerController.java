@@ -2,9 +2,6 @@ package com.me.Players;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
@@ -42,8 +39,8 @@ public class PlayerController {
 
         //AiPlayer inputPlayer=new AiPlayer();
         //inputProcessor.setListener(inputPlayer);
-        Add(new Player(inputProcessor2, new Vector2(0, 10)));
-        Add(new Player(inputProcessor1, new Vector2(100,10)));
+        Add(new Player("First player", inputProcessor2, new Vector2(0, 10)));
+        Add(new Player("Second player", inputProcessor1, new Vector2(100,10)));
 
       //
       //

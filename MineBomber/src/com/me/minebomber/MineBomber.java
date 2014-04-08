@@ -161,7 +161,7 @@ public class MineBomber implements ApplicationListener {
       */
         //}
 		//batch.end();
-        loger.log();
+        //loger.log();
 	}
 
 	@Override
