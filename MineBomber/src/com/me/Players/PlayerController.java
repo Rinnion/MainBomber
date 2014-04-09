@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class PlayerController {
 
-    static private ArrayList<IPlayer> players=new ArrayList<IPlayer>();
+    static public ArrayList<IPlayer> players=new ArrayList<IPlayer>();
 
     static FightInputProcessor inputProcessor1;
     static FightInputProcessor inputProcessor2;
@@ -89,7 +89,7 @@ public class PlayerController {
                 continue;
             if((x>player.getX() && x<player.getX()+player.getW()) && (y>player.getY() && y<player.getY()+player.getH()))
             {
-               player.DealDamage(bomb);
+               player.DealDamage(bomb.GetProperty().dmgMax);
                playerBuffer.add(player);
             }
         }

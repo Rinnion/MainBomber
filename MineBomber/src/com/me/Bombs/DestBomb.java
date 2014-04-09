@@ -18,7 +18,8 @@ import com.me.minebomber.Settings;
 /**
  * Created by alekseev on 27.03.2014.
  */
-public class DestBomb implements IBomb {
+public class DestBomb extends AbstractBomb {
+
 
     float dmgMax;
     float dmgMin;
@@ -26,18 +27,11 @@ public class DestBomb implements IBomb {
     boolean detonate;
     boolean active;
     boolean visible;
-    long activateTime;
-    //Sprite sprite;
     BombProperty property;
-
-
     Animation animSprite;
-
     Sprite sprite;
-
-
-    float pX;
-    float pY;
+    public final float pX;
+    public final float pY;
     private float elapsedTime = 0;
 
     private boolean destroyed=false;
@@ -47,8 +41,9 @@ public class DestBomb implements IBomb {
 
     private DelayTimer mDetonateDelay=new DelayTimer(100,false);
 
-    public DestBomb(BombProperty property, Vector2 position, IBombCallback callback)
+    public DestBomb(BombProperty property, Vector2 pos, IBombCallback callback)
     {
+        super(property, new Vector2(pos.x/MapManager.rowW, pos.y/MapManager.rowH));
 
         this.property=new BombProperty(property);
         property.active=false;
@@ -64,46 +59,39 @@ public class DestBomb implements IBomb {
         //dynamiteTex.createSprites("dyn");
 
         Array<TextureAtlas.AtlasRegion> region= dynamiteTex.findRegions ("dst_bomb");
-
         for(TextureAtlas.AtlasRegion tmpRegion : region)
         {
             tmpRegion.flip(false,true);
-
         }
 
         animSprite=new Animation(0.24f,region);
-
         sprite=new Sprite(region.get(0).getTexture());
-
         sprite.setSize(8,8);
 
-
         visible=true;
-        pX=position.x;
-        pY=position.y;
+        pX=pos.x;
+        pY=pos.y;
         sprite.setPosition(pX,pY);
+
+        //new set
     }
 
     private void   doDetonate()
     {
+        if (BombPlaser.CanDetonate(this)) {
 
+            BombPlaser.canDetonate = false;
+            ParticleManager.Fire(pX, pY);
 
-                if (BombPlaser.CanDetonate(this)) {
+            //MapManager.doCircleDamage((int) pX, (int) pY, 20f, 10f, 60, this);
+            MapManager.doBombDamage((int)pX,(int) pY,this);
 
-                    BombPlaser.canDetonate = false;
-                    ParticleManager.Fire(pX, pY);
+            visible = false;
+            destroyed = true;
 
-                    //MapManager.doCircleDamage((int) pX, (int) pY, 20f, 10f, 60, this);
-                    MapManager.doBombDamage((int)pX,(int) pY,this);
-
-                    visible = false;
-                    destroyed = true;
-
-                    raiseEvent_CanBeRemove();
-                    //lockObj.unlock();
-                }
-
-
+            raiseEvent_CanBeRemove();
+            //lockObj.unlock();
+        }
     }
 
     private void raiseEvent_CanBeRemove()
@@ -148,7 +136,7 @@ public class DestBomb implements IBomb {
 
     @Override
     public void ImmediatelyDetonate(long activationTime) {
-        this.activateTime =activationTime;
+        this.ActivationTime = activationTime;
         ImmediatelyDetonate();
     }
 
@@ -159,7 +147,7 @@ public class DestBomb implements IBomb {
 
     @Override
     public long GetActivationTime() {
-        return activateTime;
+        return ActivationTime;
     }
 
     @Override

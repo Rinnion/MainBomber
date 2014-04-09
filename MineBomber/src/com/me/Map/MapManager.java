@@ -1,29 +1,23 @@
 package com.me.Map;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.maps.*;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.BombPlaser;
 import com.me.Bombs.IBomb;
-import com.me.ObjectMaskHelper.IMask;
+import com.me.ObjectMaskHelper.Vector2I;
 import com.me.ObjectMaskHelper.MaskController;
-import com.me.ObjectMaskHelper.MaskVector;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
 import com.me.TileDamager.DamageController;
 import com.me.minebomber.DrawManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -66,6 +60,7 @@ public class MapManager {
     static int[] foreGroundIndex=new int[]{1};
     static int[] objectsIndex=new int[]{2};
     public static boolean full_redraw=false;
+    public static int[] fieldDamage;
 
     public static void RedrawPixmap(int mapIndex)
     {
@@ -85,7 +80,7 @@ public class MapManager {
     {
 
         float radius=bomb.GetProperty().range;
-        MaskVector[] mask= MaskController.GetMask(radius);
+        Vector2I[] mask= MaskController.GetMask(radius);
 
         ArrayList<IPlayer> buffer=new ArrayList<IPlayer>();
 
@@ -94,7 +89,7 @@ public class MapManager {
 
         for(int i=0;i<mask.length;i++)
         {
-            MaskVector pos=mask[i];
+            Vector2I pos=mask[i];
             x=pos.x+(startX/rowW);
             y=pos.y+(startY/rowH);
 
@@ -105,7 +100,7 @@ public class MapManager {
 
             int index = ((y*MapManager.maxCel)+x);
 
-            DamageController.damageOnTile(index, bomb.GetProperty ().dmgMin + (float)Math.random()*bomb.GetProperty().dmgMax);
+            DamageController.damageOnTile(index, bomb.GetProperty ().dmgMin + (int)Math.random()*bomb.GetProperty().dmgMax);
             PlayerController.DealDamage(buffer, x * MapManager.rowW, y * MapManager.rowH, bomb);
             BombPlaser.DealDamage(x * MapManager.rowW, y * MapManager.rowH, bomb);
 
@@ -119,8 +114,8 @@ public class MapManager {
         float dmgRad=player.GetDmgRadius();
         float dmgGo=player.GetGoRadius();
 
-        MaskVector []maskDig=MaskController.GetMask(dmgRad);
-        MaskVector []maskGo=MaskController.GetMask(dmgGo);
+        Vector2I[]maskDig=MaskController.GetMask(dmgRad);
+        Vector2I[]maskGo=MaskController.GetMask(dmgGo);
         int x;
         int y;
 
@@ -148,10 +143,10 @@ public class MapManager {
          return canGO;
     }
 
-    private static boolean canPlayerGo(int startX, int startY, IPlayer player, MaskVector vector2) {
+    private static boolean canPlayerGo(int startX, int startY, IPlayer player, Vector2I vector2) {
         int x;
         int y;
-        MaskVector pos= vector2;
+        Vector2I pos= vector2;
 
         x=pos.x+startX;
         y=pos.y+startY;
@@ -170,10 +165,10 @@ public class MapManager {
     }
 
 
-    private static void doPlayerDmgOnTile(int startX, int startY, IPlayer player, MaskVector vector2) {
+    private static void doPlayerDmgOnTile(int startX, int startY, IPlayer player, Vector2I vector2) {
         int x;
         int y;
-        MaskVector pos= vector2;
+        Vector2I pos= vector2;
 
         x=pos.x+(startX);
         y=pos.y+(startY);
@@ -191,7 +186,7 @@ public class MapManager {
     }
 
 
-    public static   boolean doCircleDamage(int startX, int startY,float radiusDig,float radiusGo,float dmg,IBomb bomb)
+    public static   boolean doCircleDamage(int startX, int startY,float radiusDig,float radiusGo,int dmg,IBomb bomb)
     {
         int sx=startX/ MapManager.rowW;
         int sy=startY/MapManager.rowH;
@@ -228,7 +223,7 @@ public class MapManager {
 
 
                     if(bomb!=null) {
-                        DamageController.damageOnTile(index, bomb.GetProperty ().dmgMin + (float)Math.random()*bomb.GetProperty().dmgMax);
+                        DamageController.damageOnTile(index, bomb.GetProperty ().dmgMin + (int)Math.random()*bomb.GetProperty().dmgMax);
                         PlayerController.DealDamage(buffer, x * MapManager.rowW, y * MapManager.rowH, bomb);
                         BombPlaser.DealDamage(x * MapManager.rowW, y * MapManager.rowH, bomb);
                     }
@@ -277,7 +272,7 @@ public class MapManager {
                 int id=Integer.parseInt((String)properties.get("id"));
                 int nextId=Integer.parseInt((String)properties.get("next"));
 
-                float life=Float.parseFloat((String)properties.get("life"));
+                int life=Integer.parseInt((String)properties.get("life"));
                 int index=tile.getId();
                 int type=Integer.parseInt((String)properties.get("type"));
 
@@ -356,6 +351,8 @@ public class MapManager {
         int count=(colCount*(w/rowW))*(rowCount*(h/rowH));
 
         mapInfo=new MapInfo[count];
+        fieldDamage = new int[count];
+        Arrays.fill(fieldDamage, 0);
 
         for(int col=0;col<colCount;col++)
             for(int row=0;row<rowCount;row++) {

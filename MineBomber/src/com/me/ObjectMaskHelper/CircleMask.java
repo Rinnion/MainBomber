@@ -1,12 +1,6 @@
 package com.me.ObjectMaskHelper;
 
-import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.BombPlaser;
-import com.me.Bombs.IBomb;
 import com.me.Map.MapManager;
-import com.me.Players.IPlayer;
-import com.me.Players.PlayerController;
-import com.me.TileDamager.DamageController;
 
 import java.util.ArrayList;
 
@@ -17,7 +11,7 @@ public class CircleMask implements IMask {
 
     private float mMaskRadius;
 
-    private MaskVector[] mMask;
+    private Vector2I[] mMask;
 
     public CircleMask(float radius)
     {
@@ -29,8 +23,8 @@ public class CircleMask implements IMask {
 
     public void createMask(int startX, int startY,float circleRadius)
     {
-        int sx=startX/ MapManager.rowW;
-        int sy=startY/MapManager.rowH;
+        int sx=startX / MapManager.rowW;
+        int sy=startY / MapManager.rowH;
 
         int radius = (int)Math.ceil(circleRadius);
 
@@ -39,11 +33,9 @@ public class CircleMask implements IMask {
         int right = sx+radius+1;
         int bottom = sy+radius+1;
 
-
         float radDig= radius*radius*MapManager.rowW*MapManager.rowH;
 
-
-        ArrayList<MaskVector> vectors=new ArrayList<MaskVector>();
+        ArrayList<Vector2I> vectors=new ArrayList<Vector2I>();
          //Vector2 retVectors=
 
 
@@ -56,18 +48,18 @@ public class CircleMask implements IMask {
                 //int index = (y*MapManager.maxCel)+x;
                 if (sum <radDig ){
 
-                    vectors.add(new MaskVector(x,y));
+                    vectors.add(new Vector2I(x,y));
                 }
 
             }
 
-          mMask=(MaskVector[])vectors.toArray(new MaskVector[vectors.size()]);
+          mMask=(Vector2I[])vectors.toArray(new Vector2I[vectors.size()]);
 
     }
 
 
     @Override
-    public MaskVector[] GetMask() {
+    public Vector2I[] GetMask() {
         return mMask;
     }
 

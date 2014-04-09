@@ -30,7 +30,7 @@ public class AiPlayer implements IPlayer, IPlayerControls {
 
     float radiusDig=4.5f;
     float radiusGo=1.7f;
-    float digDmg=2f;
+    int digDmg=2;
     float playerSpd=40;
       private int playerIndex=0;
 
@@ -64,6 +64,19 @@ public class AiPlayer implements IPlayer, IPlayerControls {
 
 
     }
+
+    @Override
+    public void DealDamage(int dmg) {
+
+        if(curLife-dmg<0) {
+            curLife = 0;
+            mDie=true;
+        }
+        else
+            curLife-=dmg;
+        mLifeProgressBar.DoItVisible();
+    }
+
     @Override
     public float getH() {
         return sprite.getHeight();
@@ -87,7 +100,7 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     }
 
     @Override
-    public float GetDigDmg() {
+    public int GetDigDmg() {
         return digDmg;
     }
 
@@ -117,26 +130,6 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     }
 
 
-
-    @Override
-    public void DealDamage(IBomb bomb) {
-
-        if(bomb.GetOwner().equals(this))
-        {
-            return;
-
-        }
-
-        float dmg=bomb.GetProperty().dmgMin + (float)Math.random()*bomb.GetProperty().dmgMax;
-
-        if(curLife-dmg<0) {
-            curLife = 0;
-            mDie=true;
-        }
-        else
-            curLife-=dmg;
-        mLifeProgressBar.DoItVisible();
-    }
 
     @Override
     public float getX() {
@@ -261,7 +254,7 @@ public class AiPlayer implements IPlayer, IPlayerControls {
         sprite.setPosition(-sprite.getOriginX()+(sprite.getWidth()/2)+position.x,-sprite.getOriginY()+(sprite.getHeight()/2)+position.y);
         radiusDig=sprite.getWidth()/4;
         radiusGo=sprite.getWidth()/6;
-        digDmg=0.5f;
+        digDmg=1;
         playerSpd=20f;
         mLifeProgressBar=new LifeProgressBar(this);
     }

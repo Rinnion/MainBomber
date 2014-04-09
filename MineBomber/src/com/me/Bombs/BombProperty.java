@@ -11,22 +11,22 @@ public class BombProperty {
     public boolean active;
     public boolean dstActivation;
     public boolean visible;
-    public float dmgMin;
-    public float dmgMax;
+    public int dmgMin;
+    public int dmgMax;
     public float range;
     public int type;
 
     IPlayer owner;
 
 
-    public  BombProperty(IPlayer owner,int type, int activationTime,float dmgMin,float dmgMax,float range)
+    public  BombProperty(IPlayer owner,int type, int activationTime,int dmgMin,int dmgMax,float range)
     {
         this(owner,type, activationTime, dmgMin, dmgMax, range, true, false, true);
 
 
     }
 
-    public  BombProperty(IPlayer owner,int type, int activationTime,float dmgMin,float dmgMax,float range,boolean active,boolean dstActivation,boolean visible)
+    public  BombProperty(IPlayer owner,int type, int activationTime,int dmgMin,int dmgMax,float range,boolean active,boolean dstActivation,boolean visible)
     {
         this.activationTime=activationTime;
         this.active=active;

@@ -37,7 +37,7 @@ public class Player  implements IPlayer, IPlayerControls {
 
     float radiusDig=4.5f;
     float radiusGo=1.7f ;
-    float digDmg=1f;
+    int digDmg=1;
     float playerSpd=40;
 
     float maxLife=100;
@@ -76,7 +76,7 @@ public class Player  implements IPlayer, IPlayerControls {
     }
 
     @Override
-    public float GetDigDmg() {
+    public int GetDigDmg() {
         return digDmg;
     }
 
@@ -107,9 +107,9 @@ public class Player  implements IPlayer, IPlayerControls {
 
 
     @Override
-    public void DealDamage(IBomb bomb) {
+    public void DealDamage(int dmg) {
 
-        float dmg=bomb.GetProperty().dmgMin + (float)Math.random()*bomb.GetProperty().dmgMax;
+        //float dmg=bomb.GetProperty().dmgMin + (float)Math.random()*bomb.GetProperty().dmgMax;
 
         if(curLife-dmg<0) {
             curLife = 0;
@@ -148,7 +148,7 @@ public class Player  implements IPlayer, IPlayerControls {
 
     public void PlaceBomb() {
         if(mDie) return;
-        BombPlaser.Place(new BombProperty(this,BombType.DSTBOMB, 3000, 10, 80, 10), new Vector2(sprite.getX(),sprite.getY()) );
+        BombPlaser.Place(new BombProperty(this,BombType.DSTBOMB, 300000, 10, 80, 10), new Vector2(sprite.getX(),sprite.getY()) );
     }
 
     public void DetonateBomb() {

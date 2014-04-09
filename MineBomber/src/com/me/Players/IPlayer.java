@@ -13,7 +13,7 @@ public interface IPlayer {
 
     float GetDmgRadius();
     float GetGoRadius();
-    float GetDigDmg();
+    int GetDigDmg();
 
     float GetMaxLife();
     float GetLife();
@@ -25,9 +25,10 @@ public interface IPlayer {
     //boolean isVisibleLife();
 
     LifeProgressBar GetLifeBar();
-    void DealDamage(IBomb bomb);
 
     void Render(Batch batch);
+
+    void DealDamage(int dmg);
 
     float getX();
     float getY();

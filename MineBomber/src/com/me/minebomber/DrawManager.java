@@ -30,7 +30,6 @@ public class DrawManager {
 
     public static void RedrawAll()
     {
-        long lstart=Calendar.getInstance().getTimeInMillis();
         synchronized (syncObject) {
             //PixmapHelper.Bind(MapManager.);
             MapManager.BindForeground();
@@ -42,9 +41,6 @@ public class DrawManager {
             Clear();
 
         }
-        long lend=Calendar.getInstance().getTimeInMillis();
-        Log.d((lend-lstart)+"");
-
     }
 
 
