@@ -21,39 +21,33 @@ public class CircleMask implements IMask {
 
 
 
-    public void createMask(int startX, int startY,float circleRadius)
+    public void createMask(int startX, int startY, float circleRadius)
     {
         int sx=startX / MapManager.rowW;
         int sy=startY / MapManager.rowH;
 
-        int radius = (int)Math.ceil(circleRadius);
+        //int radius = (int)Math.ceil(circleRadius);
 
-        int left = sx-radius-1;
-        int top = sy-radius-1;
-        int right = sx+radius+1;
-        int bottom = sy+radius+1;
+        int left = (int)Math.floor(sx - circleRadius);
+        int top = (int)Math.floor(sy - circleRadius);
+        int right = (int)Math.ceil(sx + circleRadius);
+        int bottom = (int)Math.ceil(sy + circleRadius);
 
-        float radDig= radius*radius*MapManager.rowW*MapManager.rowH;
+        float radDig= circleRadius*circleRadius*MapManager.rowW*MapManager.rowH;
 
         ArrayList<Vector2I> vectors=new ArrayList<Vector2I>();
-         //Vector2 retVectors=
 
-
-        for(int x=left;x<right;x++)
+        for(int x=left; x<right ;x++)
             for(int y=top; y<bottom;y++){
-                int fx = (x*MapManager.rowW+(MapManager.rowW/2))-startX;
-                int fy = (y*MapManager.rowH+(MapManager.rowH/2))-startY;
+                int fx = (x*MapManager.rowW + MapManager.rowW/2);
+                int fy = (y*MapManager.rowH + MapManager.rowH/2);
 
                 int sum=(fx*fx)+(fy*fy);
-                //int index = (y*MapManager.maxCel)+x;
                 if (sum <radDig ){
-
                     vectors.add(new Vector2I(x,y));
                 }
-
             }
-
-          mMask=(Vector2I[])vectors.toArray(new Vector2I[vectors.size()]);
+            mMask = vectors.toArray(new Vector2I[vectors.size()]);
 
     }
 

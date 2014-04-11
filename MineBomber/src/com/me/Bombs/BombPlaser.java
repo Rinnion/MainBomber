@@ -6,6 +6,7 @@ import com.me.Map.MapInfo;
 import com.me.Map.MapManager;
 import com.me.Map.TilesInfo;
 import com.me.ObjectMaskHelper.Vector2I;
+import com.me.Particles.ParticleManager;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
 import com.me.logger.Log;
@@ -213,7 +214,7 @@ public class BombPlaser {
         int maxX = MapManager.maxCel-1;
         int maxY = MapManager.maxRow-1;
         int cols = MapManager.maxCel;
-        ArrayList<IBomb> bombsToRemove = new ArrayList<IBomb>(mBombList.size());
+        ArrayList<AbstractBomb> bombsToRemove = new ArrayList<AbstractBomb>(mBombList.size());
         for (AbstractBomb b: mBombList){
             if (b.ActivationTime>time) continue;
             bombsToRemove.add(b);
@@ -238,7 +239,8 @@ public class BombPlaser {
             }
         }
 
-        for(IBomb btr: bombsToRemove){
+        for(AbstractBomb btr: bombsToRemove){
+            ParticleManager.Fire(btr.Position.x*MapManager.rowW, btr.Position.y*MapManager.rowH);
             mBombList.remove(btr);
         }
 

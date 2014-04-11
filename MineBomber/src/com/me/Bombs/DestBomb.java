@@ -18,7 +18,7 @@ import com.me.minebomber.Settings;
 /**
  * Created by alekseev on 27.03.2014.
  */
-public class DestBomb extends AbstractBomb {
+public class DestBomb extends AbsBomb {
 
 
     float dmgMax;
@@ -26,15 +26,9 @@ public class DestBomb extends AbstractBomb {
     int detonateTime;
     boolean detonate;
     boolean active;
-    boolean visible;
     BombProperty property;
-    Animation animSprite;
-    Sprite sprite;
     public final float pX;
     public final float pY;
-    private float elapsedTime = 0;
-
-    private boolean destroyed=false;
 
     IBombCallback callBack;
 
@@ -54,21 +48,8 @@ public class DestBomb extends AbstractBomb {
         dmgMin=property.dmgMin;
         this.callBack=callback;
         //lockObj=new ReentrantLock();
-
-        TextureAtlas dynamiteTex= AssetLoader.GetAtlas(Settings.BOMB_DYNAMITE);
         //dynamiteTex.createSprites("dyn");
 
-        Array<TextureAtlas.AtlasRegion> region= dynamiteTex.findRegions ("dst_bomb");
-        for(TextureAtlas.AtlasRegion tmpRegion : region)
-        {
-            tmpRegion.flip(false,true);
-        }
-
-        animSprite=new Animation(0.24f,region);
-        sprite=new Sprite(region.get(0).getTexture());
-        sprite.setSize(8,8);
-
-        visible=true;
         pX=pos.x;
         pY=pos.y;
         sprite.setPosition(pX,pY);
@@ -100,27 +81,6 @@ public class DestBomb extends AbstractBomb {
             callBack.CanBeRemove(this);
     }
 
-
-
-
-    @Override
-    public void Render(Batch batch) {
-        if(destroyed)
-            return;
-
-
-
-        if(visible)
-        {
-            elapsedTime += Gdx.graphics.getDeltaTime();
-            sprite.setRegion(animSprite.getKeyFrame(elapsedTime, true));
-
-            //batch.draw(animSprite.getKeyFrame(elapsedTime, true), pX, pY);
-            sprite.draw(batch);
-
-        }
-          //sprite.draw(sb);
-    }
 
     @Override
     public void Activate() {
