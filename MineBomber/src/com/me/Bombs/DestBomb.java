@@ -1,18 +1,10 @@
 package com.me.Bombs;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.me.Map.MapManager;
 import com.me.Particles.ParticleManager;
 import com.me.Players.IPlayer;
 import com.me.Utility.DelayTimer;
-import com.me.assetloader.AssetLoader;
-import com.me.minebomber.Settings;
 
 
 /**
@@ -27,8 +19,6 @@ public class DestBomb extends AbsBomb {
     boolean detonate;
     boolean active;
     BombProperty property;
-    public final float pX;
-    public final float pY;
 
     IBombCallback callBack;
 
@@ -37,7 +27,7 @@ public class DestBomb extends AbsBomb {
 
     public DestBomb(BombProperty property, Vector2 pos, IBombCallback callback)
     {
-        super(property, new Vector2(pos.x/MapManager.rowW, pos.y/MapManager.rowH));
+        super(property, new Vector2(pos.x, pos.y), AnimatedSprite.Factory.Create("dst_bomb"));
 
         this.property=new BombProperty(property);
         property.active=false;
@@ -47,14 +37,9 @@ public class DestBomb extends AbsBomb {
         dmgMax=property.dmgMax;
         dmgMin=property.dmgMin;
         this.callBack=callback;
-        //lockObj=new ReentrantLock();
-        //dynamiteTex.createSprites("dyn");
 
-        pX=pos.x;
-        pY=pos.y;
-        sprite.setPosition(pX,pY);
+        sprite.setPosition(Position.x,Position.y);
 
-        //new set
     }
 
     private void   doDetonate()
@@ -62,10 +47,10 @@ public class DestBomb extends AbsBomb {
         if (BombPlaser.CanDetonate(this)) {
 
             BombPlaser.canDetonate = false;
-            ParticleManager.Fire(pX, pY);
+            ParticleManager.Fire(Position.x, Position.y);
 
             //MapManager.doCircleDamage((int) pX, (int) pY, 20f, 10f, 60, this);
-            MapManager.doBombDamage((int)pX,(int) pY,this);
+            MapManager.doBombDamage((int)Position.x,(int) Position.y,this);
 
             visible = false;
             destroyed = true;

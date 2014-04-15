@@ -26,8 +26,6 @@ public class CircleMask implements IMask {
         int sx=startX / MapManager.rowW;
         int sy=startY / MapManager.rowH;
 
-        //int radius = (int)Math.ceil(circleRadius);
-
         int left = (int)Math.floor(sx - circleRadius);
         int top = (int)Math.floor(sy - circleRadius);
         int right = (int)Math.ceil(sx + circleRadius);
