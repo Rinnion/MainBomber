@@ -16,14 +16,18 @@ import java.util.HashMap;
  */
 public class DrawManager {
 
-    public static ArrayList<Integer> refreshFields=new ArrayList<Integer>(200);
+    //public static ArrayList<Integer> refreshFields=new ArrayList<Integer>(200);
+
+    private final static int FIELDS_COUNT=2000;
+
+    private static int[] refreshFields=new int[FIELDS_COUNT];
 
     private static Object syncObject=new Object();
-    private static long objCount=0;
+    private static int objCount=0;
     public static void Append(int index)
     {
         synchronized (syncObject) {
-            refreshFields.add(index);
+            refreshFields[objCount]=index;
             objCount++;
         }
     }
@@ -36,10 +40,10 @@ public class DrawManager {
             MapManager.BindForeground();
             for(int i=0;i<objCount;i++)
             {
-                //refreshFields[]
-                MapManager.RedrawPixmap(refreshFields.get(i));
+
+                MapManager.RedrawPixmap(refreshFields[i]);
             }
-            Clear();
+            objCount=0;
 
         }
         long lend=Calendar.getInstance().getTimeInMillis();
@@ -48,13 +52,5 @@ public class DrawManager {
     }
 
 
-
-    private static void Clear()
-    {
-
-            objCount = 0;
-            refreshFields.clear();
-
-    }
 
 }
