@@ -2,9 +2,6 @@ package com.me.Players;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
@@ -20,7 +17,7 @@ import java.util.ArrayList;
  */
 public class PlayerController {
 
-    static private ArrayList<IPlayer> players=new ArrayList<IPlayer>();
+    static public ArrayList<IPlayer> players=new ArrayList<IPlayer>();
 
     static FightInputProcessor inputProcessor1;
     static FightInputProcessor inputProcessor2;
@@ -42,8 +39,8 @@ public class PlayerController {
 
         //AiPlayer inputPlayer=new AiPlayer();
         //inputProcessor.setListener(inputPlayer);
-        Add(new Player(inputProcessor2, new Vector2(0, 10)));
-        Add(new Player(inputProcessor1, new Vector2(100,10)));
+        Add(new Player("First player", inputProcessor2, new Vector2(0, 10)));
+        Add(new Player("Second player", inputProcessor1, new Vector2(100,10)));
 
       //
       //
@@ -92,7 +89,7 @@ public class PlayerController {
                 continue;
             if((x>player.getX() && x<player.getX()+player.getW()) && (y>player.getY() && y<player.getY()+player.getH()))
             {
-               player.DealDamage(bomb);
+               player.DealDamage(bomb.GetProperty().dmgMax);
                playerBuffer.add(player);
             }
         }

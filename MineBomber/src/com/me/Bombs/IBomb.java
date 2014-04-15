@@ -17,14 +17,10 @@ public interface IBomb {
     long GetActivationTime();
     void Refresh();
 
-
     BombProperty GetProperty();
 
     float getX();
     float getY();
     float getW();
     float getH();
-
-
-
 }

@@ -20,6 +20,7 @@ import com.me.TileDamager.DamageController;
 import com.me.Utility.DelayTimer;
 import com.me.assetloader.AssetLoader;
 import com.me.Map.MapManager;
+import com.me.logger.Log;
 import com.me.minebomber.Settings;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Created by alekseev on 20.03.2014.
  */
-public class Player  implements IPlayer,IPlayerControls {
+public class Player  implements IPlayer, IPlayerControls {
 
    // @Override
    // public void onFix(Vector2 v) {
@@ -36,7 +37,7 @@ public class Player  implements IPlayer,IPlayerControls {
 
     float radiusDig=4.5f;
     float radiusGo=1.7f ;
-    float digDmg=1f;
+    int digDmg=1;
     float playerSpd=40;
 
     float maxLife=100;
@@ -48,6 +49,7 @@ public class Player  implements IPlayer,IPlayerControls {
     private LifeProgressBar mLifeProgressBar;
 
     boolean mDie=false;
+    private String mName;
 
     @Override
     public void Render(Batch batch) {
@@ -74,7 +76,7 @@ public class Player  implements IPlayer,IPlayerControls {
     }
 
     @Override
-    public float GetDigDmg() {
+    public int GetDigDmg() {
         return digDmg;
     }
 
@@ -89,6 +91,11 @@ public class Player  implements IPlayer,IPlayerControls {
     }
 
     @Override
+    public String getName() {
+        return mName;
+    }
+
+    @Override
     public boolean isVisible() {
         return true;
     }
@@ -100,9 +107,9 @@ public class Player  implements IPlayer,IPlayerControls {
 
 
     @Override
-    public void DealDamage(IBomb bomb) {
+    public void DealDamage(int dmg) {
 
-        float dmg=bomb.GetProperty().dmgMin + (float)Math.random()*bomb.GetProperty().dmgMax;
+        //float dmg=bomb.GetProperty().dmgMin + (float)Math.random()*bomb.GetProperty().dmgMax;
 
         if(curLife-dmg<0) {
             curLife = 0;
@@ -130,33 +137,57 @@ public class Player  implements IPlayer,IPlayerControls {
         return sprite.getHeight();
     }
 
-
-
-
-
     @Override
     public float getW() {
         return sprite.getWidth() ;
     }
 
-
-    @Override
     public void ChangeMoveDirection(Vector2 vec) {
         v=vec;
     }
 
-    @Override
     public void PlaceBomb() {
-        if(mDie)
-           return;
-        BombPlaser.Place(new BombProperty(this,BombType.DSTBOMB, 3000, 10, 80, 10), new Vector2(sprite.getX(),sprite.getY()) );
+        if(mDie) return;
+        BombPlaser.Place(new BombProperty(this,BombType.DSTBOMB, 300000, 10, 80, 10), new Vector2(sprite.getX(),sprite.getY()) );
     }
 
-    @Override
     public void DetonateBomb() {
         if(mDie)
             return;
         BombPlaser.DetonateBomb(this);
+    }
+
+    @Override
+    public void onDoubleTap() {
+        Log.d(String.format("%s: onDoubleTap", this.getName()));
+        DetonateBomb();
+    }
+
+    @Override
+    public void onDoubleSwipe(Vector2 v) {
+        Log.d(String.format("%s: onDoubleSwipe(%s)", this.getName(), v.toString()));
+    }
+
+    @Override
+    public void onTap() {
+        Log.d(String.format("%s: onTap", this.getName()));
+        PlaceBomb();
+    }
+
+    @Override
+    public void onSwipe(Vector2 v) {
+        Log.d(String.format("%s: onSwipe(%s)", this.getName(), v.toString()));
+    }
+
+    @Override
+    public void onPan(Vector2 v) {
+        Log.d(String.format("%s: onPan(%s)", this.getName(), v.toString()));
+        ChangeMoveDirection(v);
+    }
+
+    @Override
+    public void onDoublePan(Vector2 v) {
+        Log.d(String.format("%s: onDoublePan(%s)", this.getName(), v.toString()));
     }
 
     public static class PlayerDirection
@@ -195,8 +226,9 @@ public class Player  implements IPlayer,IPlayerControls {
 
 
 
-    public Player(IListenerRegistration registration, Vector2 position)
+    public Player(String mName, IListenerRegistration registration, Vector2 position)
     {
+        this.mName = mName;
         mTexture=new Texture(Settings.TEX_MAN);
         tRegion=new TextureRegion(mTexture);
         InitRegion(PlayerDirection.DOWN );
@@ -210,9 +242,6 @@ public class Player  implements IPlayer,IPlayerControls {
 
         registration.setListener(this);
         mLifeProgressBar=new LifeProgressBar(this);
-
-
-
     }
 
     public  void  InitRegion(int i)

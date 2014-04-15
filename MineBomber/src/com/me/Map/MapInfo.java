@@ -1,16 +1,14 @@
 package com.me.Map;
 
 
-import com.badlogic.gdx.math.Rectangle;
-
 /**
  * Created by alekseev on 21.03.2014.
  */
 public class MapInfo
 {
-    private int mX;
-    private int mY;
-    private float mLife;
+    public int mX;
+    public int mY;
+    public int life;
     private int mId;
     private boolean mFree;
     final public int index;
@@ -29,9 +27,9 @@ public class MapInfo
         return mY;
     }
 
-    public float GetLife()
+    public int GetLife()
     {
-        return  mLife;
+        return life;
     }
 
     public int GetId()
@@ -51,29 +49,29 @@ public class MapInfo
 
     public void SetInfo(int id)
     {
-        SetInfo(id,mLife,mFree);
+        SetInfo(id, life,mFree);
     }
 
-    public void SetInfo(int id,float life)
+    public void SetInfo(int id,int life)
     {
         SetInfo(id,life,mFree);
     }
 
-    public void SetInfo(int id,float life,boolean free)
+    public void SetInfo(int id, int life, boolean free)
     {
         mId=id;
-        mLife=life;
+        this.life =life;
         mFree=free;
     }
 
 
 
-    public MapInfo(int index,int id,int x,int y,int pixmapIndex,float life,boolean free)
+    public MapInfo(int index,int id,int x,int y,int pixmapIndex,int life,boolean free)
     {
         mX=x;
         mY=y;
         mId=id;
-        mLife=life;
+        this.life = life;
         mFree=free;
         mPixmapIndex=pixmapIndex;
         this.index=index;
@@ -85,7 +83,7 @@ public class MapInfo
        mX=mapInfo.mX;
        mY=mapInfo.mY;
        mId=mapInfo.mId;
-       mLife=mapInfo.mLife;
+       life =mapInfo.life;
        mFree=mapInfo.mFree;
         mPixmapIndex=mapInfo.mPixmapIndex;
         index=mapInfo.index;

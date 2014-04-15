@@ -24,12 +24,12 @@ public class DamageController {
     }
     */
 
-    static private boolean goDestroy(int index,float damage)
+    static private boolean goDestroy(int index,int damage)
     {
         MapInfo info = MapManager.mapInfo[index];
         TilesInfo tile;
-        float live;
-        float dmg=damage;
+        int live;
+        int dmg=damage;
         boolean destroy=false;
         while (true)
         {
@@ -66,7 +66,7 @@ public class DamageController {
 
     }
 
-    static public void damageOnTiles(Integer []indexes,float dmg)
+    static public void damageOnTiles(Integer []indexes,int dmg)
     {
         //synchronized (syncObject)
 
@@ -80,7 +80,7 @@ public class DamageController {
 
     }
 
-    static public void damageOnTile(int index,float dmg)
+    static public void damageOnTile(int index,int dmg)
     {
         //synchronized (syncObject)
 

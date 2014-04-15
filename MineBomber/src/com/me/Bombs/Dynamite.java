@@ -73,7 +73,7 @@ public class Dynamite implements IBomb {
 
       //  sprite=new Sprite(AssetLoader.GetTexture(Settings.TEX_MAN) );
         //sprite.flip(false,true);
-        //sprite.setPosition(position.x,position.y);
+        //sprite.setPosition(Position.x,Position.y);
         //animSprite.set
         timer=new DelayTimer(detonateTime,active);
         visible=true;

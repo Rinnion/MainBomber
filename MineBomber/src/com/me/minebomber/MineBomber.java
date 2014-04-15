@@ -63,8 +63,8 @@ public class MineBomber implements ApplicationListener {
         MapManager.Refresh();
 
 
-        //camera.position.set( 1/2,(h/w)/2,0);
-        //camera.position.set( 1.0f/2f,(h/w)/2,0);      // camera.setToOrtho(true);
+        //camera.Position.set( 1/2,(h/w)/2,0);
+        //camera.Position.set( 1.0f/2f,(h/w)/2,0);      // camera.setToOrtho(true);
 
         loger=new FPSLogger();
         batch = new SpriteBatch();
@@ -132,7 +132,7 @@ public class MineBomber implements ApplicationListener {
         batch.begin();
         MapManager.Render(batch);
         TextOut.Draw(batch,0,0);
-        BombPlaser.Draw(batch);
+        BombPlaser.Draw(batch, dtStart);
 
         ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());
         batch.end();
@@ -162,7 +162,7 @@ public class MineBomber implements ApplicationListener {
       */
         //}
 		//batch.end();
-        loger.log();
+        //loger.log();
 	}
 
 	@Override
