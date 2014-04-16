@@ -24,7 +24,7 @@ public class DestBomb extends AbstractBomb {
 
     public DestBomb(BombProperty property, Vector2 pos)
     {
-        super(property, new Vector2(pos.x, pos.y), AnimatedSprite.Factory.Create("dst_bomb"));
+        super(property, new Vector2(pos.x/MapManager.rowW, pos.y/MapManager.rowH), AnimatedSprite.Factory.Create("dst_bomb"));
 
         this.property=new BombProperty(property);
         property.active=false;
@@ -34,7 +34,7 @@ public class DestBomb extends AbstractBomb {
         dmgMax=property.dmgMax;
         dmgMin=property.dmgMin;
 
-        sprite.setPosition(Position.x,Position.y);
+        sprite.setPosition(pos.x-(sprite.getWidth()/2) ,pos.y-(sprite.getHeight ()/2));
 
     }
 
