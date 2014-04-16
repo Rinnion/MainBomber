@@ -12,4 +12,11 @@ public class Vector2I {
         this.x=x;
         this.y=y;
     }
+
+    public Vector2I(Vector2I v)
+    {
+        this.x=v.x;
+        this.y=v.y;
+    }
+
 }

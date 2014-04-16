@@ -10,7 +10,7 @@ import com.me.logger.Log;
 import java.util.Date;
 
 public class FightInputProcessor implements InputProcessor, IListenerRegistration {
-    public static final int DELTA_TAP = 80;
+    public static final int DELTA_TAP = 150;
     public static final int DELTA_SWIPE_DISTANCE = 25;
     public static final int DELTA_DOUBLE_TAP = 150;
     private static final int DELTA_PAN_DISTANCE = 15; //px

@@ -148,7 +148,7 @@ public class Player  implements IPlayer, IPlayerControls {
 
     public void PlaceBomb() {
         if(mDie) return;
-        BombPlaser.Place(new BombProperty(this,BombType.DSTBOMB, 300000, 10, 80, 10), new Vector2(sprite.getX(),sprite.getY()) );
+        BombPlaser.Place(new BombProperty(this,BombType.DSTBOMB, 300000, 10, 80, 10), new Vector2(sprite.getX()+ sprite.getOriginX(),sprite.getY()+ sprite.getOriginY() ));
     }
 
     public void DetonateBomb() {

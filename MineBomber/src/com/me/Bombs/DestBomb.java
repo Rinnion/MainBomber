@@ -27,7 +27,7 @@ public class DestBomb extends AbsBomb {
 
     public DestBomb(BombProperty property, Vector2 pos, IBombCallback callback)
     {
-        super(property, new Vector2(pos.x, pos.y), AnimatedSprite.Factory.Create("dst_bomb"));
+        super(property, new Vector2(pos.x/MapManager.rowW, pos.y/MapManager.rowH), AnimatedSprite.Factory.Create("dst_bomb"));
 
         this.property=new BombProperty(property);
         property.active=false;
@@ -38,7 +38,7 @@ public class DestBomb extends AbsBomb {
         dmgMin=property.dmgMin;
         this.callBack=callback;
 
-        sprite.setPosition(Position.x,Position.y);
+        sprite.setPosition(pos.x-(sprite.getWidth()/2) ,pos.y-(sprite.getHeight ()/2));
 
     }
 

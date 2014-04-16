@@ -1,5 +1,6 @@
 package com.me.Bombs;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Map.MapInfo;
@@ -9,6 +10,7 @@ import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Particles.ParticleManager;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
+import com.me.TextManager.TextManager;
 import com.me.logger.Log;
 import com.me.minebomber.DrawManager;
 import com.me.minebomber.MineBomber;
@@ -198,8 +200,22 @@ public class BombPlaser {
                 }
 
                 for (IPlayer bm: players){
-                    if (Math.abs(bm.getX() - mapInfo.mX) <2f && Math.abs(bm.getY() - mapInfo.mY) <2f)
+                    //if (Math.abs(bm.getX() - mapInfo.mX) <1f && Math.abs(bm.getY() - mapInfo.mY) <2f) {
+
+                    float sx=bm.getX();
+                    float sy=bm.getY();
+
+                    float mapX=mapInfo.mX;
+                    float mapW=mapX+MapManager.rowW;
+                    float mapY=mapInfo.mY;
+                    float mapH=mapY+MapManager.rowH;
+
+
+
+                    if((sx>mapX)&&(sx<mapW)&&(sy>mapY)&&(sy<mapH))  {
                         bm.DealDamage(fieldDamage[i]);
+                        TextManager.Add(fieldDamage[i] + "", Color.RED, bm.getX(), bm.getY());
+                    }
                 }
 
             fieldDamage[i] = 0;

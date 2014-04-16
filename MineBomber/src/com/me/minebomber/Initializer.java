@@ -5,6 +5,9 @@ import com.me.Map.MapManager;
 import com.me.Map.PixmapHelper;
 import com.me.Particles.ParticleManager;
 import com.me.Players.PlayerController;
+import com.me.TextManager.TextManager;
+import com.me.TextManager.TextOut;
+import com.me.TextManager.TextZoom;
 import com.me.logger.Log;
 
 /**
@@ -17,8 +20,11 @@ public class Initializer {
         Log.i("MineBomber Initialize");
         Log.d("Prepare textures and assets files");
         PrepareAssetsFiles.Prepare();
-        Log.d("Initialize fonts");
-        TextOut.Initialize();
+
+        Log.d("Initialize TextManager");
+        TextManager.Initialize();
+        MineBomber.textZoom=new TextOut();
+
         Log.d("Initialize PixmapHelper");
         PixmapHelper.Initialize();
         Log.d("Initialize MapManager");

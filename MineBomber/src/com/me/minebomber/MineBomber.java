@@ -15,10 +15,12 @@ import com.me.Bombs.BombPlaser;
 import com.me.Map.MapManager;
 import com.me.Particles.ParticleManager;
 import com.me.Players.PlayerController;
+import com.me.TextManager.IText;
+import com.me.TextManager.TextManager;
+import com.me.TextManager.TextOut;
+import com.me.TextManager.TextZoom;
 
-import javax.xml.crypto.Data;
 import java.util.Calendar;
-import java.util.Date;
 
 
 public class MineBomber implements ApplicationListener {
@@ -27,6 +29,10 @@ public class MineBomber implements ApplicationListener {
 	private Texture texture;
 	private Sprite sprite;
     private Sprite sprite2;
+
+    public static IText textZoom;
+
+
     public static long BeginDrawTime;
     private Rectangle viewPort;
 
@@ -131,15 +137,20 @@ public class MineBomber implements ApplicationListener {
 
         batch.begin();
         MapManager.Render(batch);
-        TextOut.Draw(batch,0,0);
+
         BombPlaser.Draw(batch, dtStart);
 
         ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());
+
+        textZoom.Draw(batch);
+        TextManager.Draw(batch);
         batch.end();
 
         long dtEnd = Calendar.getInstance().getTimeInMillis();
 
-        TextOut.SetText(Long.toString(dtEnd-dtStart));
+        textZoom.SetText(Long.toString(dtEnd-dtStart));
+
+
 
         PlayerController.AfterBatch(camera.combined);
         BombPlaser.Reset();
