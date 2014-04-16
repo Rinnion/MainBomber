@@ -29,6 +29,7 @@ import java.util.HashMap;
  */
 public class MapManager {
 
+    public static final int FIELD_CAPACITY = 16;
     private static FrameBuffer backGroundBuffer;
     private static FrameBuffer foreGroundBuffer;
 
@@ -61,6 +62,7 @@ public class MapManager {
     static int[] objectsIndex=new int[]{2};
     public static boolean full_redraw=false;
     public static int[] fieldDamage;
+    public static ArrayList<AbstractGameObject>[] fieldObjects;
 
     public static void RedrawPixmap(int mapIndex)
     {
@@ -353,6 +355,11 @@ public class MapManager {
         mapInfo=new MapInfo[count];
         fieldDamage = new int[count];
         Arrays.fill(fieldDamage, 0);
+        fieldObjects = new ArrayList[count];
+        for (int i = 0; i<count; i++) {
+            fieldObjects[i] = new ArrayList<AbstractGameObject>(FIELD_CAPACITY);
+        }
+
 
         for(int col=0;col<colCount;col++)
             for(int row=0;row<rowCount;row++) {

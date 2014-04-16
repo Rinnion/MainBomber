@@ -10,8 +10,7 @@ import com.me.Utility.DelayTimer;
 /**
  * Created by alekseev on 27.03.2014.
  */
-public class DestBomb extends AbsBomb {
-
+public class DestBomb extends AbstractBomb {
 
     float dmgMax;
     float dmgMin;
@@ -20,12 +19,10 @@ public class DestBomb extends AbsBomb {
     boolean active;
     BombProperty property;
 
-    IBombCallback callBack;
-
 
     private DelayTimer mDetonateDelay=new DelayTimer(100,false);
 
-    public DestBomb(BombProperty property, Vector2 pos, IBombCallback callback)
+    public DestBomb(BombProperty property, Vector2 pos)
     {
         super(property, new Vector2(pos.x, pos.y), AnimatedSprite.Factory.Create("dst_bomb"));
 
@@ -36,7 +33,6 @@ public class DestBomb extends AbsBomb {
         this.active=property.active;
         dmgMax=property.dmgMax;
         dmgMin=property.dmgMin;
-        this.callBack=callback;
 
         sprite.setPosition(Position.x,Position.y);
 
@@ -49,23 +45,12 @@ public class DestBomb extends AbsBomb {
             BombPlaser.canDetonate = false;
             ParticleManager.Fire(Position.x, Position.y);
 
-            //MapManager.doCircleDamage((int) pX, (int) pY, 20f, 10f, 60, this);
             MapManager.doBombDamage((int)Position.x,(int) Position.y,this);
 
             visible = false;
             destroyed = true;
-
-            raiseEvent_CanBeRemove();
-            //lockObj.unlock();
         }
     }
-
-    private void raiseEvent_CanBeRemove()
-    {
-        if(callBack!=null)
-            callBack.CanBeRemove(this);
-    }
-
 
     @Override
     public void Activate() {

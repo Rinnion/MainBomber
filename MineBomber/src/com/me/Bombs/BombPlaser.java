@@ -2,6 +2,7 @@ package com.me.Bombs;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.me.Map.AbstractGameObject;
 import com.me.Map.MapInfo;
 import com.me.Map.MapManager;
 import com.me.Map.TilesInfo;
@@ -15,6 +16,7 @@ import com.me.minebomber.MineBomber;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Map;
 
 /**
  * Created by alekseev on 27.03.2014.
@@ -86,69 +88,28 @@ public class BombPlaser {
     public static void DealDamage(float x, float y,IBomb bomb)
     {
 
-            //player.DealDamage(dmg);
-            // if(player.GetLifeBar()!=null)
-            // player.GetLifeBar().DoItVisible();
-        /*
-        long aTime= Calendar.getInstance().getTimeInMillis();
-            for(IBomb tmpBomb : mBombList)
-            {
-
-                if(tmpBomb.equals(bomb))
-                    continue;
-
-                if((x>tmpBomb.getX () && x<tmpBomb.getX()+tmpBomb.getW()) && (y>tmpBomb.getY() && y<tmpBomb.getY()+tmpBomb.getH()))
-                {
-                    //player.DealDamage(bomb);
-                    //playerBuffer.add(player);
-                    tmpBomb.ImmediatelyDetonate(aTime);
-                    //return;
-                }
-            }
-        */
-
-
     }
 
-    public static void Place(BombProperty bombProperty,Vector2 position)
+    public static void Place(BombProperty bombProperty, Vector2 position)
     {
         AbstractBomb bomb=null;
+        int x = (int) position.x;
+        int y = (int) position.y;
+        int index = y*MapManager.maxCel + x;
+
+        if (MapManager.fieldObjects[index].size() == MapManager.FIELD_CAPACITY){
+            return;
+        }
 
         switch (bombProperty.type)
         {
-            /*case BombType.DYNAMITE:
-
-                bomb=new Dynamite(bombProperty,position,new IBombCallback() {
-
-
-                    @Override
-                    public void CanBeRemove(IBomb bomb) {
-                        //mBombList.remove(bomb);
-                        //bomb.GetOwner().GetLifeBar().DoItVisible();
-                        //DealDamage(bomb);
-                        canBeRemove(bomb);
-                    }
-
-
-                });
-                break;
-            */
             case BombType.DSTBOMB:
-                bomb=new DestBomb (bombProperty,position,new IBombCallback() {
-
-
-                    @Override
-                    public void CanBeRemove(IBomb bomb) {
-                        //DealDamage(bomb);
-                        canBeRemove(bomb);
-                    }
-
-
-                });
+                bomb = new DestBomb(bombProperty, position);
                 break;
         }
-        mBombList.add(bomb);
 
+        MapManager.fieldObjects[index].add(bomb);
+        mBombList.add(bomb);
     }
 
     public static void Draw(Batch bt, long time)
@@ -176,31 +137,32 @@ public class BombPlaser {
 
     private static void applyDamage(long time) {
         int[] fieldDamage = MapManager.fieldDamage;
+        ArrayList<AbstractGameObject>[] fieldObjects = MapManager.fieldObjects;
         ArrayList<IPlayer> players = PlayerController.players;
-            MapInfo[] mapInfos = MapManager.mapInfo;
+        MapInfo[] mapInfos = MapManager.mapInfo;
 
-            for (int i = 0; i < fieldDamage.length; i++) {
-                if (fieldDamage[i] == 0) continue;
-                MapInfo mapInfo = mapInfos[i];
-                int life = mapInfo.life -= fieldDamage[i];
-                if (life<=0) {
-                    TilesInfo tilesInfo = MapManager.mapTiles.get(mapInfo.GetId());
+        for (int i = 0; i < fieldDamage.length; i++) {
+            if (fieldDamage[i] == 0) continue;
+            MapInfo mapInfo = mapInfos[i];
+            int life = mapInfo.life -= fieldDamage[i];
+            int mNextId = 0;
 
-                    int mNextId = tilesInfo.mNextid;
-                    int nextTile = MapManager.mapTiles.get(mNextId).mLife;
+            while (life < 0) {
+                TilesInfo tilesInfo = MapManager.mapTiles.get(mapInfo.GetId());
+                mNextId = tilesInfo.mNextid;
+                if (mNextId == 0) break;
+                life += MapManager.mapTiles.get(mNextId).mLife;
+            }
+            mapInfo.SetInfo(mNextId, life);
 
-                    mapInfo.SetInfo(mNextId, nextTile, (mNextId == 0));
-                }
+            for (AbstractGameObject ago: fieldObjects[i])  {
+                ago.receiveDamage(fieldDamage[i], time);
+            }
 
-                for (AbstractBomb bm: mBombList){
-                    Vector2 p = bm.Position;
-                    if (Math.abs(p.x*2 - mapInfo.mX) <2f && Math.abs(p.y*2 - mapInfo.mY) <2f) bm.ActivationTime = time;
-                }
-
-                for (IPlayer bm: players){
-                    if (Math.abs(bm.getX() - mapInfo.mX) <2f && Math.abs(bm.getY() - mapInfo.mY) <2f)
-                        bm.DealDamage(fieldDamage[i]);
-                }
+            for (IPlayer bm : players) {
+                if (Math.abs(bm.getX() - mapInfo.mX) < 2f && Math.abs(bm.getY() - mapInfo.mY) < 2f)
+                    bm.DealDamage(fieldDamage[i]);
+            }
 
             fieldDamage[i] = 0;
             DrawManager.Append(i);

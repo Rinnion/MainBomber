@@ -13,7 +13,7 @@ import com.me.minebomber.Settings;
 /**
 * Created by tretyakov on 14.04.2014.
 */
-class AnimatedSprite extends Sprite {
+public class AnimatedSprite extends Sprite {
 
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
