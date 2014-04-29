@@ -2,14 +2,11 @@ package com.me.Players;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.IBomb;
 import com.me.Graphics.ShapeProgressBar;
-import com.me.TextManager.TextManager;
 
 
 import java.util.ArrayList;
@@ -78,27 +75,6 @@ public class PlayerController {
     public static void Add(IPlayer player)
     {
         players.add(player);
-    }
-
-    public static void DealDamage(ArrayList<IPlayer> playerBuffer, float x,float y,IBomb bomb)
-    {
-       //player.DealDamage(dmg);
-       // if(player.GetLifeBar()!=null)
-       // player.GetLifeBar().DoItVisible();
-        for(IPlayer player : players)
-        {
-            if(playerBuffer.contains(player))
-                continue;
-            if((x>player.getX() && x<player.getX()+player.getW()) && (y>player.getY() && y<player.getY()+player.getH()))
-            {
-               player.DealDamage(bomb.GetProperty().dmgMax);
-                TextManager.Add(bomb.GetProperty().dmgMax + "", Color.BLUE,player.getX(),player.getY());
-
-               playerBuffer.add(player);
-            }
-        }
-
-
     }
 
 

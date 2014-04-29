@@ -8,7 +8,6 @@ import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.me.Bombs.BombPlaser;
-import com.me.Bombs.IBomb;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.ObjectMaskHelper.MaskController;
 import com.me.Players.IPlayer;

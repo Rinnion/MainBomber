@@ -1,8 +1,6 @@
 package com.me.Utility;
 
 
-import com.me.Bombs.IBomb;
-
 /**
  * Created by alekseev on 08.04.2014.
  */

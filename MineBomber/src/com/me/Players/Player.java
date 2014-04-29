@@ -1,29 +1,17 @@
 package com.me.Players;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.PixmapTextureData;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.BombPlaser;
 import com.me.Bombs.BombProperty;
 import com.me.Bombs.BombType;
-import com.me.Bombs.IBomb;
-import com.me.Graphics.ILifeProgressBar;
-import com.me.Map.MapInfo;
-import com.me.TileDamager.DamageController;
-import com.me.Utility.DelayTimer;
-import com.me.assetloader.AssetLoader;
 import com.me.Map.MapManager;
 import com.me.logger.Log;
 import com.me.minebomber.Settings;
-
-import java.util.ArrayList;
 
 /**
  * Created by alekseev on 20.03.2014.

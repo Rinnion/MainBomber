@@ -1,7 +1,6 @@
 package com.me.Players;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,11 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.BombPlaser;
 import com.me.Bombs.BombProperty;
 import com.me.Bombs.BombType;
-import com.me.Bombs.IBomb;
-import com.me.Graphics.ILifeProgressBar;
 import com.me.Map.MapManager;
-import com.me.Players.IPlayer;
-import com.me.TileDamager.DamageController;
 import com.me.Utility.DelayTimer;
 import com.me.minebomber.Settings;
 
