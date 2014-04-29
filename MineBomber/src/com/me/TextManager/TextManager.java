@@ -41,14 +41,7 @@ public class TextManager {
 
 
                    if(pool[i].text==null)
-                       pool[i].text=new TextZoom(new ITextCallback() {
-
-
-                           @Override
-                           public void OnFree(IText text) {
-                            free(pool[i].text);
-                           }
-                       });
+                       pool[i].text=new TextZoom();
                    pool[i].isFree=false;
                    curSize++;
                    return pool[i];

@@ -16,6 +16,7 @@ public abstract class AbstractBomb extends AbstractGameObject implements IBomb {
     public Vector2I[] ExplodeMask;
 
     public AbstractBomb(BombProperty property, Vector2 pos, AnimatedSprite animatedSprite) {
+        //FIXME life from bomb
         super(pos, 1, animatedSprite);
         ExplodeMask = MaskController.GetMask(property.range);
         //ee.damage = property.dmgMin + (int)Math.random()*(property.dmgMax - property.dmgMin);

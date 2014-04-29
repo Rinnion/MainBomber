@@ -95,8 +95,8 @@ public class BombPlaser {
     public static void Place(BombProperty bombProperty, Vector2 position)
     {
         AbstractBomb bomb=null;
-        int x = (int) position.x;
-        int y = (int) position.y;
+        int x = (int) position.x/MapManager.rowW;
+        int y = (int) position.y/MapManager.rowH;
         int index = y*MapManager.maxCel + x;
 
         if (MapManager.fieldObjects[index].size() == MapManager.FIELD_CAPACITY){

@@ -28,7 +28,7 @@ public class TextZoom extends TextOut {
 
     ITextCallback callBack;
 
-    public TextZoom(ITextCallback callBack)
+    public TextZoom()
     {
        super();
 
@@ -78,7 +78,7 @@ public class TextZoom extends TextOut {
         a=a- (Gdx.graphics.getDeltaTime()*speedAlpha);
         if(a<0) {
             a = 0;
-            callBack.OnFree(this);
+           // callBack.OnFree(this);
         }
 
         this.color.a=a;
