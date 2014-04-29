@@ -68,7 +68,7 @@ public class MapManager {
     {
         MapInfo info=mapInfo[mapIndex];
         TilesInfo tile=mapTiles.get(info.GetId());
-        PixmapHelper.DrawPixmap(tile.miniMap[info.GetPixmapIndex()],info.GetX(),info.GetY() );
+        PixmapHelper.DrawPixmap(tile.miniMap[info.GetPixmapIndex()], info.GetX(), info.GetY());
     }
 
     public static void BindForeground()
@@ -76,171 +76,47 @@ public class MapManager {
         PixmapHelper.Bind(mTextureForeground);
     }
 
+    public static   boolean doCircleDamage(int startX, int startY,float radiusDig,float radiusGo,int dmg) {
+        int sx = startX / MapManager.rowW;
+        int sy = startY / MapManager.rowH;
+
+        int radius = (int) Math.ceil(radiusDig);
+
+        int left = sx - radius - 1;
+        int top = sy - radius - 1;
+        int right = sx + radius + 1;
+        int bottom = sy + radius + 1;
+
+        if (left < 1) left = 1;
+        if (right > MapManager.maxCel - 2) right = MapManager.maxCel - 1;
+        if (top < 1) top = 1;
+        if (bottom > MapManager.maxRow - 2) bottom = MapManager.maxRow - 1;
+
+        float radDig = radiusDig * radiusDig * MapManager.rowW * MapManager.rowH;
+        float radGo = radiusGo * radiusGo * MapManager.rowW * MapManager.rowH;
+
+        ArrayList<IPlayer> buffer = null;
 
 
-    public static   void doBombDamage(int startX, int startY,IBomb bomb)
-    {
+        boolean isEmpty = true;
+        for (int x = left; x < right; x++)
+            for (int y = top; y < bottom; y++) {
+                int fx = (x * MapManager.rowW + (MapManager.rowW / 2)) - startX;
+                int fy = (y * MapManager.rowH + (MapManager.rowH / 2)) - startY;
 
-        float radius=bomb.GetProperty().range;
-        Vector2I[] mask= MaskController.GetMask(radius);
-
-        ArrayList<IPlayer> buffer=new ArrayList<IPlayer>();
-
-        int x;
-        int y;
-
-        for(int i=0;i<mask.length;i++)
-        {
-            Vector2I pos=mask[i];
-            x=pos.x+(startX/rowW);
-            y=pos.y+(startY/rowH);
-
-            if((x<0)||(y<0))
-                continue;
-            if((x>maxCel-1)||(y>maxRow-1))
-                continue;
-
-            int index = ((y*MapManager.maxCel)+x);
-
-            DamageController.damageOnTile(index, bomb.GetProperty ().dmgMin + (int)Math.random()*bomb.GetProperty().dmgMax);
-            PlayerController.DealDamage(buffer, x * MapManager.rowW, y * MapManager.rowH, bomb);
-            BombPlaser.DealDamage(x * MapManager.rowW, y * MapManager.rowH, bomb);
-
-        }
-
-    }
+                int sum = (fx * fx) + (fy * fy);
+                int index = (y * MapManager.maxCel) + x;
+                if (sum < radDig) {
 
 
-    public static boolean doPlayerDamage(int startX, int startY,IPlayer player)
-    {
-        float dmgRad=player.GetDmgRadius();
-        float dmgGo=player.GetGoRadius();
-
-        Vector2I[]maskDig=MaskController.GetMask(dmgRad);
-        Vector2I[]maskGo=MaskController.GetMask(dmgGo);
-        int x;
-        int y;
-
-        boolean dmgOnTile=false;
-        boolean canGO=true;
-
-        int fixX=(startX/rowW);
-        int fixY=(startY/rowH);
-        if(dmgRad>dmgGo)
-        {
-            for(int i=0;i<maskDig.length;i++)
-            {
-                doPlayerDmgOnTile(fixX, fixY, player, maskDig[i]);
-
-                if((maskGo.length-1)>i)
-                 {
-                     if(!canPlayerGo(fixX,fixY,player,maskGo[i]))
-                         canGO=false;
-                 }
-
-            }
-
-        }
-
-         return canGO;
-    }
-
-    private static boolean canPlayerGo(int startX, int startY, IPlayer player, Vector2I vector2) {
-        int x;
-        int y;
-        Vector2I pos= vector2;
-
-        x=pos.x+startX;
-        y=pos.y+startY;
-
-        if((x<0)||(y<0))
-            return false;
-
-        if((x>maxCel-1)||(y>maxRow-1))
-            return false;
-
-        int index = ((y* MapManager.maxCel)+x);
-
-        return mapInfo[index].isFree();
-        //DamageController.damageOnTile(index, player.GetDigDmg());
-
-    }
-
-
-    private static void doPlayerDmgOnTile(int startX, int startY, IPlayer player, Vector2I vector2) {
-        int x;
-        int y;
-        Vector2I pos= vector2;
-
-        x=pos.x+(startX);
-        y=pos.y+(startY);
-
-        if((x<0)||(y<0))
-            return;
-
-        if((x>maxCel-1)||(y>maxRow-1))
-            return;
-
-        int index = ((y* MapManager.maxCel)+x);
-
-        DamageController.damageOnTile(index, player.GetDigDmg());
-
-    }
-
-
-    public static   boolean doCircleDamage(int startX, int startY,float radiusDig,float radiusGo,int dmg,IBomb bomb)
-    {
-        int sx=startX/ MapManager.rowW;
-        int sy=startY/MapManager.rowH;
-
-        int radius = (int)Math.ceil(radiusDig);
-
-        int left = sx-radius-1;
-        int top = sy-radius-1;
-        int right = sx+radius+1;
-        int bottom = sy+radius+1;
-
-        if (left<1) left = 1;
-        if (right>MapManager.maxCel-2) right = MapManager.maxCel-1;
-        if (top<1) top = 1;
-        if (bottom>MapManager.maxRow-2) bottom = MapManager.maxRow-1;
-
-        float radDig= radiusDig*radiusDig*MapManager.rowW*MapManager.rowH;
-        float radGo= radiusGo*radiusGo*MapManager.rowW*MapManager.rowH;
-
-        ArrayList<IPlayer> buffer=null;
-        if(bomb!=null)
-            buffer=new ArrayList<IPlayer>();
-
-
-        boolean isEmpty=true;
-        for(int x=left;x<right;x++)
-            for(int y=top; y<bottom;y++){
-                int fx = (x*MapManager.rowW+(MapManager.rowW/2))-startX;
-                int fy = (y*MapManager.rowH+(MapManager.rowH/2))-startY;
-
-                int sum=(fx*fx)+(fy*fy);
-                int index = (y*MapManager.maxCel)+x;
-                if ( sum < radDig ){
-
-
-                    if(bomb!=null) {
-                        DamageController.damageOnTile(index, bomb.GetProperty ().dmgMin + (int)Math.random()*bomb.GetProperty().dmgMax);
-                        PlayerController.DealDamage(buffer, x * MapManager.rowW, y * MapManager.rowH, bomb);
-                        BombPlaser.DealDamage(x * MapManager.rowW, y * MapManager.rowH, bomb);
-                    }
-                    else
-                        DamageController.damageOnTile(index, dmg);
+                    DamageController.damageOnTile(index, dmg);
                 }
 
-                if(sum<radGo)
-                {
-                    if(!MapManager.mapInfo[index].isFree())
-                        isEmpty=false;
+                if (sum < radGo) {
+                    if (!MapManager.mapInfo[index].isFree())
+                        isEmpty = false;
                 }
             }
-
-
         return isEmpty;
     }
 

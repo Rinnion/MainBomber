@@ -69,8 +69,8 @@ public class MineBomber implements ApplicationListener {
         MapManager.Refresh();
 
 
-        //camera.Position.set( 1/2,(h/w)/2,0);
-        //camera.Position.set( 1.0f/2f,(h/w)/2,0);      // camera.setToOrtho(true);
+        //camera.position.set( 1/2,(h/w)/2,0);
+        //camera.position.set( 1.0f/2f,(h/w)/2,0);      // camera.setToOrtho(true);
 
         loger=new FPSLogger();
         batch = new SpriteBatch();

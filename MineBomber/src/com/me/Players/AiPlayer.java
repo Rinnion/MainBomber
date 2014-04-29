@@ -223,12 +223,12 @@ public class AiPlayer implements IPlayer, IPlayerControls {
 
         //Integer []indexes=MapManager.createBoundList(newX,newY,radiusDig);
         //Integer []indexesGo=MapManager.createBoundList(newX,newY,radiusGo);
-        if(MapManager.doCircleDamage (newX, newY, radiusDig, radiusGo,digDmg,null))
+        if(MapManager.doCircleDamage (newX, newY, radiusDig, radiusGo,digDmg))
             sprite.translate(realMoveX,realMoveY);
         else {
 
            if((delayTimer==null)||(delayTimer.CheckTimeOut())) {
-               BombPlaser.Place(new BombProperty(this, BombType.DYNAMITE, 2000, 40, 100, 10),  new Vector2((sprite.getX()+sprite.getWidth()/2), (sprite.getY()+sprite.getHeight()/2)));
+               BombPlaser.Place(this, new BombProperty(this, BombType.DYNAMITE, 2000, 40, 100, 10),  new Vector2((sprite.getX()+sprite.getWidth()/2), (sprite.getY()+sprite.getHeight()/2)));
                delayTimer=new DelayTimer((int)((Math.random()*5000)+5000));
            }
         }

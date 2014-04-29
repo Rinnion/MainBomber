@@ -148,7 +148,7 @@ public class Player  implements IPlayer, IPlayerControls {
 
     public void PlaceBomb() {
         if(mDie) return;
-        BombPlaser.Place(new BombProperty(this,BombType.DSTBOMB, 300000, 10, 80, 10), new Vector2(sprite.getX()+ sprite.getOriginX(),sprite.getY()+ sprite.getOriginY() ));
+        BombPlaser.Place(this, new BombProperty(this,BombType.DSTBOMB, 300000, 10, 80, 10), new Vector2(sprite.getX()+ sprite.getOriginX(),sprite.getY()+ sprite.getOriginY() ));
     }
 
     public void DetonateBomb() {
@@ -193,8 +193,8 @@ public class Player  implements IPlayer, IPlayerControls {
     public static class PlayerDirection
     {
         final public static int RIGHT=1;
-        final public  static int LEFT=2;
-        final public  static int TOP=3;
+        final public static int LEFT=2;
+        final public static int TOP=3;
         final public static int DOWN=4;
     }
 
@@ -216,7 +216,7 @@ public class Player  implements IPlayer, IPlayerControls {
 
 
 
-        if(MapManager.doCircleDamage(newX,newY,radiusDig,radiusGo,digDmg,null))
+        if(MapManager.doCircleDamage(newX,newY,radiusDig,radiusGo,digDmg))
         //if(MapManager.doPlayerDamage(newX,newY,this))
          sprite.translate(realMoveX,realMoveY);
     }

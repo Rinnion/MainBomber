@@ -19,12 +19,9 @@ public class DestBomb extends AbstractBomb {
     boolean active;
     BombProperty property;
 
-
-    private DelayTimer mDetonateDelay=new DelayTimer(100,false);
-
-    public DestBomb(BombProperty property, Vector2 pos)
+    public DestBomb(IPlayer player, BombProperty property, Vector2 pos)
     {
-        super(property, new Vector2(pos.x/MapManager.rowW, pos.y/MapManager.rowH), AnimatedSprite.Factory.Create("dst_bomb"));
+        super(player, property, new Vector2(pos.x/MapManager.rowW, pos.y/MapManager.rowH), AnimatedSprite.Factory.Create("dst_bomb"));
 
         this.property=new BombProperty(property);
         property.active=false;
@@ -37,83 +34,5 @@ public class DestBomb extends AbstractBomb {
         sprite.setPosition(pos.x-(sprite.getWidth()/2) ,pos.y-(sprite.getHeight ()/2));
 
     }
-
-    private void   doDetonate()
-    {
-        if (BombPlaser.CanDetonate(this)) {
-
-            BombPlaser.canDetonate = false;
-            ParticleManager.Fire(Position.x, Position.y);
-
-            MapManager.doBombDamage((int)Position.x,(int) Position.y,this);
-
-            visible = false;
-            destroyed = true;
-        }
-    }
-
-    @Override
-    public void Activate() {
-         active=true;
-    }
-
-    @Override
-    public void ImmediatelyDetonate() {
-        detonate=true;
-        active=true;
-        //Gdx.graphics.get
-    }
-
-    @Override
-    public void ImmediatelyDetonate(long activationTime) {
-        this.ActivationTime = activationTime;
-        ImmediatelyDetonate();
-    }
-
-    @Override
-    public IPlayer GetOwner() {
-        return property.owner;
-    }
-
-    @Override
-    public long GetActivationTime() {
-        return ActivationTime;
-    }
-
-    @Override
-    public void Refresh() {
-        if(destroyed)
-            return;
-
-        if(active)
-            doDetonate();
-
-    }
-
-    @Override
-    public BombProperty GetProperty() {
-        return property;
-    }
-
-    @Override
-    public float getX() {
-        return sprite.getX();
-    }
-
-    @Override
-    public float getY() {
-        return sprite.getY();
-    }
-
-    @Override
-    public float getW() {
-        return sprite.getWidth();
-    }
-
-    @Override
-    public float getH() {
-        return sprite.getHeight();
-    }
-
 
 }

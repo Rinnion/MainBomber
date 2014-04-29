@@ -5,27 +5,28 @@ import com.me.Map.AbstractGameObject;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.ObjectMaskHelper.MaskController;
+import com.me.Players.IPlayer;
 
 import java.util.Calendar;
 
 /**
  * Created by tretyakov on 09.04.2014.
  */
-public abstract class AbstractBomb extends AbstractGameObject implements IBomb {
+public abstract class AbstractBomb extends AbstractGameObject {
+    public final BombProperty Property;
     public long ActivationTime;
     public Vector2I[] ExplodeMask;
 
-    public AbstractBomb(BombProperty property, Vector2 pos, AnimatedSprite animatedSprite) {
+    public AbstractBomb(IPlayer player, BombProperty property, Vector2 pos, AnimatedSprite animatedSprite) {
         //FIXME life from bomb
-        super(pos, 1, animatedSprite);
+        super(player, pos, 1, animatedSprite);
         ExplodeMask = MaskController.GetMask(property.range);
         //ee.damage = property.dmgMin + (int)Math.random()*(property.dmgMax - property.dmgMin);
         ActivationTime = Calendar.getInstance().getTimeInMillis() + property.activationTime;
-        Position = new Vector2(pos.x, pos.y);
+        Property = property;
     }
 
+    public void receiveDamage(int dmg, long time) { detonate(time); }
 
-    public void receiveDamage(int dmg, long time) {
-        ActivationTime = time;
-    }
+    public void detonate(long time) {ActivationTime = time;}
 }
