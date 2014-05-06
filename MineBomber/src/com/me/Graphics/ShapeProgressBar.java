@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.me.Players.AbstractPlayer;
 import com.me.Players.IPlayer;
 import com.me.Players.Player;
 
@@ -27,7 +28,7 @@ public class ShapeProgressBar {
 
     }
 
-    public void Draw(ArrayList<IPlayer> players,Matrix4 projectionMatrix)
+    public void Draw(ArrayList<AbstractPlayer> players,Matrix4 projectionMatrix)
     {
         shapeRenderer.setProjectionMatrix(projectionMatrix);
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Graphics.ShapeProgressBar;
+import com.me.Map.MapManager;
 
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  */
 public class PlayerController {
 
-    static public ArrayList<IPlayer> players=new ArrayList<IPlayer>();
+    static public ArrayList<AbstractPlayer> players=new ArrayList<AbstractPlayer>();
 
     static FightInputProcessor inputProcessor1;
     static FightInputProcessor inputProcessor2;
@@ -72,12 +73,10 @@ public class PlayerController {
         return players.get(index);
     }
 
-    public static void Add(IPlayer player)
+    public static void Add(AbstractPlayer player)
     {
         players.add(player);
     }
-
-
 
     public static void Render(SpriteBatch sb)
     {
@@ -85,18 +84,22 @@ public class PlayerController {
         for(int i=0;i<players.size();i++) {
             player=players.get(i);
             player.Render(sb);
-
-
         }
-
-
-
     }
 
+    public static void Calculate(long time){
+        AbstractPlayer player;
+        for(int i=0;i<players.size();i++) {
+            player=players.get(i);
+            player.calculate(time);
+        }
+
+        MapManager.applyDamage(time);
+    }
 
     public static  void AfterBatch(Matrix4 projectionMatrix)
     {
-        shapeProgressBar.Draw(players,projectionMatrix);
+        shapeProgressBar.Draw(players, projectionMatrix);
     }
 
 

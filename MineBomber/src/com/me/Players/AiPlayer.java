@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.BombPlaser;
+import com.me.controlers.BombController;
 import com.me.Bombs.BombProperty;
 import com.me.Bombs.BombType;
 import com.me.Map.MapManager;
@@ -191,7 +191,7 @@ public class AiPlayer implements IPlayer, IPlayerControls {
 
 
     private void handleInput() {
-       Player pl= (Player)PlayerController.GetPlayer(playerIndex);
+       AbstractPlayer pl= (AbstractPlayer)PlayerController.GetPlayer(playerIndex);
 
         float mX=sprite.getX();
         float mY=sprite.getY();
@@ -223,7 +223,7 @@ public class AiPlayer implements IPlayer, IPlayerControls {
         else {
 
            if((delayTimer==null)||(delayTimer.CheckTimeOut())) {
-               BombPlaser.Place(this, new BombProperty(this, BombType.DYNAMITE, 2000, 40, 100, 10),  new Vector2((sprite.getX()+sprite.getWidth()/2), (sprite.getY()+sprite.getHeight()/2)));
+               BombController.Place(this, new BombProperty(this, BombType.DYNAMITE, 2000, 40, 100, 10), new Vector2((sprite.getX() + sprite.getWidth() / 2), (sprite.getY() + sprite.getHeight() / 2)));
                delayTimer=new DelayTimer((int)((Math.random()*5000)+5000));
            }
         }

@@ -57,11 +57,12 @@ public class MapInfo
         SetInfo(id,life,mFree);
     }
 
-    public void SetInfo(int id, int life, boolean free)
-    {
-        mId=id;
-        this.life =life;
-        mFree=free;
+    public void SetInfo(int id, int life, boolean free) {
+        mId = id;
+        if (life < 0) this.life = 0;
+        else
+            this.life = life;
+        mFree = free;
     }
 
 

@@ -11,16 +11,17 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.me.Bombs.BombPlaser;
+import com.me.controlers.BombController;
 import com.me.Map.MapManager;
 import com.me.Particles.ParticleManager;
 import com.me.Players.PlayerController;
 import com.me.TextManager.IText;
 import com.me.TextManager.TextManager;
-import com.me.TextManager.TextOut;
-import com.me.TextManager.TextZoom;
+import com.me.logger.Log;
 
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MineBomber implements ApplicationListener {
@@ -48,22 +49,25 @@ public class MineBomber implements ApplicationListener {
     float scrH;
 
     boolean fullScreen=false;
+    private Timer timer;
 
     @Override
 	public void create() {
+
+        Log.d("create");
         Initializer.Initialize();
 
         scrW = MapManager.scrW; //Gdx.graphics.getWidth();
-        scrH =MapManager.scrH ; //Gdx.graphics.getHeight();
+        scrH = MapManager.scrH; //Gdx.graphics.getHeight();
 
 
-		camera = new OrthographicCamera(scrW, scrH);
-        camera.setToOrtho(true,scrW,scrH);
+        camera = new OrthographicCamera(scrW, scrH);
+        camera.setToOrtho(true, scrW, scrH);
 
-        if(fullScreen==false)
-            viewPort=new Rectangle( (int)((Gdx.graphics.getWidth() -scrW)/2f),(int)((Gdx.graphics.getHeight()-scrH)/2f) ,(int)scrW,(int)scrH);
+        if (fullScreen == false)
+            viewPort = new Rectangle((int) ((Gdx.graphics.getWidth() - scrW) / 2f), (int) ((Gdx.graphics.getHeight() - scrH) / 2f), (int) scrW, (int) scrH);
         else
-            viewPort=new Rectangle( 0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+            viewPort = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //camera.zoom=0.5f;
         MapManager.SetView(camera);
         MapManager.Refresh();
@@ -72,39 +76,47 @@ public class MineBomber implements ApplicationListener {
         //camera.position.set( 1/2,(h/w)/2,0);
         //camera.position.set( 1.0f/2f,(h/w)/2,0);      // camera.setToOrtho(true);
 
-        loger=new FPSLogger();
+        loger = new FPSLogger();
         batch = new SpriteBatch();
-		
-		texture = new Texture(Gdx.files.internal("data/FullGraphic.png"));
-		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
-		TextureRegion region = new TextureRegion(texture, 0, 0, 15, 15);
+
+        texture = new Texture(Gdx.files.internal("data/FullGraphic.png"));
+        texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+
+        TextureRegion region = new TextureRegion(texture, 0, 0, 15, 15);
         TextureRegion region2 = new TextureRegion(texture, 0, 16, 15, 15);
 
         sprite = new Sprite(region);
-        sprite2=new Sprite(region2);
+        sprite2 = new Sprite(region2);
         //sprite.setSize(8,8);
         //sprite2.setSize(8,8);
 
 
+        sY = (sY * sprite.getHeight()) / sprite.getWidth();
+        mX = 1f / sX;
+        mY = 1f / sY;
 
 
-        sY= (sY*sprite.getHeight() )/ sprite.getWidth();
-        mX=1f/sX;
-        mY=1f/sY;
-
-
-		sprite.setSize(sX, sY);
+        sprite.setSize(sX, sY);
         sprite2.setSize(sX, sY);
-		//sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
-		//sprite.setPosition(mX, mY);
-        sprite.setPosition(0,0);
-        sprite2.setPosition(0,0);
+        //sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
+        //sprite.setPosition(mX, mY);
+        sprite.setPosition(0, 0);
+        sprite2.setPosition(0, 0);
 
 
+        timer = new Timer("logic timer");
 
+        timer.scheduleAtFixedRate(new TimerTask() {
+                                      @Override
+                                      public void run() {
+                                          long dtStart = Calendar.getInstance().getTimeInMillis();
+                                          BombController.Calculate(dtStart);
+                                          PlayerController.Calculate(dtStart);
+                                      }
+                                  }, 0, 50
+        );
 
-	}
+    }
 
 	@Override
 	public void dispose() {
@@ -115,11 +127,11 @@ public class MineBomber implements ApplicationListener {
 	@Override
 	public void render() {
 
+        Log.d("render");
+
 		Gdx.gl.glClearColor(1, 0, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         camera.update();
-
-
 
         Gdx.gl.glViewport((int)viewPort.getX() ,(int)viewPort.getY(),(int)viewPort.getWidth(),(int)viewPort.getHeight());
 
@@ -127,8 +139,7 @@ public class MineBomber implements ApplicationListener {
 
         //Gdx.gl.glViewport(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
-      //  MapManager.mapRenderer.getSpriteBatch().getProjectionMatrix().setToOrtho2D(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-
+        //MapManager.mapRenderer.getSpriteBatch().getProjectionMatrix().setToOrtho2D(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
         batch.setProjectionMatrix(camera.combined);
 
@@ -136,12 +147,13 @@ public class MineBomber implements ApplicationListener {
         BeginDrawTime=dtStart;
 
         batch.begin();
+
+
+
         MapManager.Render(batch);
-
-        BombPlaser.Draw(batch, dtStart);
-
+        BombController.Render(batch);
+        PlayerController.Render(batch);
         ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());
-
         textZoom.Draw(batch);
         TextManager.Draw(batch);
         batch.end();
@@ -150,13 +162,7 @@ public class MineBomber implements ApplicationListener {
 
         textZoom.SetText(Long.toString(dtEnd-dtStart));
 
-
-
         PlayerController.AfterBatch(camera.combined);
-        BombPlaser.Reset();
-
-
-
 
         //batch.getProjectionMatrix().setToOrtho2D(0, 0,Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
 	/*	batch.setProjectionMatrix(camera.combined);

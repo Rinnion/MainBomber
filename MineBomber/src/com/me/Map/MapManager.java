@@ -7,12 +7,16 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.me.Bombs.BombPlaser;
+import com.badlogic.gdx.math.Vector2;
+import com.me.Bombs.AbstractBomb;
+import com.me.Bombs.Vector2IDamage;
 import com.me.ObjectMaskHelper.Vector2I;
-import com.me.ObjectMaskHelper.MaskController;
+import com.me.Players.AbstractPlayer;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
+import com.me.TextManager.TextManager;
 import com.me.TileDamager.DamageController;
+import com.me.logger.Log;
 import com.me.minebomber.DrawManager;
 
 import java.util.ArrayList;
@@ -61,6 +65,7 @@ public class MapManager {
     static int[] objectsIndex=new int[]{2};
     public static boolean full_redraw=false;
     public static int[] fieldDamage;
+    public static int[] fieldDigDamage;
     public static ArrayList<AbstractGameObject>[] fieldObjects;
 
     public static void RedrawPixmap(int mapIndex)
@@ -165,6 +170,102 @@ public class MapManager {
 
     }
 
+    public static void addDamageToField(Vector2IDamage[] damageMask, Vector2 position) {
+        addDamageToField(damageMask, position.x, position.y);
+    }
+
+    public static void addDamageToField(Vector2IDamage[] damageMask, float sx, float sy) {
+        for (Vector2IDamage vm: damageMask) {
+            int x = vm.x + (int) sx;
+            int y = vm.y + (int) sy;
+            //correct bounds
+            if ((x < 1) || (x > maxCel -1)) continue;
+            if ((y < 1) || (y > maxRow -1)) continue;
+            //add damage
+            fieldDamage[y*maxCel + x] += vm.damage;
+        }
+    }
+
+    public static void addDamageToField(Vector2I[] mask, int damage, Vector2 position) {
+        addDamageToField(mask, damage, position.x, position.y);
+    }
+
+    public static void addDamageToField(Vector2I[] mask, int damage, float sx, float sy) {
+        for (Vector2I vm: mask) {
+            int x = vm.x + (int) sx;
+            int y = vm.y + (int) sy;
+            //correct bounds
+            if ((x < 1) || (x > maxCel -1)) continue;
+            if ((y < 1) || (y > maxRow -1)) continue;
+            //add damage
+            fieldDamage[y*maxCel + x] += damage;
+        }
+    }
+
+    public static void addDigDamageToField(Vector2I[] mask, int damage, float sx, float sy) {
+        for (Vector2I vm: mask) {
+            int x = vm.x + (int) sx;
+            int y = vm.y + (int) sy;
+            //correct bounds
+            if ((x < 1) || (x > maxCel -1)) continue;
+            if ((y < 1) || (y > maxRow -1)) continue;
+            //add damage
+            fieldDigDamage[y*maxCel + x] = damage;
+        }
+    }
+
+    public static void applyDamage(long time) {
+        ArrayList<AbstractPlayer> players = PlayerController.players;
+        MapInfo[] mapInfos = mapInfo;
+
+        for (int i = 0; i < fieldDamage.length; i++) {
+            if (fieldDamage[i] == 0 && fieldDigDamage[i] == 0) continue;
+            MapInfo mapInfo = mapInfos[i];
+            int life = mapInfo.life - fieldDamage[i] - fieldDigDamage[i];
+            Log.d("life is " + life);
+
+            if (life < 0) {
+                int mNextId = 0;
+                while (life < 0) {
+                    TilesInfo tilesInfo = mapTiles.get(mapInfo.GetId());
+                    mNextId = tilesInfo.mNextid;
+                    if (mNextId == 0) break;
+                    life += mapTiles.get(mNextId).mLife;
+                }
+                mapInfo.SetInfo(mNextId, life);
+            } else {
+                mapInfo.life = life;
+            }
+
+            if (fieldDamage[i] > 0) {
+                for (AbstractGameObject ago : fieldObjects[i]) {
+                    ago.receiveDamage(fieldDamage[i], time);
+                }
+            }
+
+            /*
+            for (IPlayer bm : players) {
+                float sx=bm.getX();
+                float sy=bm.getY();
+
+                float mapX=mapInfo.mX;
+                float mapW=mapX+ rowW;
+                float mapY=mapInfo.mY;
+                float mapH=mapY+ rowH;
+
+                if((sx>mapX)&&(sx<mapW)&&(sy>mapY)&&(sy<mapH))  {
+                bm.DealDamage(fieldDamage[i]);
+                    TextManager.Add(fieldDamage[i] + "", Color.RED, bm.getX(), bm.getY());
+                }
+            }
+*/
+
+            fieldDamage[i] = 0;
+            fieldDigDamage[i] = 0;
+            DrawManager.Append(i);
+        }
+    }
+
 
     public int getHeight()
     {
@@ -187,12 +288,7 @@ public class MapManager {
 
         mSpriteBackground.draw(batch);
         mSpriteForeground.draw(batch);
-
         //mapRenderer.render();
-
-        PlayerController.Render(batch);
-
-
          /*
         MapObjects objects= mMap.getLayers().get(objectsIndex[0]).getObjects();
         for(MapObject object : objects) {
@@ -229,6 +325,7 @@ public class MapManager {
 
         mapInfo=new MapInfo[count];
         fieldDamage = new int[count];
+        fieldDigDamage = new int[count];
         Arrays.fill(fieldDamage, 0);
         fieldObjects = new ArrayList[count];
         for (int i = 0; i<count; i++) {
@@ -355,4 +452,23 @@ public class MapManager {
         mSpriteForeground.flip(false,true);
     }
 
+    public static boolean isEmptyField(Vector2 position, Vector2I[] mask) {
+        return isEmptyField(position.x, position.y, mask);
+    }
+
+    public static boolean isEmptyField(float px, float py, Vector2I[] mask){
+        boolean can = true;
+        for (Vector2I vm: mask) {
+            if (!can) break;
+            int x = vm.x + (int) px;
+            int y = vm.y + (int) py;
+            //correct bounds
+            if ((x < 1) || (x > maxCel -1)) return false;
+            if ((y < 1) || (y > maxRow -1)) return false;
+
+            can = can & (mapInfo[y*maxCel + x].GetId() == 0);
+            //add damage
+        }
+        return can;
+    }
 }

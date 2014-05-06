@@ -15,13 +15,17 @@ import java.util.Calendar;
 public abstract class AbstractBomb extends AbstractGameObject {
     public final BombProperty Property;
     public long ActivationTime;
-    public Vector2I[] ExplodeMask;
+    public Vector2IDamage[] ExplodeMask;
 
     public AbstractBomb(IPlayer player, BombProperty property, Vector2 pos, AnimatedSprite animatedSprite) {
         //FIXME life from bomb
         super(player, pos, 1, animatedSprite);
-        ExplodeMask = MaskController.GetMask(property.range);
-        //ee.damage = property.dmgMin + (int)Math.random()*(property.dmgMax - property.dmgMin);
+        Vector2I[] vector2Is = MaskController.GetMask(property.range);
+        ExplodeMask = new Vector2IDamage[vector2Is.length];
+        for (int i = 0; i < vector2Is.length; i++) {
+            int damage = property.dmgMin + (int)Math.random()*(property.dmgMax - property.dmgMin);
+            ExplodeMask[i] = new Vector2IDamage(vector2Is[i], damage);
+        }
         ActivationTime = Calendar.getInstance().getTimeInMillis() + property.activationTime;
         Property = property;
     }

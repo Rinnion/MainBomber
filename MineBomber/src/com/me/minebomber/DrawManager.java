@@ -1,15 +1,6 @@
 package com.me.minebomber;
 
-import com.badlogic.gdx.graphics.Pixmap;
-import com.me.Bombs.BombPlaser;
-import com.me.Map.MapInfo;
 import com.me.Map.MapManager;
-import com.me.Map.PixmapHelper;
-import com.me.logger.Log;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 
 /**
  * Created by alekseev on 03.04.2014.
