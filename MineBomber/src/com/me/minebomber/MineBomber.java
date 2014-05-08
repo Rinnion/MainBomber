@@ -112,6 +112,7 @@ public class MineBomber implements ApplicationListener {
                                           long dtStart = Calendar.getInstance().getTimeInMillis();
                                           BombController.Calculate(dtStart);
                                           PlayerController.Calculate(dtStart);
+                                          MapManager.Calculate(dtStart);
                                       }
                                   }, 0, 50
         );

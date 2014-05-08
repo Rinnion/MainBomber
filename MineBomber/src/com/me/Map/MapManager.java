@@ -202,17 +202,16 @@ public class MapManager {
         }
     }
 
-    public static void addDigDamageToField(AbstractPlayer abstractPlayer, Vector2I[] mask, int damage, float sx, float sy) {
+    public static void addDigDamageToField(Vector2I[] mask, int damage, float sx, float sy) {
         for (Vector2I vm: mask) {
             int x = vm.x + (int) sx;
             int y = vm.y + (int) sy;
             //correct bounds
-            if ((x < 1) || (x > maxCel -1)) continue;
-            if ((y < 1) || (y > maxRow -1)) continue;
+            if ((x < 1) || (x > maxCel -2)) continue;
+            if ((y < 1) || (y > maxRow -2)) continue;
             //add damage
             int index = y * maxCel + x;
             fieldDigDamage[index] = damage;
-            //if (fieldObjects[index].)
         }
     }
 
@@ -463,11 +462,15 @@ public class MapManager {
             int x = (int)Math.ceil(px) + vm.x;
             int y = (int)Math.ceil(py) + vm.y;
             //correct bounds
-            if ((x < 1) || (x > maxCel -1)) return false;
-            if ((y < 1) || (y > maxRow -1)) return false;
+            if ((x < 1) || (x > maxCel -2)) return false;
+            if ((y < 1) || (y > maxRow -2)) return false;
 
             can = can & (mapInfo[y*maxCel + x].GetId() == 0);
         }
         return can;
+    }
+
+    public static void Calculate(long dtStart) {
+        applyDamage(dtStart);
     }
 }

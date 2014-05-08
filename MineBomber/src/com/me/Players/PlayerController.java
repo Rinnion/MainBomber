@@ -93,8 +93,6 @@ public class PlayerController {
             player=players.get(i);
             player.calculate(time);
         }
-
-        MapManager.applyDamage(time);
     }
 
     public static  void AfterBatch(Matrix4 projectionMatrix)

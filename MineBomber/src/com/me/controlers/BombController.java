@@ -61,15 +61,7 @@ public class BombController {
     }
 
     public static void Calculate(long time){
-        long lStart = Calendar.getInstance().getTimeInMillis();
         calculateDamage(mBombList, time);
-
-        long calculateDamage = Calendar.getInstance().getTimeInMillis();
-        MapManager.applyDamage(time);
-
-        long applyDamage = Calendar.getInstance().getTimeInMillis();
-
-        Log.d("BombPlace.Render " + (calculateDamage - lStart) + "; " + (applyDamage - calculateDamage));
     }
 
     public static void Render(Batch bt)

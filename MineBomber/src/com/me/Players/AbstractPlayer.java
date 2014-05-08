@@ -24,6 +24,8 @@ public class AbstractPlayer implements IPlayer {
     float curLife=100;
     Vector2 v = new Vector2(0.7f,0.7f);
     boolean mDie=false;Sprite sprite;
+    private float newX;
+    private float newY;
 
     public AbstractPlayer(String mName) {
         this.mName = mName;
@@ -36,8 +38,8 @@ public class AbstractPlayer implements IPlayer {
     public void Render(Batch batch) {
         mLifeProgressBar.Draw();
         if(mDie) { return; }
-        sprite.draw(batch);
 
+        sprite.draw(batch);
     }
 
     @Override
@@ -118,26 +120,18 @@ public class AbstractPlayer implements IPlayer {
 
     void calculate(long time) {
 
-        float coef = 4f;
+        float xStep = (playerSpeedPerFrame * v.x);
+        float yStep = (playerSpeedPerFrame * v.y);
 
-        float xStep = (playerSpeedPerFrame * v.x) / coef;
-        float yStep = (playerSpeedPerFrame * v.y) / coef;
+        newX = (int) (sprite.getX() + sprite.getOriginX());
+        newY = (int) (sprite.getY() + sprite.getOriginY());
 
-        float newX = (int) (sprite.getX() + sprite.getOriginX());
-        float newY = (int) (sprite.getY() + sprite.getOriginY());
+        if (MapManager.isEmptyField((newX + xStep) / MapManager.rowW, (newY + yStep) / MapManager.rowH, mask_go)) {
+            newX += xStep;
+            newY += yStep;
+            sprite.translate(xStep, yStep);
 
-        for (int i = 0; i < coef; i++) {
-            if (MapManager.isEmptyField((newX + xStep) / MapManager.rowW, (newY + yStep) / MapManager.rowH, mask_go)) {
-                newX += xStep;
-                newY += yStep;
-                sprite.translate(xStep, yStep);
-            }
-
-            MapManager.addDigDamageToField(this, mask_dmg, digDmg, newX / MapManager.rowW, newY / MapManager.rowH);
-
-            //if(MapManager.doCircleDamage(newX, newY, radiusDig, radiusGo, digDmg))
         }
-
-
+        MapManager.addDigDamageToField(mask_dmg, digDmg, newX / MapManager.rowW, newY / MapManager.rowH);
     }
 }
