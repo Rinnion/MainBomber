@@ -9,7 +9,7 @@ public class DrawManager {
 
     //public static ArrayList<Integer> refreshFields=new ArrayList<Integer>(200);
 
-    private final static int FIELDS_COUNT=2000;
+    private final static int FIELDS_COUNT = 20000;
 
     private static int[] refreshFields=new int[FIELDS_COUNT];
 

@@ -21,7 +21,8 @@ public class AbstractPlayer implements IPlayer {
     float playerSpd=0.040f;
     float playerSpeedPerFrame = 2f;
     float maxLife=100;
-    float curLife=100;Vector2 v = new Vector2(0.7f,0.7f);
+    float curLife=100;
+    Vector2 v = new Vector2(0.7f,0.7f);
     boolean mDie=false;Sprite sprite;
 
     public AbstractPlayer(String mName) {
@@ -117,19 +118,22 @@ public class AbstractPlayer implements IPlayer {
 
     void calculate(long time) {
 
-        float xStep = (playerSpeedPerFrame * v.x) / 8f;
-        float yStep = (playerSpeedPerFrame * v.y) / 8f;
+        float coef = 4f;
+
+        float xStep = (playerSpeedPerFrame * v.x) / coef;
+        float yStep = (playerSpeedPerFrame * v.y) / coef;
 
         float newX = (int) (sprite.getX() + sprite.getOriginX());
         float newY = (int) (sprite.getY() + sprite.getOriginY());
 
-        for (int i = 0; i < 8; i++) {
-            if (MapManager.isEmptyField((newX + xStep)/2, (newY + yStep)/2, mask_go)) {
+        for (int i = 0; i < coef; i++) {
+            if (MapManager.isEmptyField((newX + xStep) / MapManager.rowW, (newY + yStep) / MapManager.rowH, mask_go)) {
                 newX += xStep;
                 newY += yStep;
                 sprite.translate(xStep, yStep);
             }
-            MapManager.addDigDamageToField(mask_dmg, digDmg, newX / 2, newY / 2);
+
+            MapManager.addDigDamageToField(this, mask_dmg, digDmg, newX / MapManager.rowW, newY / MapManager.rowH);
 
             //if(MapManager.doCircleDamage(newX, newY, radiusDig, radiusGo, digDmg))
         }

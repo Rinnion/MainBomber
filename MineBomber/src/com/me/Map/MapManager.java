@@ -202,7 +202,7 @@ public class MapManager {
         }
     }
 
-    public static void addDigDamageToField(Vector2I[] mask, int damage, float sx, float sy) {
+    public static void addDigDamageToField(AbstractPlayer abstractPlayer, Vector2I[] mask, int damage, float sx, float sy) {
         for (Vector2I vm: mask) {
             int x = vm.x + (int) sx;
             int y = vm.y + (int) sy;
@@ -210,7 +210,9 @@ public class MapManager {
             if ((x < 1) || (x > maxCel -1)) continue;
             if ((y < 1) || (y > maxRow -1)) continue;
             //add damage
-            fieldDigDamage[y*maxCel + x] = damage;
+            int index = y * maxCel + x;
+            fieldDigDamage[index] = damage;
+            //if (fieldObjects[index].)
         }
     }
 
@@ -222,7 +224,6 @@ public class MapManager {
             if (fieldDamage[i] == 0 && fieldDigDamage[i] == 0) continue;
             MapInfo mapInfo = mapInfos[i];
             int life = mapInfo.life - fieldDamage[i] - fieldDigDamage[i];
-            Log.d("life is " + life);
 
             if (life < 0) {
                 int mNextId = 0;
@@ -243,7 +244,7 @@ public class MapManager {
                 }
             }
 
-            /*
+
             for (IPlayer bm : players) {
                 float sx=bm.getX();
                 float sy=bm.getY();
@@ -254,11 +255,10 @@ public class MapManager {
                 float mapH=mapY+ rowH;
 
                 if((sx>mapX)&&(sx<mapW)&&(sy>mapY)&&(sy<mapH))  {
-                bm.DealDamage(fieldDamage[i]);
-                    TextManager.Add(fieldDamage[i] + "", Color.RED, bm.getX(), bm.getY());
+                    bm.DealDamage(fieldDamage[i]);
+                    //TextManager.Add(fieldDamage[i] + "", Color.RED, bm.getX(), bm.getY());
                 }
             }
-*/
 
             fieldDamage[i] = 0;
             fieldDigDamage[i] = 0;
@@ -460,14 +460,13 @@ public class MapManager {
         boolean can = true;
         for (Vector2I vm: mask) {
             if (!can) break;
-            int x = vm.x + (int) px;
-            int y = vm.y + (int) py;
+            int x = (int)Math.ceil(px) + vm.x;
+            int y = (int)Math.ceil(py) + vm.y;
             //correct bounds
             if ((x < 1) || (x > maxCel -1)) return false;
             if ((y < 1) || (y > maxRow -1)) return false;
 
             can = can & (mapInfo[y*maxCel + x].GetId() == 0);
-            //add damage
         }
         return can;
     }
