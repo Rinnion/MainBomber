@@ -17,7 +17,7 @@ public class AbstractPlayer implements IPlayer {
     protected String mName;
     float radiusDig=4.5f;
     float radiusGo=1.7f ;
-    int digDmg=1;
+    int digDmg=10;
     float playerSpd=0.040f;
     float playerSpeedPerFrame = 2f;
     float maxLife=100;
@@ -118,6 +118,11 @@ public class AbstractPlayer implements IPlayer {
         return sprite.getWidth() ;
     }
 
+    @Override
+    public void addMoney(long value) {
+
+    }
+
     void calculate(long time) {
 
         float xStep = (playerSpeedPerFrame * v.x);
@@ -130,8 +135,12 @@ public class AbstractPlayer implements IPlayer {
             newX += xStep;
             newY += yStep;
             sprite.translate(xStep, yStep);
-
+            MapManager.collect(this, mask_go, newX / MapManager.rowW, newY / MapManager.rowH, time);
         }
+
         MapManager.addDigDamageToField(mask_dmg, digDmg, newX / MapManager.rowW, newY / MapManager.rowH);
+
+
+
     }
 }

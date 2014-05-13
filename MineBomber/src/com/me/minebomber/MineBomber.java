@@ -17,6 +17,7 @@ import com.me.Particles.ParticleManager;
 import com.me.Players.PlayerController;
 import com.me.TextManager.IText;
 import com.me.TextManager.TextManager;
+import com.me.controlers.GameObjectController;
 import com.me.logger.Log;
 
 import java.util.Calendar;
@@ -148,12 +149,9 @@ public class MineBomber implements ApplicationListener {
         BeginDrawTime=dtStart;
 
         batch.begin();
-
-
-
         MapManager.Render(batch);
-        BombController.Render(batch);
         PlayerController.Render(batch);
+        GameObjectController.Render(batch);
         ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());
         textZoom.Draw(batch);
         TextManager.Draw(batch);

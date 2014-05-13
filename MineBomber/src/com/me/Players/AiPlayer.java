@@ -85,6 +85,11 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     }
 
     @Override
+    public void addMoney(long value) {
+
+    }
+
+    @Override
     public float GetDmgRadius() {
         return radiusDig;
     }
@@ -223,7 +228,7 @@ public class AiPlayer implements IPlayer, IPlayerControls {
         else {
 
            if((delayTimer==null)||(delayTimer.CheckTimeOut())) {
-               BombController.Place(this, new BombProperty(this, BombType.DYNAMITE, 2000, 40, 100, 10), new Vector2((sprite.getX() + sprite.getWidth() / 2), (sprite.getY() + sprite.getHeight() / 2)));
+               BombController.Add(this, new BombProperty(this, BombType.DYNAMITE, 2000, 40, 100, 10), new Vector2((sprite.getX() + sprite.getWidth() / 2), (sprite.getY() + sprite.getHeight() / 2)));
                delayTimer=new DelayTimer((int)((Math.random()*5000)+5000));
            }
         }

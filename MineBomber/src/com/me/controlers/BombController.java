@@ -18,9 +18,6 @@ import java.util.Calendar;
 public class BombController {
 
     private static ArrayList<AbstractBomb> mBombList=null;
-    static boolean canDetonate=true;
-    final static Object syncDetonator=new Object();
-    static int curBombsDetonations=0;
 
     public static void Initialize()
     {
@@ -38,7 +35,7 @@ public class BombController {
         }
     }
 
-    public static void Place(IPlayer player, BombProperty bombProperty, Vector2 position)
+    public static void Add(IPlayer player, BombProperty bombProperty, Vector2 position)
     {
         AbstractBomb bomb=null;
         int x = (int) position.x/MapManager.rowW;
@@ -56,23 +53,17 @@ public class BombController {
                 break;
         }
 
-        MapManager.fieldObjects[index].add(bomb);
+        GameObjectController.Add(bomb);
         mBombList.add(bomb);
+    }
+
+    public static void Remove(AbstractBomb abstractBomb){
+        GameObjectController.Remove(abstractBomb);
+        mBombList.remove(abstractBomb);
     }
 
     public static void Calculate(long time){
         calculateDamage(mBombList, time);
-    }
-
-    public static void Render(Batch bt)
-    {
-        AbstractBomb bomb;
-
-        for (int i=0; i<mBombList.size(); i++)
-        {
-            bomb=mBombList.get(i);
-            bomb.Render(bt);
-        }
     }
 
     private static void calculateDamage(ArrayList<AbstractBomb> mBombList, long time) {
@@ -87,7 +78,7 @@ public class BombController {
 
         for(AbstractBomb btr: bombsToRemove){
             ParticleManager.Fire(btr.position.x*MapManager.rowW, btr.position.y*MapManager.rowH);
-            mBombList.remove(btr);
+            BombController.Remove(btr);
         }
     }
 

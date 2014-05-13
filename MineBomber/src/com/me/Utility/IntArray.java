@@ -29,6 +29,4 @@ public class IntArray {
         return arrayList[index];
     }
 
-
-
 }

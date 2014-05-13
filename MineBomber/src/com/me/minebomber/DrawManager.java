@@ -26,15 +26,12 @@ public class DrawManager {
     public static void RedrawAll()
     {
         synchronized (syncObject) {
-            //PixmapHelper.Bind(MapManager.);
             MapManager.BindForeground();
             for(int i=0;i<objCount;i++)
             {
-
                 MapManager.RedrawPixmap(refreshFields[i]);
             }
             objCount=0;
-
         }
     }
 

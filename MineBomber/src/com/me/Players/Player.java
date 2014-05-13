@@ -1,15 +1,12 @@
 package com.me.Players;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.me.controlers.BombController;
 import com.me.Bombs.BombProperty;
 import com.me.Bombs.BombType;
-import com.me.Map.MapManager;
 import com.me.logger.Log;
 import com.me.minebomber.Settings;
 
@@ -30,7 +27,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
     public void PlaceBomb() {
         if(mDie) return;
-        BombController.Place(this, new BombProperty(this, BombType.DSTBOMB, 300000, 10, 80, 10), new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY()));
+        BombController.Add(this, new BombProperty(this, BombType.DSTBOMB, 300000, 10, 80, 10), new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY()));
     }
 
     public void DetonateBomb() {

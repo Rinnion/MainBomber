@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Graphics.ShapeProgressBar;
 import com.me.Map.MapManager;
+import com.me.controlers.TreasureController;
+import com.me.controlers.treasure.SmallChestTreasure;
 
 
 import java.util.ArrayList;
@@ -26,7 +28,6 @@ public class PlayerController {
 
     public static void Initialize()
     {
-        //Gdx.input.setInputProcessor(new FightInputProcessor());
         float h = Gdx.graphics.getHeight();
         float w = Gdx.graphics.getWidth();
         inputProcessor1=new FightInputProcessor(new Rectangle(0,0,w*0.25f,h));
@@ -37,35 +38,12 @@ public class PlayerController {
         im.addProcessor(inputProcessor2);
         Gdx.input.setInputProcessor(im);
 
-        //AiPlayer inputPlayer=new AiPlayer();
-        //inputProcessor.setListener(inputPlayer);
         Add(new Player("First player", inputProcessor2, new Vector2(0, 10)));
         Add(new Player("Second player", inputProcessor1, new Vector2(100,10)));
 
-      //
-      //
-     // Add(new AiPlayer(0,new Vector2(100,400)));
-       // Add(new AiPlayer(1,new Vector2(400,300)));
-
-        //Add(new AiPlayer(0,new Vector2(200,400)));
-        //Add(new AiPlayer(1,new Vector2(500,300)));
-
-        //Add(new AiPlayer(0,new Vector2(300,400)));
-       // Add(new AiPlayer(1,new Vector2(600,300)));
-
-       // Add(new AiPlayer(0,new Vector2(400,400)));
-       // Add(new AiPlayer(1,new Vector2(700,300)));
-
-        //Add(new AiPlayer(0,new Vector2(500,400)));
-        //Add(new AiPlayer(1,new Vector2(800,300)));
+        TreasureController.Add(new SmallChestTreasure(new Vector2(200,200)));
 
         shapeProgressBar=new ShapeProgressBar();
-
-        //Add(new AiPlayer(inputProcessor,new Vector2(200,10)));
-        //Add(new AiPlayer(inputProcessor,new Vector2(300,10)));
-        //Add(new AiPlayer(inputProcessor,new Vector2(400,10)));
-        //Add(new AiPlayer(inputProcessor,new Vector2(500,10)));
-        //Add(new AiPlayer(inputProcessor,new Vector2(600,10)));
     }
 
     public static IPlayer GetPlayer(int index)
@@ -100,6 +78,12 @@ public class PlayerController {
         shapeProgressBar.Draw(players, projectionMatrix);
     }
 
+    public static void addMoney(IPlayer who, long value){
+        who.addMoney(value);
+    }
 
+    public static void removeMoney(IPlayer who, long value){
+        who.addMoney(- value);
+    }
 
 }

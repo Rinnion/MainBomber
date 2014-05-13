@@ -18,6 +18,7 @@ public class AnimatedSprite extends Sprite {
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
     public static final float FRAME_DURATION = 0.24f;
+    public static final String TREASURE_BIG_CHEST = "dyn";
 
     private com.badlogic.gdx.graphics.g2d.Animation animSprite;
     private float elapsedTime;
@@ -35,8 +36,8 @@ public class AnimatedSprite extends Sprite {
     }
 
     public static class Factory{
-        public static AnimatedSprite Create(String bombName) {
-            TextureAtlas dynamiteTex= AssetLoader.GetAtlas(Settings.BOMB_DYNAMITE);
+        public static AnimatedSprite CreateBomb(String bombName) {
+            TextureAtlas dynamiteTex = AssetLoader.GetAtlas(Settings.BOMB_DYNAMITE);
             Array<TextureAtlas.AtlasRegion> region = dynamiteTex.findRegions (bombName);
             for(TextureAtlas.AtlasRegion tmpRegion : region)
             {
@@ -44,6 +45,11 @@ public class AnimatedSprite extends Sprite {
             }
             Animation animSprite = new Animation(FRAME_DURATION, region);
             return new AnimatedSprite(region.get(0).getTexture(), WIDTH, HEIGHT, animSprite);
+        }
+
+        public static AnimatedSprite CreateTreasure(String treasureName) {
+            //FIXME: loading treasure image
+            return CreateBomb(treasureName);
         }
     }
 }

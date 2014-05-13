@@ -2,7 +2,6 @@ package com.me.Bombs;
 
 import com.badlogic.gdx.math.Vector2;
 import com.me.Map.AbstractGameObject;
-import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.ObjectMaskHelper.MaskController;
 import com.me.Players.IPlayer;
@@ -30,7 +29,22 @@ public abstract class AbstractBomb extends AbstractGameObject {
         Property = property;
     }
 
-    public void receiveDamage(int dmg, long time) { detonate(time); }
+    @Override
+    public void applyDamage(IPlayer who, int dmg, long time) {
+        detonate(time);
+        life -= dmg;
 
-    public void detonate(long time) {ActivationTime = time;}
+    }
+
+    @Override
+    public boolean applyTake(IPlayer who, long time) {
+        return false;
+    }
+
+    @Override
+    public void applyDig(IPlayer who, long time) {
+
+    }
+
+    public void detonate(long time) { ActivationTime = time; }
 }

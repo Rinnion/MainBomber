@@ -20,6 +20,7 @@ public abstract class AbstractGameObject {
         position = new Vector2(pos.x, pos.y);
         this.life = life;
         this.sprite = sprite;
+        sprite.setPosition((pos.x-(sprite.getWidth()/2))*MapManager.rowW, (pos.y-(sprite.getHeight ()/2))*MapManager.rowH);
     }
 
     public AbstractGameObject(Vector2 pos, int life, AnimatedSprite sprite) {
@@ -30,5 +31,9 @@ public abstract class AbstractGameObject {
         sprite.draw(batch);
     }
 
-    public abstract void receiveDamage(int dmg, long time);
+    public abstract void applyDamage(IPlayer who, int dmg, long time) ;
+
+    public abstract boolean applyTake(IPlayer who, long time) ;
+
+    public abstract void applyDig(IPlayer who, long time) ;
 }

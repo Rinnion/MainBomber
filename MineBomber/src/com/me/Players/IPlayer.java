@@ -1,6 +1,7 @@
 package com.me.Players;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.me.controlers.treasure.AbstractTreasure;
 
 /**
  * Created by alekseev on 26.03.2014.
@@ -31,7 +32,6 @@ public interface IPlayer {
     float getH();
     float getW();
 
-
-
+    void addMoney(long value);
 
 }

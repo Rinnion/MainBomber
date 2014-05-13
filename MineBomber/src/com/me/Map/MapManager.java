@@ -8,20 +8,19 @@ import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.AbstractBomb;
 import com.me.Bombs.Vector2IDamage;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.AbstractPlayer;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
-import com.me.TextManager.TextManager;
 import com.me.TileDamager.DamageController;
-import com.me.logger.Log;
+import com.me.controlers.GameObjectController;
 import com.me.minebomber.DrawManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -63,7 +62,6 @@ public class MapManager {
     static int[] backGroundIndex=new int[]{0};
     static int[] foreGroundIndex=new int[]{1};
     static int[] objectsIndex=new int[]{2};
-    public static boolean full_redraw=false;
     public static int[] fieldDamage;
     public static int[] fieldDigDamage;
     public static ArrayList<AbstractGameObject>[] fieldObjects;
@@ -141,28 +139,17 @@ public class MapManager {
 
         mapTiles=new HashMap<Integer, TilesInfo>();
 
-        MapLayers layers= mMap.getLayers();
-
-
         for(TiledMapTile tile : mMap.getTileSets().getTileSet(0))
         {
             MapProperties properties=tile.getProperties();
 
             if(properties.containsKey("id"))
             {
-
                 int id=Integer.parseInt((String)properties.get("id"));
                 int nextId=Integer.parseInt((String)properties.get("next"));
-
-                int life=Integer.parseInt((String)properties.get("life"));
-                int index=tile.getId();
+                int life=Integer.parseInt((String) properties.get("life"));
                 int type=Integer.parseInt((String)properties.get("type"));
-
-
-
-
                 mapTiles.put(id, new TilesInfo(id, nextId,type,life, tile.getTextureRegion()));
-
             }
         }
 
@@ -211,7 +198,7 @@ public class MapManager {
             if ((y < 1) || (y > maxRow -2)) continue;
             //add damage
             int index = y * maxCel + x;
-            fieldDigDamage[index] = damage;
+            fieldDigDamage[index] += damage;
         }
     }
 
@@ -239,7 +226,8 @@ public class MapManager {
 
             if (fieldDamage[i] > 0) {
                 for (AbstractGameObject ago : fieldObjects[i]) {
-                    ago.receiveDamage(fieldDamage[i], time);
+                    //FIXME: should cast send which player
+                    ago.applyDamage(null, fieldDamage[i], time);
                 }
             }
 
@@ -284,24 +272,8 @@ public class MapManager {
     public static void Render(SpriteBatch batch)
     {
         RedrawMap();
-
         mSpriteBackground.draw(batch);
         mSpriteForeground.draw(batch);
-        //mapRenderer.render();
-         /*
-        MapObjects objects= mMap.getLayers().get(objectsIndex[0]).getObjects();
-        for(MapObject object : objects) {
-
-            TiledMapTile tile= mMap.getTileSets().getTile (400);
-
-            RectangleMapObject rect=(RectangleMapObject)object;
-
-
-            batch.draw(tile.getTextureRegion(),rect.getRectangle().getX() , rect.getRectangle().getY());
-
-        }
-           **/
-
     }
 
     static private void updateMapInfo(boolean flipX,boolean flipY)
@@ -472,5 +444,25 @@ public class MapManager {
 
     public static void Calculate(long dtStart) {
         applyDamage(dtStart);
+    }
+
+    public static void collect(IPlayer who, Vector2I[] mask, float px, float py, long time) {
+        for (Vector2I vm: mask) {
+            int x = (int)Math.ceil(px) + vm.x;
+            int y = (int)Math.ceil(py) + vm.y;
+            //correct bounds
+            if ((x < 1) || (x > maxCel -2)) continue;
+            if ((y < 1) || (y > maxRow -2)) continue;
+
+            Iterator<AbstractGameObject> iterator = fieldObjects[y * maxCel + x].iterator();
+            while (iterator.hasNext()){
+                AbstractGameObject next = iterator.next();
+                if (next.applyTake(who, time)) {
+                    iterator.remove();
+                    GameObjectController.Remove(next);
+                }
+            }
+
+        }
     }
 }
