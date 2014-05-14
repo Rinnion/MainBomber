@@ -1,10 +1,12 @@
 package com.me.controlers;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.*;
 import com.me.Map.AbstractGameObject;
 import com.me.Map.MapManager;
+import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Particles.ParticleManager;
 import com.me.Players.IPlayer;
 import com.me.logger.Log;
@@ -37,15 +39,9 @@ public class BombController {
 
     public static void Add(IPlayer player, BombProperty bombProperty, Vector2 position)
     {
+        if (!GameObjectController.isRoom(position)) return;
+
         AbstractBomb bomb=null;
-        int x = (int) position.x/MapManager.rowW;
-        int y = (int) position.y/MapManager.rowH;
-        int index = y*MapManager.maxCel + x;
-
-        if (MapManager.fieldObjects[index].size() == MapManager.FIELD_CAPACITY){
-            return;
-        }
-
         switch (bombProperty.type)
         {
             case BombType.DSTBOMB:
@@ -72,7 +68,7 @@ public class BombController {
         for (AbstractBomb b: mBombList){
             if (b.ActivationTime>time) continue;
             bombsToRemove.add(b);
-            Vector2 position = b.position;
+            Vector2I position = b.position;
             MapManager.addDamageToField(b.ExplodeMask, position.x, position.y);
         }
 

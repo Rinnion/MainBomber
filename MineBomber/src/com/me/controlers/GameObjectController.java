@@ -1,8 +1,10 @@
 package com.me.controlers;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.me.Map.AbstractGameObject;
 import com.me.Map.MapManager;
+import com.me.ObjectMaskHelper.Vector2I;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,18 @@ public class GameObjectController {
         objects.remove(abstractTreasure);
         Integer index = objectsPlace.get(abstractTreasure);
         MapManager.fieldObjects[index].remove(abstractTreasure);
+    }
+
+    public static boolean isRoom(Vector2 position){
+        int x = (int) position.x/MapManager.rowW;
+        int y = (int) position.y/MapManager.rowH;
+        int index = y*MapManager.maxCel + x;
+
+        if (MapManager.fieldObjects[index].size() == MapManager.FIELD_CAPACITY){
+            return false;
+        }
+
+        return true;
     }
 
     public static void Add(AbstractGameObject abstractTreasure) {

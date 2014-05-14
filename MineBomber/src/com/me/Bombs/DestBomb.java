@@ -2,6 +2,7 @@ package com.me.Bombs;
 
 import com.badlogic.gdx.math.Vector2;
 import com.me.Map.MapManager;
+import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 
 
@@ -19,7 +20,7 @@ public class DestBomb extends AbstractBomb {
 
     public DestBomb(IPlayer player, BombProperty property, Vector2 pos)
     {
-        super(player, property, new Vector2(pos.x/MapManager.rowW, pos.y/MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dst_bomb"));
+        super(player, property, new Vector2I((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dst_bomb"));
 
         this.property=new BombProperty(property);
         property.active=false;

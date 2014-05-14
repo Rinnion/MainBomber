@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Graphics.ShapeProgressBar;
 import com.me.Map.MapManager;
+import com.me.ObjectMaskHelper.Vector2I;
 import com.me.controlers.TreasureController;
 import com.me.controlers.treasure.SmallChestTreasure;
 
@@ -38,10 +39,15 @@ public class PlayerController {
         im.addProcessor(inputProcessor2);
         Gdx.input.setInputProcessor(im);
 
-        Add(new Player("First player", inputProcessor2, new Vector2(0, 10)));
+        Add(new Player("First player", inputProcessor2, new Vector2(20, 10)));
         Add(new Player("Second player", inputProcessor1, new Vector2(100,10)));
 
-        TreasureController.Add(new SmallChestTreasure(new Vector2(200,200)));
+        TreasureController.Add(new SmallChestTreasure(new Vector2I(20,20)));
+        TreasureController.Add(new SmallChestTreasure(new Vector2I(20,30)));
+        TreasureController.Add(new SmallChestTreasure(new Vector2I(20,40)));
+        TreasureController.Add(new SmallChestTreasure(new Vector2I(20,50)));
+        TreasureController.Add(new SmallChestTreasure(new Vector2I(20,60)));
+        TreasureController.Add(new SmallChestTreasure(new Vector2I(20,70)));
 
         shapeProgressBar=new ShapeProgressBar();
     }

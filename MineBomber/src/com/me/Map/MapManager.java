@@ -157,14 +157,14 @@ public class MapManager {
 
     }
 
-    public static void addDamageToField(Vector2IDamage[] damageMask, Vector2 position) {
+    public static void addDamageToField(Vector2IDamage[] damageMask, Vector2I position) {
         addDamageToField(damageMask, position.x, position.y);
     }
 
-    public static void addDamageToField(Vector2IDamage[] damageMask, float sx, float sy) {
+    public static void addDamageToField(Vector2IDamage[] damageMask, int sx, int sy) {
         for (Vector2IDamage vm: damageMask) {
-            int x = vm.x + (int) sx;
-            int y = vm.y + (int) sy;
+            int x = vm.x + sx;
+            int y = vm.y + sy;
             //correct bounds
             if ((x < 1) || (x > maxCel -1)) continue;
             if ((y < 1) || (y > maxRow -1)) continue;
@@ -229,23 +229,24 @@ public class MapManager {
                     //FIXME: should cast send which player
                     ago.applyDamage(null, fieldDamage[i], time);
                 }
-            }
 
+                for (IPlayer bm : players) {
+                    float sx=bm.getX();
+                    float sy=bm.getY();
 
-            for (IPlayer bm : players) {
-                float sx=bm.getX();
-                float sy=bm.getY();
+                    float mapX=mapInfo.mX;
+                    float mapW=mapX+ rowW;
+                    float mapY=mapInfo.mY;
+                    float mapH=mapY+ rowH;
 
-                float mapX=mapInfo.mX;
-                float mapW=mapX+ rowW;
-                float mapY=mapInfo.mY;
-                float mapH=mapY+ rowH;
-
-                if((sx>mapX)&&(sx<mapW)&&(sy>mapY)&&(sy<mapH))  {
-                    bm.DealDamage(fieldDamage[i]);
-                    //TextManager.Add(fieldDamage[i] + "", Color.RED, bm.getX(), bm.getY());
+                    if((sx>mapX)&&(sx<mapW)&&(sy>mapY)&&(sy<mapH))  {
+                        bm.DealDamage(fieldDamage[i]);
+                        //TextManager.Add(fieldDamage[i] + "", Color.RED, bm.getX(), bm.getY());
+                    }
                 }
+
             }
+
 
             fieldDamage[i] = 0;
             fieldDigDamage[i] = 0;

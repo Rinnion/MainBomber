@@ -16,7 +16,7 @@ public abstract class AbstractBomb extends AbstractGameObject {
     public long ActivationTime;
     public Vector2IDamage[] ExplodeMask;
 
-    public AbstractBomb(IPlayer player, BombProperty property, Vector2 pos, AnimatedSprite animatedSprite) {
+    public AbstractBomb(IPlayer player, BombProperty property, Vector2I pos, AnimatedSprite animatedSprite) {
         //FIXME life from bomb
         super(player, pos, 1, animatedSprite);
         Vector2I[] vector2Is = MaskController.GetMask(property.range);

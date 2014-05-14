@@ -2,6 +2,7 @@ package com.me.controlers.treasure;
 
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AnimatedSprite;
+import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
 
@@ -12,7 +13,7 @@ public abstract class ChestTreasure extends AbstractTreasure {
 
     private final long value;
 
-    public ChestTreasure(Vector2 pos, long value, String spriteName){
+    public ChestTreasure(Vector2I pos, long value, String spriteName){
         super(null, pos, 1, AnimatedSprite.Factory.CreateBomb(spriteName));
         this.value = value;
     }

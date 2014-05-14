@@ -3,6 +3,7 @@ package com.me.controlers.treasure;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AnimatedSprite;
 import com.me.Map.AbstractGameObject;
+import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.controlers.GameObjectController;
 
@@ -11,11 +12,11 @@ import com.me.controlers.GameObjectController;
  */
 public abstract class AbstractTreasure extends AbstractGameObject {
 
-    public AbstractTreasure(IPlayer player, Vector2 pos, int life, AnimatedSprite sprite) {
+    public AbstractTreasure(IPlayer player, Vector2I pos, int life, AnimatedSprite sprite) {
         super(player, pos, life, sprite);
     }
 
-    public AbstractTreasure(Vector2 pos, int life, AnimatedSprite sprite) {
+    public AbstractTreasure(Vector2I pos, int life, AnimatedSprite sprite) {
         super(pos, life, sprite);
     }
 

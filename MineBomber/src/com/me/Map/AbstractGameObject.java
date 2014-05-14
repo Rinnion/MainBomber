@@ -3,6 +3,7 @@ package com.me.Map;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AnimatedSprite;
+import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 
 /**
@@ -11,19 +12,21 @@ import com.me.Players.IPlayer;
 public abstract class AbstractGameObject {
     public final IPlayer owner;
     public int life;
-    public Vector2 position;
+    public Vector2I position;
 
     protected AnimatedSprite sprite;
 
-    public AbstractGameObject(IPlayer player, Vector2 pos, int life, AnimatedSprite sprite) {
+    public AbstractGameObject(IPlayer player, Vector2I pos, int life, AnimatedSprite sprite) {
         this.owner = player;
-        position = new Vector2(pos.x, pos.y);
+        position = new Vector2I(pos.x, pos.y);
         this.life = life;
         this.sprite = sprite;
-        sprite.setPosition((pos.x-(sprite.getWidth()/2))*MapManager.rowW, (pos.y-(sprite.getHeight ()/2))*MapManager.rowH);
+        sprite.setPosition(
+                pos.x * MapManager.rowW - (sprite.getWidth() / 2),
+                pos.y * MapManager.rowH - (sprite.getHeight() / 2));
     }
 
-    public AbstractGameObject(Vector2 pos, int life, AnimatedSprite sprite) {
+    public AbstractGameObject(Vector2I pos, int life, AnimatedSprite sprite) {
         this(null, pos, life, sprite);
     }
 
