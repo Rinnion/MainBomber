@@ -93,6 +93,7 @@ public class AbstractPlayer implements IPlayer {
         }
         else
             curLife-=dmg;
+        if(dmg!=0)
         mLifeProgressBar.DoItVisible();
 
     }

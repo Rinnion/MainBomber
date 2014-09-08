@@ -110,10 +110,18 @@ public class MineBomber implements ApplicationListener {
         timer.scheduleAtFixedRate(new TimerTask() {
                                       @Override
                                       public void run() {
-                                          long dtStart = Calendar.getInstance().getTimeInMillis();
-                                          BombController.Calculate(dtStart);
-                                          PlayerController.Calculate(dtStart);
-                                          MapManager.Calculate(dtStart);
+                                          try {
+                                              long dtStart = Calendar.getInstance().getTimeInMillis();
+                                              BombController.Calculate(dtStart);
+                                              PlayerController.Calculate(dtStart);
+                                              MapManager.Calculate(dtStart);
+                                          }
+                                          catch (Exception _ex)
+                                          {
+                                              Log.e(_ex.toString());
+
+
+                                          }
                                       }
                                   }, 0, 50
         );
@@ -129,7 +137,7 @@ public class MineBomber implements ApplicationListener {
 	@Override
 	public void render() {
 
-        Log.d("render");
+        //Log.d("render");
 
 		Gdx.gl.glClearColor(1, 0, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);

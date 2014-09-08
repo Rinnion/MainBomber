@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.tiled.*;
+import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.Vector2IDamage;
@@ -15,6 +16,7 @@ import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
 import com.me.TileDamager.DamageController;
 import com.me.controlers.GameObjectController;
+import com.me.logger.Log;
 import com.me.minebomber.DrawManager;
 
 import java.util.ArrayList;
@@ -61,7 +63,10 @@ public class MapManager {
 
     static int[] backGroundIndex=new int[]{0};
     static int[] foreGroundIndex=new int[]{1};
-    static int[] objectsIndex=new int[]{2};
+
+
+
+    static int[] objectsIndex=new int[]{3};
     public static int[] fieldDamage;
     public static int[] fieldDigDamage;
     public static ArrayList<AbstractGameObject>[] fieldObjects;
@@ -217,8 +222,10 @@ public class MapManager {
                     TilesInfo tilesInfo = mapTiles.get(mapInfo.GetId());
                     mNextId = tilesInfo.mNextid;
                     if (mNextId == 0) break;
+                    if(mNextId==mapInfo.GetId())break;
                     life += mapTiles.get(mNextId).mLife;
                 }
+                if(life<0) life=0;
                 mapInfo.SetInfo(mNextId, life);
             } else {
                 mapInfo.life = life;
@@ -275,11 +282,14 @@ public class MapManager {
         RedrawMap();
         mSpriteBackground.draw(batch);
         mSpriteForeground.draw(batch);
+
+
     }
 
     static private void updateMapInfo(boolean flipX,boolean flipY)
     {
         MapLayers layers= mMap.getLayers();
+
         TilesInfo tmpInfo;
         TiledMapTileLayer tilesLayer=(TiledMapTileLayer)layers.get(foreGroundIndex[0]);
 
@@ -391,28 +401,31 @@ public class MapManager {
             mapRenderer.render(backGroundIndex);
         backGroundBuffer.end();
 
-
+              //BatchTiledMapRenderer d=(BatchTiledMapRenderer)foreGroundBuffer;
 
         foreGroundBuffer.begin();
-            mapRenderer.render(foreGroundIndex);
+           mapRenderer.render(foreGroundIndex);
         //apRenderer.render(objectsIndex);
            //mapRenderer.renderObject(mMap.);
-        //mapRenderer.renderObject(mMap.getLayers().get(2).getObjects().get(0));
 
 
+
+
+                     //mapRenderer.renderObject(mMap.getLayers().get(objectsIndex[0]).getObjects().get(1));
 
             //mapRenderer.render(objectsIndex);
         //  mapRenderer.render();
-
+               //mapRenderer.render();
         //mapRenderer.render();
         foreGroundBuffer.end();
-        MapObjects objects= mMap.getLayers().get(objectsIndex[0]).getObjects();
+
+        /*MapObjects objects= mMap.getLayers().get(objectsIndex[0]).getObjects();
         for(MapObject object : objects) {
 
             TiledMapTile tile = mMap.getTileSets().getTile(400);
 
             tile.getTextureRegion().flip(false, true);
-        }
+        } */
 
         mTextureBackground=backGroundBuffer.getColorBufferTexture();
         mTextureForeground=foreGroundBuffer.getColorBufferTexture();
