@@ -1,0 +1,158 @@
+objects.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+001
+  rotate: false
+  xy: 0, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+002
+  rotate: false
+  xy: 10, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+003
+  rotate: false
+  xy: 20, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+004
+  rotate: false
+  xy: 30, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+011
+  rotate: false
+  xy: 40, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+012
+  rotate: false
+  xy: 50, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+013
+  rotate: false
+  xy: 60, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+014
+  rotate: false
+  xy: 70, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+021
+  rotate: false
+  xy: 80, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+022
+  rotate: false
+  xy: 90, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+031
+  rotate: false
+  xy: 100, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+032
+  rotate: false
+  xy: 110, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+033
+  rotate: false
+  xy: 120, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+034
+  rotate: false
+  xy: 130, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+041
+  rotate: false
+  xy: 140, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+042
+  rotate: false
+  xy: 150, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+051
+  rotate: false
+  xy: 160, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+052
+  rotate: false
+  xy: 170, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+053
+  rotate: false
+  xy: 180, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+054
+  rotate: false
+  xy: 190, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+061
+  rotate: false
+  xy: 200, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+091
+  rotate: false
+  xy: 210, 0
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1

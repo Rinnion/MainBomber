@@ -28,9 +28,9 @@ import java.util.TimerTask;
 public class MineBomber implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private Texture texture;
-	private Sprite sprite;
-    private Sprite sprite2;
+	//private Texture texture;
+	//private Sprite sprite;
+    //private Sprite sprite2;
 
     public static IText textZoom;
 
@@ -49,7 +49,7 @@ public class MineBomber implements ApplicationListener {
     float scrW;
     float scrH;
 
-    boolean fullScreen=false;
+    boolean fullScreen=true;
     private Timer timer;
 
     @Override
@@ -58,8 +58,8 @@ public class MineBomber implements ApplicationListener {
         Log.d("create");
         Initializer.Initialize();
 
-        scrW = MapManager.scrW; //Gdx.graphics.getWidth();
-        scrH = MapManager.scrH; //Gdx.graphics.getHeight();
+        scrW = MapManager.mapProperty.width; //Gdx.graphics.getWidth();
+        scrH = MapManager.mapProperty.height; //Gdx.graphics.getHeight();
 
 
         camera = new OrthographicCamera(scrW, scrH);
@@ -70,8 +70,8 @@ public class MineBomber implements ApplicationListener {
         else
             viewPort = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //camera.zoom=0.5f;
-        MapManager.SetView(camera);
-        MapManager.Refresh();
+        //MapManager.SetView(camera);
+        MapManager.Refresh(camera);
 
 
         //camera.position.set( 1/2,(h/w)/2,0);
@@ -80,29 +80,29 @@ public class MineBomber implements ApplicationListener {
         loger = new FPSLogger();
         batch = new SpriteBatch();
 
-        texture = new Texture(Gdx.files.internal("data/FullGraphic.png"));
-        texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        //texture = new Texture(Gdx.files.internal("data/FullGraphic.png"));
+        //texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
-        TextureRegion region = new TextureRegion(texture, 0, 0, 15, 15);
-        TextureRegion region2 = new TextureRegion(texture, 0, 16, 15, 15);
+        //TextureRegion region = new TextureRegion(texture, 0, 0, 15, 15);
+       // TextureRegion region2 = new TextureRegion(texture, 0, 16, 15, 15);
 
-        sprite = new Sprite(region);
-        sprite2 = new Sprite(region2);
+        //sprite = new Sprite(region);
+        //sprite2 = new Sprite(region2);
         //sprite.setSize(8,8);
         //sprite2.setSize(8,8);
 
 
-        sY = (sY * sprite.getHeight()) / sprite.getWidth();
-        mX = 1f / sX;
-        mY = 1f / sY;
+       // sY = (sY * sprite.getHeight()) / sprite.getWidth();
+        //mX = 1f / sX;
+        //mY = 1f / sY;
 
 
-        sprite.setSize(sX, sY);
-        sprite2.setSize(sX, sY);
+        //sprite.setSize(sX, sY);
+        //sprite2.setSize(sX, sY);
         //sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
         //sprite.setPosition(mX, mY);
-        sprite.setPosition(0, 0);
-        sprite2.setPosition(0, 0);
+        //sprite.setPosition(0, 0);
+        //sprite2.setPosition(0, 0);
 
 
         timer = new Timer("logic timer");
@@ -110,18 +110,18 @@ public class MineBomber implements ApplicationListener {
         timer.scheduleAtFixedRate(new TimerTask() {
                                       @Override
                                       public void run() {
-                                          try {
+                                         //try {
                                               long dtStart = Calendar.getInstance().getTimeInMillis();
                                               BombController.Calculate(dtStart);
                                               PlayerController.Calculate(dtStart);
                                               MapManager.Calculate(dtStart);
-                                          }
-                                          catch (Exception _ex)
-                                          {
-                                              Log.e(_ex.toString());
+                                         // }
+                                          //catch (Exception _ex)
+                                          //{
+                                           //   Log.e("Stack: " + _ex.getStackTrace() + "Message: " + _ex.getMessage() );
 
 
-                                          }
+                                         //}
                                       }
                                   }, 0, 50
         );
@@ -131,7 +131,7 @@ public class MineBomber implements ApplicationListener {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		texture.dispose();
+
 	}
 
 	@Override
@@ -157,7 +157,9 @@ public class MineBomber implements ApplicationListener {
         BeginDrawTime=dtStart;
 
         batch.begin();
+        batch.disableBlending();
         MapManager.Render(batch);
+        batch.enableBlending();
         PlayerController.Render(batch);
         GameObjectController.Render(batch);
         ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());

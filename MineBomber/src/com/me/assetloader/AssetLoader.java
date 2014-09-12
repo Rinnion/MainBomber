@@ -1,6 +1,7 @@
 package com.me.assetloader;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -37,18 +38,12 @@ public class AssetLoader {
 
     public static TextureAtlas GetAtlas(String name){return (TextureAtlas)mAssetManager.get(name); }
 
+    public  static FileHandle GetFile(String name){return  (FileHandle)mAssetManager.get(name);}
+
     public static <T> void load(String fileName,Class<T> obj)
     {
-
-
-
-
         mAssetManager.load (fileName,obj);
-
     }
-
-
-
 
     public static void DoCompliteLoading()
     {

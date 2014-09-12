@@ -1,7 +1,6 @@
 package com.me.Bombs;
 
-import com.badlogic.gdx.math.Vector2;
-import com.me.Map.AbstractGameObject;
+import com.me.minebomber.AbstractGameObject;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.ObjectMaskHelper.MaskController;
 import com.me.Players.IPlayer;

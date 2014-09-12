@@ -1,15 +1,11 @@
 package com.me.controlers;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.*;
-import com.me.Map.AbstractGameObject;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Particles.ParticleManager;
 import com.me.Players.IPlayer;
-import com.me.logger.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;

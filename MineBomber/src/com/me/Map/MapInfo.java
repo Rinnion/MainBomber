@@ -10,9 +10,11 @@ public class MapInfo
     public int mY;
     public int life;
     private int mId;
-    private boolean mFree;
+
     final public int index;
     private int mPixmapIndex;
+    public  boolean canmove;
+
 
     public boolean redraw;
 
@@ -37,47 +39,48 @@ public class MapInfo
         return  mId;
     }
 
+
+
+
     public int GetPixmapIndex()
     {
         return  mPixmapIndex;
     }
 
-    public boolean isFree()
-    {
-        return mFree;
-    }
 
-    public void SetInfo(int id)
-    {
-        SetInfo(id, life,mFree);
-    }
 
-    public void SetInfo(int id,int life)
-    {
-        SetInfo(id,life,mFree);
-    }
+    //public void SetInfo(int id)
+    //{
+    //    SetInfo(id, life,mFree,mCanGo);
+    //}
 
-    public void SetInfo(int id, int life, boolean free) {
+   /* public void SetInfo(int id,int life)
+    {
+        SetInfo(id,life,mFree,mCanGo);
+    }*/
+
+    public void SetInfo(int id, int life,boolean canmove) {
         mId = id;
         if (life < 0) this.life = 0;
         else
             this.life = life;
-        mFree = free;
+        this.canmove=canmove;
     }
 
 
 
-    public MapInfo(int index,int id,int x,int y,int pixmapIndex,int life,boolean free)
+    public MapInfo(int index,int id,int x,int y,int pixmapIndex,int life,boolean canmove)
     {
         mX=x;
         mY=y;
         mId=id;
         this.life = life;
-        mFree=free;
+       // mFree=free;
         mPixmapIndex=pixmapIndex;
         this.index=index;
+        this.canmove=canmove;
     }
-
+    /*
     public MapInfo(MapInfo mapInfo)
     {
 
@@ -85,8 +88,8 @@ public class MapInfo
        mY=mapInfo.mY;
        mId=mapInfo.mId;
        life =mapInfo.life;
-       mFree=mapInfo.mFree;
+      // mFree=mapInfo.mFree;
         mPixmapIndex=mapInfo.mPixmapIndex;
         index=mapInfo.index;
-    }
+    } */
 }

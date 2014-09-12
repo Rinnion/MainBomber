@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tiles version="0.9b" src="objects.png">
+	<!--Земля-->
+	<group id="000" life="10" next="000" canmove="true">
+
+        <tile id="001"/>
+		<tile id="002"/>
+		<tile id="003"/>
+		<tile id="004"/>
+	</group>
+	
+	<!--Песок-->
+	<group id="001" life="30" next="000" canmove="false">
+		<tile id="011"/>
+		<tile id="012"/>
+		<tile id="013"/>
+		<tile id="014"/>
+	</group>
+	
+	<!--Песок с камнем-->
+	<group id="002" life="50" next="001" canmove="false">
+		<tile id="021"/>
+	</group>
+	
+	<!--Песок с камнем-->
+	<group id="003" life="50" next="002" canmove="false">
+		<tile id="022"/>
+	</group>
+	
+	<!--Камень-->
+	<group id="004" life="100" next="006" canmove="false">
+		<tile id="031"/>
+		<tile id="032"/>
+		<tile id="033"/>
+		<tile id="034"/>
+	</group>
+	
+	<!--Камень разрушенный-->
+	<group id="005" life="60" next="000" canmove="false">
+		<tile id="042"/>
+	</group>
+	
+	<!--Камень разрушенный-->
+	<group id="006" life="80" next="005" canmove="false">
+		<tile id="041"/>
+	</group>
+	
+	
+	<!--Уголок-->
+	<group id="007" life="40" next="001" canmove="false">
+		<tile id="051"/>
+	</group>
+	
+	<!--Уголок-->
+	<group id="008" life="40" next="001" canmove="false">
+		<tile id="052"/>
+	</group>
+	
+	<!--Уголок-->
+	<group id="009" life="40" next="001" canmove="false">
+		<tile id="053"/>
+	</group>
+	
+	<!--Уголок-->
+	<group id="010" life="40" next="001" canmove="false">
+		<tile id="054"/>
+	</group>	
+	
+	<!--Шарик-->
+	<group id="011" life="500" next="006" canmove="false">
+		<tile id="061"/>
+	</group>	
+	
+	<!--Бетон-->
+	<group id="012" life="999" next="012" canmove="false" candestroy="false">
+		<tile id="091"/>
+	</group>
+</tiles>

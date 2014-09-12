@@ -1,7 +1,10 @@
 package com.me.Players;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.MaskController;
@@ -26,18 +29,49 @@ public class AbstractPlayer implements IPlayer {
     boolean mDie=false;Sprite sprite;
     private float newX;
     private float newY;
+    ShapeRenderer shapeRenderer;
+
+    private static final boolean playerDebug=false;
 
     public AbstractPlayer(String mName) {
         this.mName = mName;
         mLifeProgressBar=new LifeProgressBar(this);
         mask_go = MaskController.GetMask(radiusGo);
         mask_dmg = MaskController.GetMask(radiusDig);
+        if(playerDebug)
+        shapeRenderer=new ShapeRenderer();
     }
+
+
 
     @Override
     public void Render(Batch batch) {
         mLifeProgressBar.Draw();
         if(mDie) { return; }
+
+        if(playerDebug) {
+            shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(new Color(255, 255, 255, 100));
+            shapeRenderer.circle(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY(), radiusDig * 2);
+            shapeRenderer.circle(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY(), radiusGo * 2);
+
+            shapeRenderer.end();
+            batch.enableBlending();
+
+
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(new Color(255, 0, 0, 100));
+            for (Vector2I tmpI : mask_dmg) {
+                shapeRenderer.rect((tmpI.x * MapManager.rowW) + sprite.getX() + sprite.getOriginX(), (tmpI.y * MapManager.rowH) + sprite.getY() + sprite.getOriginY(), 2, 2);
+            }
+            shapeRenderer.setColor(new Color(0, 255, 0, 100));
+            for (Vector2I tmpI : mask_go) {
+                shapeRenderer.rect((tmpI.x * MapManager.rowW) + sprite.getX() + sprite.getOriginX(), (tmpI.y * MapManager.rowH) + sprite.getY() + sprite.getOriginY(), 2, 2);
+            }
+
+            shapeRenderer.end();
+        }
 
         sprite.draw(batch);
     }
@@ -125,6 +159,7 @@ public class AbstractPlayer implements IPlayer {
     }
 
     void calculate(long time) {
+
 
         float xStep = (playerSpeedPerFrame * v.x);
         float yStep = (playerSpeedPerFrame * v.y);

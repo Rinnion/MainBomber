@@ -2,9 +2,8 @@ package com.me.controlers;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.me.Map.AbstractGameObject;
+import com.me.minebomber.AbstractGameObject;
 import com.me.Map.MapManager;
-import com.me.ObjectMaskHelper.Vector2I;
 
 import java.util.ArrayList;
 import java.util.HashMap;

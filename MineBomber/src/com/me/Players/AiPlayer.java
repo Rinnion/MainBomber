@@ -196,7 +196,8 @@ public class AiPlayer implements IPlayer, IPlayerControls {
 
 
     private void handleInput() {
-       AbstractPlayer pl= (AbstractPlayer)PlayerController.GetPlayer(playerIndex);
+
+      /* AbstractPlayer pl= (AbstractPlayer)PlayerController.GetPlayer(playerIndex);
 
         float mX=sprite.getX();
         float mY=sprite.getY();
@@ -234,7 +235,7 @@ public class AiPlayer implements IPlayer, IPlayerControls {
                delayTimer=new DelayTimer((int)((Math.random()*5000)+5000));
            }
         }
-
+         */
 
     }
 
