@@ -1,15 +1,13 @@
 package com.me.TilesManager;
 
 
+import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.me.Map.*;
-import com.me.assetloader.AssetLoader;
 import com.me.logger.Log;
 import com.me.minebomber.Settings;
-import com.sun.org.apache.bcel.internal.classfile.ClassFormatException;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.NodeType;
+
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -18,13 +16,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
+
 import javax.xml.xpath.XPathFactory;
-import java.io.File;
+
 import java.io.FileInputStream;
-import java.io.InputStream;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -100,8 +97,7 @@ public class TilesLoader {
 
     }
 
-    public static void Initialize()
-    {
+    public static void Initialize(){
         //XPath xPath= XPathFactory.newInstance()
 
 
@@ -109,9 +105,12 @@ public class TilesLoader {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
 
-            FileInputStream fileInputStream=new FileInputStream(Settings.MAP_TILES_XML);
+            FileHandle fH=Gdx.files.internal(Settings.MAP_TILES_XML);
 
-            xmlDocument= builder.parse(fileInputStream);
+
+           // FileInputStream fileInputStream=new FileInputStream(fH.file());
+
+            xmlDocument= builder.parse(fH.read());
 
             XPathFactory xPathfactory = XPathFactory.newInstance();
             xPath = xPathfactory.newXPath();
@@ -129,8 +128,9 @@ public class TilesLoader {
         catch (Exception _ex )
         {
 
-            Log.e(_ex.getMessage());
-            throw  new ClassFormatException(_ex.getMessage());
+
+            //Log.e(_ex.getMessage() + );
+           throw new NullPointerException(_ex.getMessage() + _ex.toString());
 
         }
 

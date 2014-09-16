@@ -89,7 +89,8 @@ public class TextManager {
             for(int i=0;i<PoolSize;i++)
             {
                 if(!pool[i].isFree) {
-                    pool[i].text.Draw(sb);
+                    if(!pool[i].text.Draw(sb))
+                     free(pool[i]);
 
                     actual++;
 

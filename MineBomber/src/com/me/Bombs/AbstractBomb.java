@@ -1,5 +1,6 @@
 package com.me.Bombs;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.me.minebomber.AbstractGameObject;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.ObjectMaskHelper.MaskController;
@@ -15,13 +16,14 @@ public abstract class AbstractBomb extends AbstractGameObject {
     public long ActivationTime;
     public Vector2IDamage[] ExplodeMask;
 
+
     public AbstractBomb(IPlayer player, BombProperty property, Vector2I pos, AnimatedSprite animatedSprite) {
         //FIXME life from bomb
         super(player, pos, 1, animatedSprite);
         Vector2I[] vector2Is = MaskController.GetMask(property.range);
         ExplodeMask = new Vector2IDamage[vector2Is.length];
         for (int i = 0; i < vector2Is.length; i++) {
-            int damage = property.dmgMin + (int)Math.random()*(property.dmgMax - property.dmgMin);
+            int damage = (int)(property.dmgMin + (float)Math.random()*(property.dmgMax - property.dmgMin));
             ExplodeMask[i] = new Vector2IDamage(vector2Is[i], damage);
         }
         ActivationTime = Calendar.getInstance().getTimeInMillis() + property.activationTime;
@@ -46,4 +48,5 @@ public abstract class AbstractBomb extends AbstractGameObject {
     }
 
     public void detonate(long time) { ActivationTime = time; }
+
 }

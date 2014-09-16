@@ -39,8 +39,8 @@ public class PlayerController {
         im.addProcessor(inputProcessor2);
         Gdx.input.setInputProcessor(im);
 
-        Add(new Player("First player", inputProcessor2, new Vector2(20, 10)));
-        Add(new Player("Second player", inputProcessor1, new Vector2(100,10)));
+        Add(new Player("First player", inputProcessor2, new Vector2(700, 10)));
+        Add(new Player("Second player", inputProcessor1, new Vector2(10,10)));
 
         TreasureController.Add(new SmallChestTreasure(new Vector2I(20,20)));
         TreasureController.Add(new SmallChestTreasure(new Vector2I(20,30)));
@@ -81,7 +81,11 @@ public class PlayerController {
 
     public static  void AfterBatch(Matrix4 projectionMatrix)
     {
+
         shapeProgressBar.Draw(players, projectionMatrix);
+
+
+
     }
 
     public static void addMoney(IPlayer who, long value){

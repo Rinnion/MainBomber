@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.me.Graphics.ShapeCircle;
 import com.me.controlers.BombController;
 import com.me.Map.MapManager;
 import com.me.Particles.ParticleManager;
@@ -51,6 +52,11 @@ public class MineBomber implements ApplicationListener {
 
     boolean fullScreen=true;
     private Timer timer;
+    private long sheduleDtStart;
+    private long sheduleDtBomb;
+    private long sheduleDtPlayer;
+    private long sheduleDtMap;
+
 
     @Override
 	public void create() {
@@ -107,14 +113,21 @@ public class MineBomber implements ApplicationListener {
 
         timer = new Timer("logic timer");
 
+
         timer.scheduleAtFixedRate(new TimerTask() {
                                       @Override
                                       public void run() {
                                          //try {
-                                              long dtStart = Calendar.getInstance().getTimeInMillis();
-                                              BombController.Calculate(dtStart);
-                                              PlayerController.Calculate(dtStart);
-                                              MapManager.Calculate(dtStart);
+                                                sheduleDtStart = Calendar.getInstance().getTimeInMillis();
+                                              BombController.Calculate(sheduleDtStart);
+                                                sheduleDtBomb = Calendar.getInstance().getTimeInMillis();
+                                              PlayerController.Calculate(sheduleDtStart);
+                                                sheduleDtPlayer = Calendar.getInstance().getTimeInMillis();
+                                              MapManager.Calculate(sheduleDtStart);
+                                                sheduleDtMap = Calendar.getInstance().getTimeInMillis();
+
+                                          long diff = sheduleDtMap - sheduleDtStart;
+                                          if (diff > 20) Log.w("logic time > 20 !!!" + diff);
                                          // }
                                           //catch (Exception _ex)
                                           //{
@@ -168,10 +181,14 @@ public class MineBomber implements ApplicationListener {
         batch.end();
 
         long dtEnd = Calendar.getInstance().getTimeInMillis();
-
-        textZoom.SetText(Long.toString(dtEnd-dtStart));
+        long dtResMap=sheduleDtMap-sheduleDtStart;
+        if(dtResMap<0)
+            dtResMap=0;
+        textZoom.SetText(Long.toString(dtEnd-dtStart) + " " + Long.toString(sheduleDtBomb-sheduleDtStart)+ " " + Long.toString(sheduleDtPlayer -sheduleDtStart)+ " " + Long.toString(dtResMap));
 
         PlayerController.AfterBatch(camera.combined);
+
+        //ShapeCircle.Draw(camera.combined);
 
         //batch.getProjectionMatrix().setToOrtho2D(0, 0,Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
 	/*	batch.setProjectionMatrix(camera.combined);

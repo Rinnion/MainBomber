@@ -41,7 +41,7 @@ public class TileGroup {
     public int GetRandomTileId()
     {
         int rndId=(int)((Math.random()*tileList.length));
-        Log.d(rndId + "");
+        //Log.d(rndId + "");
 
         return tileList[rndId].id ;
     }

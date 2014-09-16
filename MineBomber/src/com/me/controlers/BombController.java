@@ -33,6 +33,11 @@ public class BombController {
         }
     }
 
+    public static AbstractBomb[]  GetBombs()
+    {
+        return mBombList.toArray(new AbstractBomb[mBombList.size()]);
+    }
+
     public static void Add(IPlayer player, BombProperty bombProperty, Vector2 position)
     {
         if (!GameObjectController.isRoom(position)) return;
@@ -69,7 +74,7 @@ public class BombController {
         }
 
         for(AbstractBomb btr: bombsToRemove){
-            ParticleManager.Fire(btr.position.x*MapManager.rowW, btr.position.y*MapManager.rowH);
+            ParticleManager.Fire(btr.position.x*MapManager.rowW, btr.position.y*MapManager.rowH,btr.Property.range*4);
             BombController.Remove(btr);
         }
     }

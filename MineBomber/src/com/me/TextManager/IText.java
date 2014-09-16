@@ -10,9 +10,10 @@ import com.me.ObjectMaskHelper.Vector2I;
 public interface IText {
 
     void SetText(String text);
-    void Draw(SpriteBatch sb);
+    boolean Draw(SpriteBatch sb);
     void SetColor(float r,float g,float b,float a);
     void SetColor(Color color);
+
     void SetScale(float XY);
     void Scale(float amount);
     void SetPosition(Vector2I pos);

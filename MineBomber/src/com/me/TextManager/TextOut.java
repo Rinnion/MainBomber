@@ -12,15 +12,16 @@ import com.me.ObjectMaskHelper.Vector2I;
  */
 public class TextOut implements IText {
 
-     private BitmapFont bitmapFont;
-     private String mText;
+     //private
+    FontInfo fontInfo;
+    private String mText;
     protected Vector2 pos;
-    protected Color color;
+
     public TextOut()
     {
 
-        bitmapFont=new BitmapFont(Gdx.files.internal("data/font.fnt"),Gdx.files.internal("data/font.png"),true);
-        color=new Color(Color.WHITE);
+        fontInfo=new FontInfo(new Color(Color.WHITE),1f,1f);
+
         pos=new Vector2();
         mText="1";
 
@@ -35,44 +36,44 @@ public class TextOut implements IText {
     }
 
     @Override
-    public void Draw(SpriteBatch sb)
+    public boolean Draw(SpriteBatch sb)
     {
-
-        bitmapFont.draw(sb, mText,pos.x,pos.y);
+        TextFont.Draw(sb,mText,fontInfo,pos.x,pos.y);
+        return true;
+        //bitmapFont.draw(sb, mText,pos.x,pos.y);
     }
 
 
     public void Draw(SpriteBatch sb,float x,float y)
     {
+        TextFont.Draw(sb,mText,fontInfo,x,y);
+        //bitmapFont.draw(sb, mText,x,y);
 
-        bitmapFont.draw(sb, mText,x,y);
     }
 
     @Override
     public void SetColor(float r,float g,float b,float a)
     {
-        color.set(r,g,b,a);
-        bitmapFont.setColor(color);
+        fontInfo.color=new Color(r,g,b,a);
     }
 
 
     @Override
     public void SetColor(Color color)
     {
-        this.color=new Color(color);
-        bitmapFont.setColor( this.color);
+        fontInfo.color=new Color(color);
     }
 
 
     @Override
     public void SetScale(float XY)
     {
-        bitmapFont.setScale(XY);
+        fontInfo.scaleXY=XY;
     }
     @Override
     public void Scale(float amount)
     {
-        bitmapFont.scale(amount);
+        fontInfo.scale=amount;
     }
 
     @Override

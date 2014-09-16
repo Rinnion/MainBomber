@@ -1,5 +1,6 @@
 package com.me.minebomber;
 
+import com.me.TextManager.TextFont;
 import com.me.TilesManager.TilesLoader;
 import com.me.controlers.BombController;
 import com.me.Map.MapManager;
@@ -21,12 +22,14 @@ public class Initializer {
         Log.d("Prepare textures and assets files");
         PrepareAssetsFiles.Prepare();
         Log.d("Initialize tiles from XML");
-        TilesLoader.Initialize();
+            TilesLoader.Initialize();
+
 
 
         Log.d("Initialize TextManager");
         TextManager.Initialize();
         MineBomber.textZoom=new TextOut();
+        TextFont.Initialize();
 
         Log.d("Initialize PixmapHelper");
         PixmapHelper.Initialize();

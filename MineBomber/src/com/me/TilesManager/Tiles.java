@@ -1,5 +1,6 @@
 package com.me.TilesManager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.me.Map.MapManager;
@@ -49,7 +50,7 @@ public class Tiles {
 
     private static void LoadTexture()
     {
-                   tilesAtlas=new TextureAtlas(Settings.PAK_OBJECTS);
+                   tilesAtlas=new TextureAtlas(Gdx.files.internal(Settings.PAK_OBJECTS));
     }
 
     public static void UpdateTilesPixmap(int stepX,int stepY,MapProperty mapProperty)

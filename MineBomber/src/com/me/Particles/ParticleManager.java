@@ -3,6 +3,7 @@ package com.me.Particles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.minebomber.Settings;
 import sun.nio.ch.ThreadPool;
@@ -30,6 +31,7 @@ public  class ParticleManager {
     {
 
 
+
             pFire=new ParticleManager[pCount];
             for(int i=0;i<pCount;i++)
             {
@@ -54,12 +56,12 @@ public  class ParticleManager {
 
 
     }
-    static  public void Fire(float x,float y)
+    static  public void Fire(float x,float y,float rad )
     {
-        Fire(x,y,null);
+        Fire(x,y,rad,null);
     }
 
-    static  public void Fire(float x,float y,IParticleCallback callback)
+    static  public void Fire(float x,float y,float rad,IParticleCallback callback)
     {
 
         synchronized (syncObject)
@@ -69,7 +71,9 @@ public  class ParticleManager {
             {
                 if(pFire[i].isFree)
                 {
+                    changeSize(i,rad);
                     pFire[i].Start(x,y,callback);
+
                     found=true;
                     break;
                 }
@@ -78,6 +82,23 @@ public  class ParticleManager {
                 callback.AnimationEnd();
         }
     }
+
+
+    static public void changeSize(int index,float velocity)
+    {
+
+       for(ParticleEmitter tmpEmmite:pFire[index].pEffect.getEmitters())
+       {
+           //tmpEmmite.getScale().setLow(0,10);   //setL (10,200);
+           //tmpEmmite.getScale().setHigh(10,10);
+          tmpEmmite.getVelocity().setLow(velocity,velocity);
+           tmpEmmite.getVelocity().setHigh(velocity,velocity);
+
+
+       }
+
+    }
+
 
     static public void Draw(SpriteBatch batch,float delta)
     {
@@ -88,8 +109,8 @@ public  class ParticleManager {
 
 
 
+               pFire[i].pEffect.draw(batch, delta);
 
-               pFire[i].pEffect.draw(batch,delta);
 
                //float percent=pFire[i].pEffect.getEmitters().get(0).getPercentComplete();
 

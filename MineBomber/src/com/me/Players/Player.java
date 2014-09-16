@@ -27,7 +27,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
     public void PlaceBomb() {
         if(mDie) return;
-        BombController.Add(this, new BombProperty(this, BombType.DSTBOMB, 300000, 10, 80, 10),
+        BombController.Add(this, new BombProperty(this, BombType.DSTBOMB, 300000, 10, 100, 30),
                 new Vector2(sprite.getX() + sprite.getOriginY(), sprite.getY() + sprite.getOriginY()));
     }
 

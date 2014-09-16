@@ -13,6 +13,11 @@ public class IntArray {
         itemCount=0;
     }
 
+    public void clear()
+    {
+        itemCount=0;
+    }
+
     public void add(int item)
     {
         arrayList[itemCount]=item;
@@ -28,5 +33,20 @@ public class IntArray {
     {
         return arrayList[index];
     }
+
+    public  int[] getArray()
+    {
+        //return arrayList;
+        int []retInt=new int[itemCount];
+        System.arraycopy(arrayList,0,retInt,0,itemCount);
+
+         return retInt;
+    }
+
+    public int[] getFullArray()
+    {
+       return arrayList;
+    }
+
 
 }

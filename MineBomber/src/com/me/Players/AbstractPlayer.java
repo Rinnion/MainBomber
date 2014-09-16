@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.MaskController;
 import com.me.ObjectMaskHelper.Vector2I;
+import com.me.TextManager.TextManager;
 
 /**
  * Created by tretyakov on 06.05.2014.
@@ -120,6 +121,8 @@ public class AbstractPlayer implements IPlayer {
     public void DealDamage(int dmg) {
 
         //float dmg=bomb.GetProperty().dmgMin + (float)Math.random()*bomb.GetProperty().dmgMax;
+        if(mDie)
+            return;
 
         if(curLife-dmg<0) {
             curLife = 0;
@@ -127,8 +130,11 @@ public class AbstractPlayer implements IPlayer {
         }
         else
             curLife-=dmg;
-        if(dmg!=0)
-        mLifeProgressBar.DoItVisible();
+        if(dmg!=0) {
+
+            TextManager.Add(dmg + "", Color.PINK, this.getX() ,this.getY());
+            mLifeProgressBar.DoItVisible();
+        }
 
     }
 
@@ -160,7 +166,8 @@ public class AbstractPlayer implements IPlayer {
 
     void calculate(long time) {
 
-
+        if(mDie)
+            return;
         float xStep = (playerSpeedPerFrame * v.x);
         float yStep = (playerSpeedPerFrame * v.y);
 

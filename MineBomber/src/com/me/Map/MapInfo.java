@@ -6,19 +6,19 @@ package com.me.Map;
  */
 public class MapInfo
 {
-    public int mX;
-    public int mY;
+    final public int mX;
+    final public int mY;
     public int life;
-    private int mId;
+    public int mId;
 
     final public int index;
-    private int mPixmapIndex;
+    public int mPixmapIndex;
     public  boolean canmove;
 
 
-    public boolean redraw;
 
 
+  /*
     public int GetX()
     {
         return mX;
@@ -42,7 +42,7 @@ public class MapInfo
 
 
 
-    public int GetPixmapIndex()
+    //public int GetPixmapIndex()
     {
         return  mPixmapIndex;
     }

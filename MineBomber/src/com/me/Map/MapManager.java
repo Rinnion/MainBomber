@@ -15,10 +15,14 @@ import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.AbstractPlayer;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
+import com.me.TextManager.TextManager;
+import com.me.TextManager.TextOut;
 import com.me.TilesManager.Tile;
 import com.me.TilesManager.TileGroup;
 import com.me.TilesManager.Tiles;
+import com.me.Utility.IntArray;
 import com.me.controlers.GameObjectController;
+import com.me.logger.Log;
 import com.me.minebomber.AbstractGameObject;
 import com.me.minebomber.DrawManager;
 
@@ -72,9 +76,11 @@ public class MapManager {
     //public static HashMap<Integer,TilesInfo> mapTiles;
     //информация об обьектах на карте
     public static MapInfo[] mapInfo;
-
+    private static final IntArray redrawArray=new IntArray(50000);
     public static int[] fieldDamage;
     public static int[] fieldDigDamage;
+
+    public static IntArray applyIndexDamage;
 
     public static ArrayList<AbstractGameObject>[] fieldObjects;
 
@@ -83,16 +89,10 @@ public class MapManager {
 
         MapInfo info=mapInfo[mapIndex];
         //TilesInfo tile=  //mapTiles.get(info.GetId());
-        Tile tile;
-        try {
-            tile = Tiles.GetTile(info.GetId());
-            PixmapHelper.DrawPixmap(tile.miniTile[info.GetPixmapIndex()], info.GetX(), info.GetY());
-        }
-        catch (Exception _ex)
-        {
-            tile=Tiles.GetTile(0);
 
-        }
+        Tile tile = Tiles.GetTile(info.mId );
+            PixmapHelper.DrawPixmap(tile.miniTile[info.mPixmapIndex], info.mX , info.mY);
+
 
 
     }
@@ -134,9 +134,7 @@ public class MapManager {
 
     }
 
-    public static void addDamageToField(Vector2IDamage[] damageMask, Vector2I position) {
-        addDamageToField(damageMask, position.x, position.y);
-    }
+
 
     public static void addDamageToField(Vector2IDamage[] damageMask, int sx, int sy) {
         for (Vector2IDamage vm: damageMask) {
@@ -146,25 +144,15 @@ public class MapManager {
             if ((x < 1) || (x > maxCel -1)) continue;
             if ((y < 1) || (y > maxRow -1)) continue;
             //add damage
-            fieldDamage[y*maxCel + x] += vm.damage;
+            int index = y * maxCel + x;
+            fieldDamage[index] += vm.damage;
+            MapManager.applyIndexDamage.add(index);
+
         }
     }
 
-    public static void addDamageToField(Vector2I[] mask, int damage, Vector2 position) {
-        addDamageToField(mask, damage, position.x, position.y);
-    }
 
-    public static void addDamageToField(Vector2I[] mask, int damage, float sx, float sy) {
-        for (Vector2I vm: mask) {
-            int x = vm.x + (int) sx;
-            int y = vm.y + (int) sy;
-            //correct bounds
-            if ((x < 1) || (x > maxCel -1)) continue;
-            if ((y < 1) || (y > maxRow -1)) continue;
-            //add damage
-            fieldDamage[y*maxCel + x] += damage;
-        }
-    }
+
 
     public static void addDigDamageToField(Vector2I[] mask, int damage, float sx, float sy) {
         for (Vector2I vm: mask) {
@@ -176,21 +164,39 @@ public class MapManager {
             //add damage
             int index = y * maxCel + x;
             fieldDigDamage[index] += damage;
+            MapManager.applyIndexDamage.add(index);
         }
     }
 
     public static void applyDamage(long time) {
         ArrayList<AbstractPlayer> players = PlayerController.players;
-        MapInfo[] mapInfos = mapInfo;
 
-        for (int i = 0; i < fieldDamage.length; i++) {
-            if (fieldDamage[i] == 0 && fieldDigDamage[i] == 0) continue;
+
+        final MapInfo[] mapInfos = mapInfo;
+        final int [] fieldDamages=fieldDamage;
+        final int []fieldDigDamages=fieldDigDamage;
+        final int []indexArray=applyIndexDamage.getFullArray();
+        final int count=applyIndexDamage.size();
+
+        boolean bdraw=false;
+
+
+
+
+
+
+        for (int index = 0; index < count; index++) {
+            bdraw=false;
+            int i=indexArray[index];
+
+            if (fieldDamages[i] == 0 && fieldDigDamages[i] == 0) continue;
             MapInfo mapInfo = mapInfos[i];
-            int life = mapInfo.life - fieldDamage[i] - fieldDigDamage[i];
+            int life = mapInfo.life - fieldDamages[i] - fieldDigDamages[i];
+
 
             if (life < 0) {
                 int mNextId = 0;
-                int mId=mapInfo.GetId();
+                int mId=mapInfo.mId;
                 Tile tile=Tiles.GetTile(mId);
                 while (life < 0) {
 
@@ -207,22 +213,29 @@ public class MapManager {
 
                     if(mNextId==tile.group.id)break;
                     mId=nextTileGroup.GetRandomTileId();
+                    bdraw=true;
+                    Log.d("random tile: " + mId);
+
+
                     tile = Tiles.GetTile(mId);
 
                     if (mNextId == 0) break;
+
                 }
                 if(life<0) life=0;
 
 
-                mapInfo.SetInfo(mId, life,tile.group.canmove);
+                mapInfo.SetInfo(mId, life, tile.group.canmove);
             } else {
                 mapInfo.life = life;
             }
 
-            if (fieldDamage[i] > 0) {
+
+
+            if (fieldDamages[i] > 0) {
                 for (AbstractGameObject ago : fieldObjects[i]) {
                     //FIXME: should cast send which player
-                    ago.applyDamage(null, fieldDamage[i], time);
+                    ago.applyDamage(null, fieldDamages[i], time);
                 }
 
                 for (IPlayer bm : players) {
@@ -235,7 +248,7 @@ public class MapManager {
                     float mapH=mapY+ rowH;
 
                     if((sx>mapX)&&(sx<mapW)&&(sy>mapY)&&(sy<mapH))  {
-                        bm.DealDamage(fieldDamage[i]);
+                        bm.DealDamage(fieldDamages[i]);
                         //TextManager.Add(fieldDamage[i] + "", Color.RED, bm.getX(), bm.getY());
                     }
                 }
@@ -243,10 +256,18 @@ public class MapManager {
             }
 
 
-            fieldDamage[i] = 0;
-            fieldDigDamage[i] = 0;
-            DrawManager.Append(i);
+            fieldDamages[i] = 0;
+            fieldDigDamages[i] = 0;
+            if(bdraw)
+                redrawArray.add(i);
+            //DrawManager.Append(i);
+
         }
+
+        DrawManager.AddArray(redrawArray);
+        redrawArray.clear();
+        applyIndexDamage.clear();
+
     }
 
 
@@ -295,6 +316,9 @@ public class MapManager {
         fieldDigDamage = new int[count];
         Arrays.fill(fieldDamage, 0);
         fieldObjects = new ArrayList[count];
+        applyIndexDamage=new IntArray(count);
+
+
         for (int i = 0; i<count; i++)
         {
             fieldObjects[i] = new ArrayList<AbstractGameObject>(FIELD_CAPACITY);

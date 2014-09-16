@@ -47,10 +47,11 @@ public class TextZoom extends TextOut {
 
 
     @Override
-    public void Draw(SpriteBatch sb)
+    public boolean Draw(SpriteBatch sb)
     {
-        refresh();
+       boolean ret=refresh();
             super.Draw(sb);
+        return ret;
 
 
     }
@@ -66,22 +67,24 @@ public class TextZoom extends TextOut {
 
     }
 
-    private void refresh() {
+    private boolean refresh() {
 
 
         this.SetScale(scaleAmount);
 
 
 
-        this.SetColor(this.color);
+        this.SetColor(fontInfo.color);
 
         a=a- (Gdx.graphics.getDeltaTime()*speedAlpha);
         if(a<0) {
             a = 0;
+            Reset();
            // callBack.OnFree(this);
+            return false;
         }
 
-        this.color.a=a;
+        fontInfo.color.a=a;
 
        // float prevScale=scaleAmount;
 
@@ -97,7 +100,7 @@ public class TextZoom extends TextOut {
 
         if(scaleAmount>1f)
             scaleAmount=1f;
-
+        return true;
     }
 
 

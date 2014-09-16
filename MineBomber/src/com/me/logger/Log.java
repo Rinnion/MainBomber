@@ -25,24 +25,24 @@ public class Log {
 
     public static  void debug(String s)
     {
-        info(s);
+        Gdx.app.debug(mTAG_LOG,s);
     }
 
     public static  void error(String s)
     {
-        info(s);
+
+        Gdx.app.error(mTAG_LOG,s);
     }
 
     public static  void warrning(String s)
     {
-        info(s);
+        info (s);
     }
 
     public static void e(String s)
     {
         error(s);
     }
-
     public static void i(String s)
     {
         info(s);
