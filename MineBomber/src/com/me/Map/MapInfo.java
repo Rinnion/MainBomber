@@ -1,6 +1,8 @@
 package com.me.Map;
 
 
+import com.me.TilesManager.Tile;
+
 /**
  * Created by alekseev on 21.03.2014.
  */
@@ -9,7 +11,7 @@ public class MapInfo
     final public int mX;
     final public int mY;
     public int life;
-    public int mId;
+    public Tile mTile;
 
     final public int index;
     public int mPixmapIndex;
@@ -17,50 +19,8 @@ public class MapInfo
 
 
 
-
-  /*
-    public int GetX()
-    {
-        return mX;
-    }
-
-    public int GetY()
-    {
-        return mY;
-    }
-
-    public int GetLife()
-    {
-        return life;
-    }
-
-    public int GetId()
-    {
-        return  mId;
-    }
-
-
-
-
-    //public int GetPixmapIndex()
-    {
-        return  mPixmapIndex;
-    }
-
-
-
-    //public void SetInfo(int id)
-    //{
-    //    SetInfo(id, life,mFree,mCanGo);
-    //}
-
-   /* public void SetInfo(int id,int life)
-    {
-        SetInfo(id,life,mFree,mCanGo);
-    }*/
-
-    public void SetInfo(int id, int life,boolean canmove) {
-        mId = id;
+    public void SetInfo(Tile tile, int life,boolean canmove) {
+        mTile = tile;
         if (life < 0) this.life = 0;
         else
             this.life = life;
@@ -69,27 +29,16 @@ public class MapInfo
 
 
 
-    public MapInfo(int index,int id,int x,int y,int pixmapIndex,int life,boolean canmove)
+    public MapInfo(int index,Tile tile,int x,int y,int pixmapIndex,int life,boolean canmove)
     {
         mX=x;
         mY=y;
-        mId=id;
+        mTile=tile;
         this.life = life;
        // mFree=free;
         mPixmapIndex=pixmapIndex;
         this.index=index;
         this.canmove=canmove;
     }
-    /*
-    public MapInfo(MapInfo mapInfo)
-    {
 
-       mX=mapInfo.mX;
-       mY=mapInfo.mY;
-       mId=mapInfo.mId;
-       life =mapInfo.life;
-      // mFree=mapInfo.mFree;
-        mPixmapIndex=mapInfo.mPixmapIndex;
-        index=mapInfo.index;
-    } */
 }

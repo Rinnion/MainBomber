@@ -41,42 +41,32 @@ import java.util.Iterator;
 public class MapManager {
 
     public static final int FIELD_CAPACITY = 16;
-    //private static FrameBuffer backGroundBuffer;
+
     private static FrameBuffer foreGroundBuffer;
 
     private static Texture mTextureForeground;
-    //private static Texture mTextureBackground;
 
-    //private static Sprite  mSpriteBackground;
      private static Sprite  mSpriteForeground;
 
     static IMap mMap;
     public static MapProperty mapProperty;
-    //private static TiledMap mMap;
-    //private static OrthogonalTiledMapRenderer mapRenderer;
+
 
 
 
     public static int maxCel;
     public static int maxRow;
-    /*
-    public static int scrW;
-    public static int scrH;*/
+
 
     public static int rowH=2;
     public static int rowW=2;
 
-    /*
-    static int[] backGroundIndex=new int[]{0};
-    static int[] foreGroundIndex=new int[]{1};
-    static int[] objectsIndex=new int[]{3};
-    */
 
-    //информация по тайлам
-    //public static HashMap<Integer,TilesInfo> mapTiles;
+
+
     //информация об обьектах на карте
     public static MapInfo[] mapInfo;
-    private static final IntArray redrawArray=new IntArray(50000);
+    private static final IntArray redrawArray=new IntArray(DrawManager.FIELDS_COUNT);
     public static int[] fieldDamage;
     public static int[] fieldDigDamage;
 
@@ -90,7 +80,7 @@ public class MapManager {
         MapInfo info=mapInfo[mapIndex];
         //TilesInfo tile=  //mapTiles.get(info.GetId());
 
-        Tile tile = Tiles.GetTile(info.mId );
+        Tile tile = info.mTile;
             PixmapHelper.DrawPixmap(tile.miniTile[info.mPixmapIndex], info.mX , info.mY);
 
 
@@ -105,31 +95,10 @@ public class MapManager {
 
      public static void Initialize()
     {
-        //mMap=new TmxMapLoader().load("data/tiles.tmx");
-
         mMap=new Loader("data/maps/map001.tmx");
         mMap.Initialize();
         mapProperty=mMap.GetMap();
-
-        //backGroundBuffer=new FrameBuffer(Pixmap.Format.RGB888 ,scrW,scrH,false);
         foreGroundBuffer=new FrameBuffer(Pixmap.Format.RGBA8888,mapProperty.width  ,mapProperty.height,false);
-
-        /*mapTiles=new HashMap<Integer, TilesInfo>();
-
-        for(TiledMapTile tile : mMap.getTileSets().getTileSet(0))
-        {
-            MapProperties properties=tile.getProperties();
-
-            if(properties.containsKey("id"))
-            {
-                int id=Integer.parseInt((String)properties.get("id"));
-                int nextId=Integer.parseInt((String)properties.get("next"));
-                int life=Integer.parseInt((String) properties.get("life"));
-                int type=Integer.parseInt((String)properties.get("type"));
-                mapTiles.put(id, new TilesInfo(id, nextId,type,life, tile.getTextureRegion()));
-            }
-        }
-        */
         updateMapInfo(false,true);
 
     }
@@ -178,7 +147,7 @@ public class MapManager {
         final int []indexArray=applyIndexDamage.getFullArray();
         final int count=applyIndexDamage.size();
 
-        boolean bdraw=false;
+        boolean redraw=false;
 
 
 
@@ -186,7 +155,7 @@ public class MapManager {
 
 
         for (int index = 0; index < count; index++) {
-            bdraw=false;
+            redraw=false;
             int i=indexArray[index];
 
             if (fieldDamages[i] == 0 && fieldDigDamages[i] == 0) continue;
@@ -195,37 +164,39 @@ public class MapManager {
 
 
             if (life < 0) {
-                int mNextId = 0;
-                int mId=mapInfo.mId;
-                Tile tile=Tiles.GetTile(mId);
+                //int mNextId = 0;
+                //int mId=mapInfo.mId;
+                Tile tile=mapInfo.mTile; //Tiles.GetTile(mId);
+
+                TileGroup curGroup=tile.group;
+
+
+
+
                 while (life < 0) {
+                    TileGroup nextTileGroup=curGroup.next;
 
-                    mNextId = tile.group.next;
-
-
-
-                    TileGroup nextTileGroup=Tiles.Info.get(mNextId);
-                    if(nextTileGroup==null)
+                     if(nextTileGroup==null)
                         throw new NullPointerException("nextTileGroup is null");
 
                     life +=nextTileGroup.life;   //mapTiles.get(mNextId).mLife;
 
 
-                    if(mNextId==tile.group.id)break;
-                    mId=nextTileGroup.GetRandomTileId();
-                    bdraw=true;
-                    Log.d("random tile: " + mId);
+                    if(nextTileGroup.id==tile.group.id)break;
+                    tile=nextTileGroup.GetRandomTile();
+                    redraw=true;
+                    //Log.d("random tile: " + tile.id);
 
 
-                    tile = Tiles.GetTile(mId);
+                    //tile = Tiles.GetTile(mId);
 
-                    if (mNextId == 0) break;
+                    if (nextTileGroup.id == 0) break;
 
                 }
                 if(life<0) life=0;
 
 
-                mapInfo.SetInfo(mId, life, tile.group.canmove);
+                mapInfo.SetInfo(tile, life, tile.group.canmove);
             } else {
                 mapInfo.life = life;
             }
@@ -258,7 +229,7 @@ public class MapManager {
 
             fieldDamages[i] = 0;
             fieldDigDamages[i] = 0;
-            if(bdraw)
+            if(redraw)
                 redrawArray.add(i);
             //DrawManager.Append(i);
 
@@ -338,7 +309,7 @@ public class MapManager {
 
                 //int id=Integer.parseInt((String) cell.getTile().getProperties().get("id"));
                 tmpInfo=mapProperty.foreGroundMap[fY*colCount+fX];
-                int id=tmpInfo.id;
+
                 //tmpInfo=Tiles.GetTile(id); //mapTiles.get(id);
 
 
@@ -355,7 +326,7 @@ public class MapManager {
 
 
 
-                     mapInfo[index] = new MapInfo(index,id, rowX, rowY,iY*stepX+iX, tmpInfo.group.life,tmpInfo.group.canmove);
+                     mapInfo[index] = new MapInfo(index,tmpInfo, rowX, rowY,iY*stepX+iX, tmpInfo.group.life,tmpInfo.group.canmove);
                  }    /**/
 
 

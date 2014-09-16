@@ -51,7 +51,7 @@ public class BombController {
         }
 
         GameObjectController.Add(bomb);
-        mBombList.add(bomb);
+       mBombList.add(bomb);
     }
 
     public static void Remove(AbstractBomb abstractBomb){

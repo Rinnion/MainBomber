@@ -66,6 +66,15 @@ public class TilesLoader {
 
     }
 
+    private static void updateGroupInfo()
+    {
+        for(TileGroup tmpGroup:Tiles.Info.values())
+        {
+            tmpGroup.next=Tiles.Info.get(tmpGroup.nextGroupId);
+        }
+
+    }
+
     private static void parseXML()
     {
          //String
@@ -94,7 +103,7 @@ public class TilesLoader {
 
 
          }
-
+        updateGroupInfo();
     }
 
     public static void Initialize(){

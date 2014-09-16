@@ -13,7 +13,8 @@ import java.util.Random;
  */
 public class TileGroup {
     public int id;
-    public int next;
+    public int nextGroupId;
+    public TileGroup next;
 
     public int life;
     public boolean canmove;
@@ -21,10 +22,10 @@ public class TileGroup {
 
     public Tile[] tileList;
 
-    public  TileGroup(int id,int next,int life,boolean canmove,boolean candestroy)
+    public  TileGroup(int id,int nextid,int life,boolean canmove,boolean candestroy)
     {
         this.id=id;
-        this.next=next;
+        this.nextGroupId=nextid;
         this.life=life;
         this.canmove=canmove;
         this.candestroy=candestroy;
@@ -44,6 +45,14 @@ public class TileGroup {
         //Log.d(rndId + "");
 
         return tileList[rndId].id ;
+    }
+
+    public Tile GetRandomTile()
+    {
+        int rndId=(int)((Math.random()*tileList.length));
+        //Log.d(rndId + "");
+
+        return tileList[rndId];
     }
    //public Tile GetRadomTile(){return tileList[GetRandomTileId()];}
 
