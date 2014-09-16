@@ -31,3 +31,5 @@ _ReSharper*/
 .idea/*
 *.apk
 *.class
+MineBomber-android/bin/classes/MineBomber-android.apk
+MineBomber-android/bin/classes/MineBomber-android.unaligned.apk
