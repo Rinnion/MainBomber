@@ -6,6 +6,7 @@ import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Particles.ParticleManager;
 import com.me.Players.IPlayer;
+import com.me.Utility.MyArray;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,28 +16,31 @@ import java.util.Calendar;
  */
 public class BombController {
 
-    private static ArrayList<AbstractBomb> mBombList=null;
+    private static final int DEF_MAX_COUNT=2000;
+    public static final ArrayList<AbstractBomb> mBombList=new ArrayList<AbstractBomb>(DEF_MAX_COUNT) ;
+    private static final ArrayList<AbstractBomb> bombToRemove=new ArrayList<AbstractBomb>(DEF_MAX_COUNT);
 
     public static void Initialize()
     {
-        mBombList=new ArrayList<AbstractBomb>();
+
     }
 
     public static void DetonateBomb(IPlayer owner)
     {
+        ArrayList<AbstractBomb> bombList=mBombList;
+
         for(int i=0;i<mBombList.size();i++)
         {
-            if(mBombList.get(i).owner.equals(owner)) {
-                mBombList.get(i).detonate(Calendar.getInstance().getTimeInMillis());
+            AbstractBomb tmpBomb=bombList.get(i);
+
+            if(tmpBomb.owner.equals(owner)) {
+                tmpBomb.detonate(Calendar.getInstance().getTimeInMillis());
                 return;
             }
         }
     }
 
-    public static AbstractBomb[]  GetBombs()
-    {
-        return mBombList.toArray(new AbstractBomb[mBombList.size()]);
-    }
+
 
     public static void Add(IPlayer player, BombProperty bombProperty, Vector2 position)
     {
@@ -65,18 +69,22 @@ public class BombController {
 
     private static void calculateDamage(ArrayList<AbstractBomb> mBombList, long time) {
 
-        ArrayList<AbstractBomb> bombsToRemove = new ArrayList<AbstractBomb>(mBombList.size());
+        //ArrayList<AbstractBomb> bombsToRemove = new ArrayList<AbstractBomb>(mBombList.size());
+
+
         for (AbstractBomb b: mBombList){
             if (b.ActivationTime>time) continue;
-            bombsToRemove.add(b);
+            bombToRemove.add(b);
             Vector2I position = b.position;
             MapManager.addDamageToField(b.ExplodeMask, position.x, position.y);
         }
 
-        for(AbstractBomb btr: bombsToRemove){
+        for(AbstractBomb btr: bombToRemove){
             ParticleManager.Fire(btr.position.x*MapManager.rowW, btr.position.y*MapManager.rowH,btr.Property.range*4);
             BombController.Remove(btr);
         }
+
+        bombToRemove.clear();
     }
 
 }

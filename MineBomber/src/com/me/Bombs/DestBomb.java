@@ -1,6 +1,7 @@
 package com.me.Bombs;
 
 import com.badlogic.gdx.math.Vector2;
+import com.me.Bombs.Behavior.IBehavior;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
@@ -11,24 +12,17 @@ import com.me.Players.IPlayer;
  */
 public class DestBomb extends AbstractBomb {
 
-    float dmgMax;
-    float dmgMin;
-    int detonateTime;
-    boolean detonate;
-    boolean active;
-    BombProperty property;
 
-    public DestBomb(IPlayer player, BombProperty property, Vector2 pos)
+
+    public DestBomb(IPlayer player, Vector2 pos)
     {
-        super(player, property, new Vector2I((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dst_bomb"));
+       super(player,new BombProperty(player,BombType.DYNAMITE,3000000,100,200,20,false,true,true) , new Vector2I((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dst_bomb"));
 
-        this.property=new BombProperty(property);
-        property.active=false;
-        detonate=false;
-        detonateTime=property.activationTime;
-        this.active=property.active;
-        dmgMax=property.dmgMax;
-        dmgMin=property.dmgMin;
+
     }
 
+    @Override
+    public void detonate(long time) {
+        super.detonate(time);
+    }
 }

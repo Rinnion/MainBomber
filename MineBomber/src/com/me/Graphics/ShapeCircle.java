@@ -28,7 +28,9 @@ public class ShapeCircle {
         shapeRenderer.setProjectionMatrix(projectionMatrix);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
-        for(AbstractBomb bomb : BombController.GetBombs())
+        ArrayList<AbstractBomb> bomsList=BombController.mBombList;
+
+        for(AbstractBomb bomb :bomsList)
         {
            //bomb.Property.
             AbstractGameObject tmpObj=bomb;
