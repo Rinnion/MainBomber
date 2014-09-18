@@ -1,5 +1,6 @@
 package com.me.logger;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 
 /**
@@ -14,8 +15,8 @@ public class Log {
 
     public static void Initialize(String logTagName)
     {
-
         mTAG_LOG=logTagName;
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
 
     public  static   void info(String s)
@@ -25,7 +26,7 @@ public class Log {
 
     public static  void debug(String s)
     {
-        Gdx.app.debug(mTAG_LOG,s);
+        Gdx.app.debug(mTAG_LOG, s);
     }
 
     public static  void error(String s)

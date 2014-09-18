@@ -23,14 +23,8 @@ public class GameObjectController {
 
         for (int i = 0; i < objects.size(); i++) {
             obj = objects.get(i);
-
-
-            int px = (int)obj.position.x;
-            int py = (int)obj.position.y;
-            int index = py * MapManager.maxCel + px;
-             if(mapInfos[index].view)
-            obj.Render(batch);
-
+            int index = obj.index;
+            if(mapInfos[index].view) obj.Render(batch);
         }
     }
 

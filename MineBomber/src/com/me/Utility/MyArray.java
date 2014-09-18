@@ -21,6 +21,10 @@ public class MyArray<T> {
         itemCount++;
     }
 
+    public void clear(){
+        itemCount = 0;
+    }
+
     public int size()
     {
         return itemCount;

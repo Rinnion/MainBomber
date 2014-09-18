@@ -21,7 +21,9 @@ import com.me.TextManager.TextOut;
 import com.me.TilesManager.Tile;
 import com.me.TilesManager.TileGroup;
 import com.me.TilesManager.Tiles;
+import com.me.Utility.ArrayPool;
 import com.me.Utility.IntArray;
+import com.me.Utility.MyArray;
 import com.me.controlers.GameObjectController;
 import com.me.logger.Log;
 import com.me.minebomber.AbstractGameObject;
@@ -115,6 +117,7 @@ public class MapManager {
 
 
     public static void beginRedrawViewMask(Vector2I[] mask, float sx, float sy) {
+        IntArray arrayIndex = applyIndexDamage;
         for (Vector2I vm: mask) {
             int x = vm.x + (int) sx;
             int y = vm.y + (int) sy;
@@ -123,13 +126,13 @@ public class MapManager {
             if ((y < 1) || (y > maxRow -2)) continue;
             //add damage
             int index = y * maxCel + x;
-
-            MapManager.applyIndexDamage.add(index);
+            arrayIndex.add(index);
         }
     }
 
 
     public static void addDamageToField(Vector2IDamage[] damageMask, int sx, int sy) {
+        IntArray arrayIndex = applyIndexDamage;
         for (Vector2IDamage vm: damageMask) {
             int x = vm.x + sx;
             int y = vm.y + sy;
@@ -139,8 +142,7 @@ public class MapManager {
             //add damage
             int index = y * maxCel + x;
             fieldDamage[index] += vm.damage;
-            MapManager.applyIndexDamage.add(index);
-
+            arrayIndex.add(index);
         }
     }
 
@@ -148,7 +150,7 @@ public class MapManager {
 
 
     public static void addDigDamageToField(Vector2I[] mask, int damage, float sx, float sy) {
-        IntArray arrayIndexDamage = MapManager.applyIndexDamage;
+        IntArray arrayIndex = applyIndexDamage;
         for (Vector2I vm: mask) {
             int x = vm.x + (int) sx;
             int y = vm.y + (int) sy;
@@ -158,7 +160,7 @@ public class MapManager {
             //add damage
             int index = y * maxCel + x;
             fieldDigDamage[index] += damage;
-            arrayIndexDamage.add(index);
+            arrayIndex.add(index);
         }
     }
 
@@ -175,9 +177,7 @@ public class MapManager {
         boolean redraw=false;
 
 
-
-
-
+        MyArray<AbstractGameObject> array = new MyArray<AbstractGameObject>(20);
 
         for (int index = 0; index < count; index++) {
             redraw=false;
@@ -242,7 +242,14 @@ public class MapManager {
                 for (AbstractGameObject ago : fieldObjects[i]) {
                     //FIXME: should cast send which player
                     ago.applyDamage(null, fieldDamages[i], time);
+                    if (ago.life == 0) array.Add(ago);
                 }
+
+                for (int j = 0; j < array.size(); j++) {
+                    GameObjectController.Remove(array.Get(j));
+                }
+
+                array.clear();
 
                 for (IPlayer bm : players) {
                     float sx=bm.getX();
@@ -528,7 +535,6 @@ public class MapManager {
                     GameObjectController.Remove(next);
                 }
             }
-
         }
     }
 }

@@ -37,7 +37,8 @@ public abstract class AbstractTreasure extends AbstractGameObject {
     protected abstract void collect(IPlayer who, long time);
 
     protected void vanish() {
-        GameObjectController.Remove(this);
+        life = 0;
+        //GameObjectController.Remove(this);
     }
 
 }
