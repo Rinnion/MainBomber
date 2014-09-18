@@ -17,6 +17,7 @@ public class MapInfo
     public int mPixmapIndex;
     public  boolean canmove;
 
+    public boolean view;
 
 
     public void SetInfo(Tile tile, int life,boolean canmove) {
@@ -39,6 +40,7 @@ public class MapInfo
         mPixmapIndex=pixmapIndex;
         this.index=index;
         this.canmove=canmove;
+        view=true;
     }
 
 }

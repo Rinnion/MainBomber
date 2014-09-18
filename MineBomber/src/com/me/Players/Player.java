@@ -27,7 +27,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
     public void PlaceBomb() {
         if(mDie) return;
-        BombController.Add(this, new BombProperty(this, BombType.DSTBOMB, 300000, 10, 100, 30),
+        BombController.Add(this, new BombProperty(this, BombType.DSTBOMB, 300000, 100, 200, 20),
                 new Vector2(sprite.getX() + sprite.getOriginY(), sprite.getY() + sprite.getOriginY()));
     }
 
@@ -93,7 +93,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
         sprite=new Sprite(tRegion);
         sprite.flip(false,true);
-        sprite.setSize(12,12);
+        sprite.setSize(9.5f,9.5f);
         sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f);
 
         sprite.setPosition( position.x - sprite.getOriginX(), position.y - sprite.getOriginY() );

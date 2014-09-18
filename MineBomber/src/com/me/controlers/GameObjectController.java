@@ -2,6 +2,7 @@ package com.me.controlers;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.me.Map.MapInfo;
 import com.me.minebomber.AbstractGameObject;
 import com.me.Map.MapManager;
 
@@ -18,9 +19,19 @@ public class GameObjectController {
 
     public static void Render(SpriteBatch batch) {
         AbstractGameObject obj;
+
+        final MapInfo[] mapInfos=MapManager.mapInfo;
+
         for (int i = 0; i < objects.size(); i++) {
             obj = objects.get(i);
+
+
+            int px = (int)obj.position.x;
+            int py = (int)obj.position.y;
+            int index = py * MapManager.maxCel + px;
+             if(mapInfos[index].view)
             obj.Render(batch);
+
         }
     }
 

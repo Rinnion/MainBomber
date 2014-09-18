@@ -1,5 +1,6 @@
 package com.me.Map;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -46,7 +47,10 @@ public class MapManager {
 
     private static Texture mTextureForeground;
 
-     private static Sprite  mSpriteForeground;
+
+
+
+    private static Sprite  mSpriteForeground;
 
     static IMap mMap;
     public static MapProperty mapProperty;
@@ -80,9 +84,12 @@ public class MapManager {
         MapInfo info=mapInfo[mapIndex];
         //TilesInfo tile=  //mapTiles.get(info.GetId());
 
-        Tile tile = info.mTile;
-            PixmapHelper.DrawPixmap(tile.miniTile[info.mPixmapIndex], info.mX , info.mY);
+        //Tile tile = info.mTile;
 
+
+
+            PixmapHelper.DrawPixmap(info.mTile.miniTile[info.mPixmapIndex], info.mX , info.mY);
+        info.view=true;
 
 
     }
@@ -91,6 +98,8 @@ public class MapManager {
     {
         PixmapHelper.Bind(mTextureForeground);
     }
+
+
 
 
      public static void Initialize()
@@ -103,6 +112,21 @@ public class MapManager {
 
     }
 
+
+
+    public static void beginRedrawViewMask(Vector2I[] mask, float sx, float sy) {
+        for (Vector2I vm: mask) {
+            int x = vm.x + (int) sx;
+            int y = vm.y + (int) sy;
+            //correct bounds
+            if ((x < 1) || (x > maxCel -2)) continue;
+            if ((y < 1) || (y > maxRow -2)) continue;
+            //add damage
+            int index = y * maxCel + x;
+
+            MapManager.applyIndexDamage.add(index);
+        }
+    }
 
 
     public static void addDamageToField(Vector2IDamage[] damageMask, int sx, int sy) {
@@ -157,9 +181,19 @@ public class MapManager {
         for (int index = 0; index < count; index++) {
             redraw=false;
             int i=indexArray[index];
-
-            if (fieldDamages[i] == 0 && fieldDigDamages[i] == 0) continue;
             MapInfo mapInfo = mapInfos[i];
+            if(!mapInfo.view)
+                redraw=true;
+
+            if (fieldDamages[i] == 0 && fieldDigDamages[i] == 0) {
+
+                if(redraw)
+                    redrawArray.add(i);
+                continue;
+            }
+
+
+
             int life = mapInfo.life - fieldDamages[i] - fieldDigDamages[i];
 
 
@@ -218,6 +252,9 @@ public class MapManager {
                     float mapY=mapInfo.mY;
                     float mapH=mapY+ rowH;
 
+                  //  AbstractPlayer ap =(AbstractPlayer)bm;
+
+
                     if((sx>mapX)&&(sx<mapW)&&(sy>mapY)&&(sy<mapH))  {
                         bm.DealDamage(fieldDamages[i]);
                         //TextManager.Add(fieldDamage[i] + "", Color.RED, bm.getX(), bm.getY());
@@ -234,7 +271,7 @@ public class MapManager {
             //DrawManager.Append(i);
 
         }
-
+        //if(redraw)
         DrawManager.AddArray(redrawArray);
         redrawArray.clear();
         applyIndexDamage.clear();
@@ -254,11 +291,17 @@ public class MapManager {
 
 
 
+
     public static void Render(SpriteBatch batch)
     {
         RedrawMap();
-        //mSpriteBackground.draw(batch);
+
         mSpriteForeground.draw(batch);
+
+        //batch.enableBlending();
+
+        //batch.disableBlending();
+
 
 
     }
@@ -377,6 +420,8 @@ public class MapManager {
             int x=(i%mapProperty.mapW)*mapProperty.tileWidth;
             int y=(i/mapProperty.mapW)*mapProperty.tileHeight;
 
+
+            if(mapInfo[i].view)
             batch.draw(tile.region.getTexture(),x,y,tile.region.getRegionX(),tile.region.getRegionY(),tile.region.getRegionWidth(),tile.region.getRegionHeight());
 
             //batch.draw(tmpTile.region.getTexture(),tmpMapInfo.GetX(),tmpMapInfo.GetY(),tmpTile.region.getRegionX(),tmpTile.region.getRegionY(),tmpTile.region.getRegionWidth(),tmpTile.region.getRegionHeight());
@@ -416,8 +461,21 @@ public class MapManager {
         } */
 
         mTextureForeground=foreGroundBuffer.getColorBufferTexture();
+        //mTextureFog=new Texture(mTextureForeground.getWidth(),mTextureForeground.getHeight(), Pixmap.Format.RGBA8888);
+        //mPixmapFog=new Pixmap(mTextureForeground.getWidth(),mTextureForeground.getHeight(), Pixmap.Format.Alpha);
+
+
+        //mPixmapFog.setColor(0,0,0,1);
+        //mPixmapFog.fill();
+
+        //mTextureFog=new Texture(mPixmapFog);
+
+
+
         mSpriteForeground  =new Sprite(mTextureForeground);
+
         mSpriteForeground.flip(false,true);
+
 
         /*mTextureBackground=backGroundBuffer.getColorBufferTexture();
         mTextureForeground=foreGroundBuffer.getColorBufferTexture();

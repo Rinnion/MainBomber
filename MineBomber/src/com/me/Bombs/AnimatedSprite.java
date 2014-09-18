@@ -15,8 +15,8 @@ import com.me.minebomber.Settings;
 */
 public class AnimatedSprite extends Sprite {
 
-    public static final int WIDTH = 8;
-    public static final int HEIGHT = 8;
+    public static final int WIDTH = 6;
+    public static final int HEIGHT = 6;
     public static final float FRAME_DURATION = 0.24f;
     public static final String TREASURE_BIG_CHEST = "dyn";
 
@@ -44,6 +44,7 @@ public class AnimatedSprite extends Sprite {
                 tmpRegion.flip(false,true);
             }
             Animation animSprite = new Animation(FRAME_DURATION, region);
+
             return new AnimatedSprite(region.get(0).getTexture(), WIDTH, HEIGHT, animSprite);
         }
 
