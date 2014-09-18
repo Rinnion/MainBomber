@@ -3,6 +3,7 @@ package com.me.minebomber;
 
 import com.me.Map.MapManager;
 import com.me.Utility.IntArray;
+import com.me.logger.Log;
 
 
 /**
@@ -23,6 +24,7 @@ public class DrawManager {
         synchronized (syncObject) {
             refreshFields[objCount]=index;
             objCount++;
+            //Log.d("count" + objCount);
         }
     }
 

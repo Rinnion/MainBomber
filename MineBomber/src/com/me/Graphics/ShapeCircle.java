@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.me.Bombs.AbstractBomb;
 import com.me.Players.AbstractPlayer;
 import com.me.Players.IPlayer;
+import com.me.Players.PlayerController;
 import com.me.controlers.BombController;
 import com.me.minebomber.AbstractGameObject;
 
@@ -20,20 +21,11 @@ public class ShapeCircle {
     private  static ShapeRenderer shapeRenderer=new ShapeRenderer();
 
 
-    /*public ShapeCircle()
-    {
-        shapeRenderer=new ShapeRenderer();
 
-
-    }*/
 
     public static void Draw(Matrix4 projectionMatrix)
     {
         shapeRenderer.setProjectionMatrix(projectionMatrix);
-
-        //Gdx.gl.glEnable(GL10.GL_BLEND);
-        //Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
         for(AbstractBomb bomb : BombController.GetBombs())

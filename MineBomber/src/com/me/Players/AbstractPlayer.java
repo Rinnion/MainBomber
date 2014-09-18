@@ -2,6 +2,7 @@ package com.me.Players;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,28 +18,38 @@ import com.me.TextManager.TextManager;
 public class AbstractPlayer implements IPlayer {
     private final Vector2I[] mask_go;
     private final Vector2I[] mask_dmg;
+    public final Vector2I[] mask_view;
+
     protected LifeProgressBar mLifeProgressBar;
     protected String mName;
     float radiusDig=4.5f;
     float radiusGo=1.7f ;
-    int digDmg=10;
+
+    public float radiusView=15;
+
+    int digDmg=5;
     float playerSpd=0.040f;
     float playerSpeedPerFrame = 2f;
     float maxLife=100;
     float curLife=100;
     Vector2 v = new Vector2(0.7f,0.7f);
-    boolean mDie=false;Sprite sprite;
+    boolean mDie=false;
+    public Sprite sprite;
     private float newX;
     private float newY;
     ShapeRenderer shapeRenderer;
 
     private static final boolean playerDebug=false;
 
+
     public AbstractPlayer(String mName) {
         this.mName = mName;
         mLifeProgressBar=new LifeProgressBar(this);
         mask_go = MaskController.GetMask(radiusGo);
         mask_dmg = MaskController.GetMask(radiusDig);
+        mask_view = MaskController.GetMask(radiusView);
+
+
         if(playerDebug)
         shapeRenderer=new ShapeRenderer();
     }
@@ -173,6 +184,8 @@ public class AbstractPlayer implements IPlayer {
 
         newX = (int) (sprite.getX() + sprite.getOriginX());
         newY = (int) (sprite.getY() + sprite.getOriginY());
+
+        MapManager.beginRedrawViewMask(mask_view,newX / MapManager.rowW, newY / MapManager.rowH);
 
         if (MapManager.isEmptyField((newX + xStep) / MapManager.rowW, (newY + yStep) / MapManager.rowH, mask_go)) {
             newX += xStep;
