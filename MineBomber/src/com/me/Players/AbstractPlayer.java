@@ -176,16 +176,15 @@ public class AbstractPlayer implements IPlayer {
     }
 
     void calculate(long time) {
+        if(mDie) return;
 
-        if(mDie)
-            return;
         float xStep = (playerSpeedPerFrame * v.x);
         float yStep = (playerSpeedPerFrame * v.y);
 
         newX = (int) (sprite.getX() + sprite.getOriginX());
         newY = (int) (sprite.getY() + sprite.getOriginY());
 
-        MapManager.beginRedrawViewMask(mask_view,newX / MapManager.rowW, newY / MapManager.rowH);
+        MapManager.beginRedrawViewMask(mask_view, newX / MapManager.rowW, newY / MapManager.rowH);
 
         if (MapManager.isEmptyField((newX + xStep) / MapManager.rowW, (newY + yStep) / MapManager.rowH, mask_go)) {
             newX += xStep;

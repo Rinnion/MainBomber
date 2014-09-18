@@ -15,7 +15,6 @@ import java.util.HashMap;
 public class GameObjectController {
 
     static private ArrayList<AbstractGameObject> objects = new ArrayList<AbstractGameObject>();
-    static private HashMap<AbstractGameObject, Integer> objectsPlace = new HashMap<AbstractGameObject, Integer>();
 
     public static void Render(SpriteBatch batch) {
         AbstractGameObject obj;
@@ -24,20 +23,14 @@ public class GameObjectController {
 
         for (int i = 0; i < objects.size(); i++) {
             obj = objects.get(i);
-
-
-            int px = (int)obj.position.x;
-            int py = (int)obj.position.y;
-            int index = py * MapManager.maxCel + px;
-             if(mapInfos[index].view)
-            obj.Render(batch);
-
+            int index = obj.index;
+            if(mapInfos[index].view) obj.Render(batch);
         }
     }
 
     public static void Remove(AbstractGameObject abstractTreasure) {
         objects.remove(abstractTreasure);
-        Integer index = objectsPlace.get(abstractTreasure);
+        Integer index = abstractTreasure.index;
         MapManager.fieldObjects[index].remove(abstractTreasure);
     }
 
@@ -53,13 +46,10 @@ public class GameObjectController {
         return true;
     }
 
-    public static void Add(AbstractGameObject abstractTreasure) {
-        int px = (int)abstractTreasure.position.x;
-        int py = (int)abstractTreasure.position.y;
-        int index = py * MapManager.maxCel + px;
-        MapManager.fieldObjects[index].add(abstractTreasure);
-        objectsPlace.put(abstractTreasure, index);
-        objects.add(abstractTreasure);
+    public static void Add(AbstractGameObject abstractGameObject) {
+        int index = abstractGameObject.index;
+        MapManager.fieldObjects[index].add(abstractGameObject);
+        objects.add(abstractGameObject);
     }
 }
 

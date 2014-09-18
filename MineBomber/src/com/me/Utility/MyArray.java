@@ -64,6 +64,10 @@ public class MyArray<T> {
         itemCount=0;
     }
 
+    public void clear(){
+        itemCount = 0;
+    }
+
     public int size()
     {
         return itemCount;
