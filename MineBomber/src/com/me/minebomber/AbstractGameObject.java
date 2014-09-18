@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AnimatedSprite;
 import com.me.Map.MapManager;
+import com.me.Map.MapProperty;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 
@@ -12,6 +13,7 @@ import com.me.Players.IPlayer;
  */
 public abstract class AbstractGameObject {
     public final IPlayer owner;
+    public final int index;
     public int life;
     public Vector2I position;
 
@@ -20,6 +22,7 @@ public abstract class AbstractGameObject {
     public AbstractGameObject(IPlayer player, Vector2I pos, int life, AnimatedSprite sprite) {
         this.owner = player;
         position = new Vector2I(pos.x, pos.y);
+        index = pos.getMapIndex();
         this.life = life;
         this.sprite = sprite;
         sprite.setPosition(

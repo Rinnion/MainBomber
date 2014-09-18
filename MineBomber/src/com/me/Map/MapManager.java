@@ -124,6 +124,7 @@ public class MapManager {
 
 
     public static void addDigDamageToField(Vector2I[] mask, int damage, float sx, float sy) {
+        IntArray arrayIndexDamage = MapManager.applyIndexDamage;
         for (Vector2I vm: mask) {
             int x = vm.x + (int) sx;
             int y = vm.y + (int) sy;
@@ -133,7 +134,7 @@ public class MapManager {
             //add damage
             int index = y * maxCel + x;
             fieldDigDamage[index] += damage;
-            MapManager.applyIndexDamage.add(index);
+            arrayIndexDamage.add(index);
         }
     }
 

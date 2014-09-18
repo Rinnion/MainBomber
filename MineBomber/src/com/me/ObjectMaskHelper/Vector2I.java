@@ -1,5 +1,7 @@
 package com.me.ObjectMaskHelper;
 
+import com.me.Map.MapManager;
+
 /**
  * Created by alekseev on 04.04.2014.
  */
@@ -19,4 +21,7 @@ public class Vector2I {
         this.y=v.y;
     }
 
+    public int getMapIndex() {
+        return y * MapManager.maxCel + x;
+    }
 }
