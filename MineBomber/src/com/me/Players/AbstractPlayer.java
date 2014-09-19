@@ -7,10 +7,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.me.Bombs.AbstractBomb;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.MaskController;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.TextManager.TextManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by tretyakov on 06.05.2014.
@@ -42,13 +45,17 @@ public class AbstractPlayer implements IPlayer {
     private static final boolean playerDebug=false;
 
 
+    private static final int DEF_BOMB_COUNT=20;
+    protected final ArrayList<AbstractBomb> bombList;
+
+
     public AbstractPlayer(String mName) {
         this.mName = mName;
         mLifeProgressBar=new LifeProgressBar(this);
         mask_go = MaskController.GetMask(radiusGo);
         mask_dmg = MaskController.GetMask(radiusDig);
         mask_view = MaskController.GetMask(radiusView);
-
+        bombList=new ArrayList<AbstractBomb>(DEF_BOMB_COUNT);
 
         if(playerDebug)
         shapeRenderer=new ShapeRenderer();
@@ -150,6 +157,11 @@ public class AbstractPlayer implements IPlayer {
     }
 
     @Override
+    public void removebomb(AbstractBomb bomb) {
+        bombList.remove(bomb);
+    }
+
+    @Override
     public float getX() {
         return sprite.getX();
     }
@@ -191,6 +203,9 @@ public class AbstractPlayer implements IPlayer {
             newY += yStep;
             sprite.translate(xStep, yStep);
             MapManager.collect(this, mask_go, newX / MapManager.rowW, newY / MapManager.rowH, time);
+
+
+
         }
 
         MapManager.addDigDamageToField(mask_dmg, digDmg, newX / MapManager.rowW, newY / MapManager.rowH);

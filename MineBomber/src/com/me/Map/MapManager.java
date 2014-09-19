@@ -25,14 +25,13 @@ import com.me.Utility.ArrayPool;
 import com.me.Utility.IntArray;
 import com.me.Utility.MyArray;
 import com.me.controlers.GameObjectController;
+import com.me.controlers.TreasureController;
+import com.me.controlers.treasure.SmallChestTreasure;
 import com.me.logger.Log;
 import com.me.minebomber.AbstractGameObject;
 import com.me.minebomber.DrawManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -112,6 +111,14 @@ public class MapManager {
         foreGroundBuffer=new FrameBuffer(Pixmap.Format.RGBA8888,mapProperty.width  ,mapProperty.height,false);
         updateMapInfo(false,true);
 
+
+        for(int i=0;i<100;i++) {
+            int x =(int) (Math.random() * ((double) MapManager.maxCel));
+            int y =(int)(Math.random() * ((double) MapManager.maxRow));
+
+            TreasureController.Add(new SmallChestTreasure(new Vector2I(x, y)));
+
+        }
     }
 
 
@@ -242,11 +249,6 @@ public class MapManager {
                 for (AbstractGameObject ago : fieldObjects[i]) {
                     //FIXME: should cast send which player
                     ago.applyDamage(null, fieldDamages[i], time);
-                    if (ago.life == 0) array.Add(ago);
-                }
-
-                for (int j = 0; j < array.size(); j++) {
-                    GameObjectController.Remove(array.Get(j));
                 }
 
                 array.clear();
@@ -527,14 +529,20 @@ public class MapManager {
             if ((x < 1) || (x > maxCel -2)) continue;
             if ((y < 1) || (y > maxRow -2)) continue;
 
-            Iterator<AbstractGameObject> iterator = fieldObjects[y * maxCel + x].iterator();
-            while (iterator.hasNext()){
+            //Iterator<AbstractGameObject> iterator = fieldObjects[y * maxCel + x].iterator();
+
+            List<AbstractGameObject> objs=fieldObjects[y * maxCel + x];
+
+            for(AbstractGameObject obj:objs)
+                obj.applyTake(who,time);
+
+            /*while (iterator.hasNext()){
                 AbstractGameObject next = iterator.next();
                 if (next.applyTake(who, time)) {
                     iterator.remove();
                     GameObjectController.Remove(next);
                 }
-            }
+            }*/
         }
     }
 }

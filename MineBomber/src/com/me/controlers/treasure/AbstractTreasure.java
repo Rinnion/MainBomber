@@ -1,6 +1,9 @@
 package com.me.controlers.treasure;
 
 import com.me.Bombs.AnimatedSprite;
+import com.me.TextManager.TextManager;
+import com.me.TextManager.TextPool;
+import com.me.TextManager.TextZoom;
 import com.me.minebomber.AbstractGameObject;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
@@ -10,6 +13,8 @@ import com.me.controlers.GameObjectController;
  * Created by tretyakov on 12.05.2014.
  */
 public abstract class AbstractTreasure extends AbstractGameObject {
+
+    boolean collected=false;
 
     public AbstractTreasure(IPlayer player, Vector2I pos, int life, AnimatedSprite sprite) {
         super(player, pos, life, sprite);
@@ -26,8 +31,11 @@ public abstract class AbstractTreasure extends AbstractGameObject {
 
     @Override
     public boolean applyTake(IPlayer who, long time) {
-        collect(who, time);
-        return true;
+
+
+        collected=collected||collect(who, time);
+
+        return collected;
     }
 
     @Override
@@ -35,15 +43,17 @@ public abstract class AbstractTreasure extends AbstractGameObject {
     }
 
     @Override
-    public void calculate(long time) {
-
+    public boolean calculate(long time)
+    {
+       return collected;
     }
 
-    protected abstract void collect(IPlayer who, long time);
+    protected abstract boolean collect(IPlayer who, long time);
 
     protected void vanish() {
         life = 0;
         //GameObjectController.Remove(this);
+        collected=true;
     }
 
 }

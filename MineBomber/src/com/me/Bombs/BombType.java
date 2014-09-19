@@ -5,5 +5,5 @@ package com.me.Bombs;
  */
 public class BombType {
     public static final int DYNAMITE = 1;
-    public static final int DSTBOMB = 2;
+    public static final int ACTIVATION = 2;
 }

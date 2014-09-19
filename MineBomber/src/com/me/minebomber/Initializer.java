@@ -2,7 +2,6 @@ package com.me.minebomber;
 
 import com.me.TextManager.TextFont;
 import com.me.TilesManager.TilesLoader;
-import com.me.controlers.BombController;
 import com.me.Map.MapManager;
 import com.me.Map.PixmapHelper;
 import com.me.Particles.ParticleManager;
@@ -36,8 +35,6 @@ public class Initializer {
         Log.d("Initialize MapManager");
         MapManager.Initialize();
 
-        Log.d("Initialize BombController");
-        BombController.Initialize();
         Log.d("Initialize ParticleManager");
         ParticleManager.Initialize();
         Log.d("Initialize Players") ;

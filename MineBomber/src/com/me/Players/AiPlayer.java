@@ -1,15 +1,11 @@
 package com.me.Players;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.me.controlers.BombController;
-import com.me.Bombs.BombProperty;
-import com.me.Bombs.BombType;
-import com.me.Map.MapManager;
+import com.me.Bombs.AbstractBomb;
 import com.me.Utility.DelayTimer;
 import com.me.minebomber.Settings;
 
@@ -70,6 +66,11 @@ public class AiPlayer implements IPlayer, IPlayerControls {
         else
             curLife-=dmg;
         mLifeProgressBar.DoItVisible();
+    }
+
+    @Override
+    public void removebomb(AbstractBomb bomb) {
+
     }
 
     @Override

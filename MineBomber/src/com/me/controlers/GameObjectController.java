@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AbstractBomb;
 import com.me.Map.MapInfo;
+import com.me.Players.PlayerController;
 import com.me.minebomber.AbstractGameObject;
 import com.me.Map.MapManager;
 
@@ -54,21 +55,22 @@ public class GameObjectController {
     {
 
 
-        /*for (AbstractGameObject obj: objects) {
-            obj.calculate(time);
-            if(obj.canremove)
+        for (AbstractGameObject obj: objects) {
+
+            if(obj.calculate(time))
                 bombToRemove.add(obj);
 
         }
 
-        for(AbstractGameObject obj:bombToRemove)
+        for(AbstractGameObject obj:bombToRemove) {
+            PlayerController.RemoveObject(obj);
             objects.remove(obj);
-
+        }
 
 
         bombToRemove.clear();
-       */
-        BombController.calculate(time);
+       /**/
+        //BombController.calculate(time);
 
     }
 

@@ -7,13 +7,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.me.Bombs.AbstractBomb;
 import com.me.Bombs.Behavior.CircleExplosion;
-import com.me.Bombs.Behavior.IBehavior;
-import com.me.Bombs.DestBomb;
-import com.me.Players.AbstractPlayer;
-import com.me.Players.IPlayer;
-import com.me.Players.PlayerController;
-import com.me.controlers.BombController;
-import com.me.minebomber.AbstractGameObject;
 
 import java.util.ArrayList;
 
@@ -28,7 +21,7 @@ public class ShapeCircle {
 
     public static void Draw(Matrix4 projectionMatrix)
     {
-        shapeRenderer.setProjectionMatrix(projectionMatrix);
+        /*shapeRenderer.setProjectionMatrix(projectionMatrix);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
         ArrayList<AbstractBomb> bomsList=BombController.mBombList;
@@ -50,7 +43,7 @@ public class ShapeCircle {
 
         shapeRenderer.end();
         Gdx.gl.glDisable(GL10.GL_BLEND);
-
+          */
     }
 
 }

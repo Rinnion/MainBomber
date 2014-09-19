@@ -19,8 +19,9 @@ public abstract class ChestTreasure extends AbstractTreasure {
     }
 
     @Override
-    protected void collect(IPlayer who, long time) {
+    protected boolean collect(IPlayer who, long time) {
         PlayerController.addMoney(who, value);
+        return true;
     }
 }
 

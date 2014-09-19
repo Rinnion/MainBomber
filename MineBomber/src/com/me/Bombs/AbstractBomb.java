@@ -16,7 +16,7 @@ public abstract class AbstractBomb extends AbstractGameObject {
     public IBehavior behavior;
     //public final BombProperty Property;
 
-     public boolean detonatenow=false;
+
 
 
 
@@ -45,24 +45,25 @@ public abstract class AbstractBomb extends AbstractGameObject {
 
     }
 
-    public abstract void activate(long time);
-    public  void detonate(long time)
-    {
-        if(detonatenow) {
-            behavior.detonate(this, time);
-            detonatenow=false;
-        }
-
-    }
-
-
-
     @Override
-    public void calculate(long time) {
-
-
-
+    public boolean calculate(long time) {
+        behavior.detonate(this,time);
+        return true;
     }
+
+    public  boolean activate(long time)
+    {
+        return false;
+    }
+
+    public  abstract void detonate(long time);
+
+
+
+
+
+
+
 
 
 

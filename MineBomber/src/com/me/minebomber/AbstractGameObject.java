@@ -17,8 +17,13 @@ public abstract class AbstractGameObject {
     public int life;
     public Vector2I position;
     public boolean visible;
-    public boolean canremove;
+
     protected AnimatedSprite sprite;
+
+
+
+    public long calculateTime;
+
 
     public AbstractGameObject(IPlayer player, Vector2I pos, int life, AnimatedSprite sprite) {
         this.owner = player;
@@ -27,7 +32,8 @@ public abstract class AbstractGameObject {
         this.life = life;
         this.sprite = sprite;
         this.visible=true;
-        canremove=false;
+        //canremove=false;
+
         sprite.setPosition(
                 pos.x * MapManager.rowW - (sprite.getWidth() / 2),
                 pos.y * MapManager.rowH - (sprite.getHeight() / 2));
@@ -47,6 +53,7 @@ public abstract class AbstractGameObject {
 
     public abstract void applyDig(IPlayer who, long time) ;
 
-    public abstract void calculate(long time);
+    //True - удалить обьект, False - обьект не удалится
+    public abstract boolean calculate(long time);
 
 }

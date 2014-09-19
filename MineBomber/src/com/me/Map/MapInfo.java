@@ -40,7 +40,7 @@ public class MapInfo
         mPixmapIndex=pixmapIndex;
         this.index=index;
         this.canmove=canmove;
-        view=true;
+        view=false;
     }
 
 }

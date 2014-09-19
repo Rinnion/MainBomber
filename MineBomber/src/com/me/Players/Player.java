@@ -4,11 +4,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.me.controlers.BombController;
-import com.me.Bombs.BombProperty;
+import com.me.Bombs.AbstractBomb;
 import com.me.Bombs.BombType;
+import com.me.Bombs.DestBomb;
+import com.me.Bombs.Dynamite;
+import com.me.controlers.GameObjectController;
 import com.me.logger.Log;
 import com.me.minebomber.Settings;
+
+import java.util.Calendar;
 
 /**
  * Created by alekseev on 20.03.2014.
@@ -20,6 +24,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
     //    this.v = v;
     //}
 
+    int mCurrentBomb = 0;
 
     public void ChangeMoveDirection(Vector2 vec) {
         v=vec;
@@ -27,14 +32,33 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
     public void PlaceBomb() {
         if(mDie) return;
-        BombController.Add(this, BombType.DSTBOMB,
-                new Vector2(sprite.getX() + sprite.getOriginY(), sprite.getY() + sprite.getOriginY()));
+
+
+        AbstractBomb bomb = null;
+        switch (mCurrentBomb){
+            case 0:bomb=new DestBomb(this,new Vector2(sprite.getX() + sprite.getOriginY(), sprite.getY() + sprite.getOriginY())); break;
+            case 1:bomb=new Dynamite(this,new Vector2(sprite.getX() + sprite.getOriginY(), sprite.getY() + sprite.getOriginY())); break;
+        }
+
+        if (bomb != null) {
+            bombList.add(bomb);
+            GameObjectController.Add(bomb);
+        }
     }
 
     public void DetonateBomb() {
         if(mDie)
             return;
-        BombController.DetonateBomb(this);
+        //BombController.DetonateBomb(this);
+        long time=Calendar.getInstance().getTimeInMillis();
+
+        for(AbstractBomb bomb:bombList)
+        {
+            if(bomb.activate (time))
+            break;
+        }
+
+
     }
 
     @Override
@@ -45,6 +69,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
     @Override
     public void onDoubleSwipe(Vector2 v) {
+        mCurrentBomb = (mCurrentBomb + 1) % 2;
         Log.d(String.format("%s: onDoubleSwipe(%s)", this.getName(), v.toString()));
     }
 
