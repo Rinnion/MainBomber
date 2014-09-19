@@ -16,7 +16,8 @@ public abstract class AbstractGameObject {
     public final int index;
     public int life;
     public Vector2I position;
-
+    public boolean visible;
+    public boolean canremove;
     protected AnimatedSprite sprite;
 
     public AbstractGameObject(IPlayer player, Vector2I pos, int life, AnimatedSprite sprite) {
@@ -25,6 +26,8 @@ public abstract class AbstractGameObject {
         index = pos.getMapIndex();
         this.life = life;
         this.sprite = sprite;
+        this.visible=true;
+        canremove=false;
         sprite.setPosition(
                 pos.x * MapManager.rowW - (sprite.getWidth() / 2),
                 pos.y * MapManager.rowH - (sprite.getHeight() / 2));
@@ -35,7 +38,7 @@ public abstract class AbstractGameObject {
     }
 
     public void Render(Batch batch) {
-        sprite.draw(batch);
+        if(visible)sprite.draw(batch);
     }
 
     public abstract void applyDamage(IPlayer who, int dmg, long time) ;
@@ -43,4 +46,7 @@ public abstract class AbstractGameObject {
     public abstract boolean applyTake(IPlayer who, long time) ;
 
     public abstract void applyDig(IPlayer who, long time) ;
+
+    public abstract void calculate(long time);
+
 }

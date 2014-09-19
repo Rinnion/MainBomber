@@ -13,22 +13,19 @@ import java.util.Calendar;
  * Created by tretyakov on 09.04.2014.
  */
 public abstract class AbstractBomb extends AbstractGameObject {
-    public final BombProperty Property;
-    public long ActivationTime;
-    public Vector2IDamage[] ExplodeMask;
+    public IBehavior behavior;
+    //public final BombProperty Property;
+
+     public boolean detonatenow=false;
+
 
 
     public AbstractBomb(IPlayer player,IBehavior behavior, Vector2I pos, AnimatedSprite animatedSprite) {
         //FIXME life from bomb
         super(player, pos, 1, animatedSprite);
-        Vector2I[] vector2Is = MaskController.GetMask(property.range);
-        ExplodeMask = new Vector2IDamage[vector2Is.length];
-        for (int i = 0; i < vector2Is.length; i++) {
-            int damage = (int)(property.dmgMin + (float)Math.random()*(property.dmgMax - property.dmgMin));
-            ExplodeMask[i] = new Vector2IDamage(vector2Is[i], damage);
-        }
-        ActivationTime = Calendar.getInstance().getTimeInMillis() + property.activationTime;
-        Property = property;
+
+        this.behavior = behavior;
+
     }
 
     @Override
@@ -48,6 +45,28 @@ public abstract class AbstractBomb extends AbstractGameObject {
 
     }
 
-    public void detonate(long time) { ActivationTime = time; }
+    public abstract void activate(long time);
+    public  void detonate(long time)
+    {
+        if(detonatenow) {
+            behavior.detonate(this, time);
+            detonatenow=false;
+        }
+
+    }
+
+
+
+    @Override
+    public void calculate(long time) {
+
+
+
+    }
+
+
+
+
+    public abstract void digdamage(long time);
 
 }

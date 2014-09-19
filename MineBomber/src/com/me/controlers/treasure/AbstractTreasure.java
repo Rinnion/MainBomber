@@ -34,6 +34,11 @@ public abstract class AbstractTreasure extends AbstractGameObject {
     public void applyDig(IPlayer who, long time) {
     }
 
+    @Override
+    public void calculate(long time) {
+
+    }
+
     protected abstract void collect(IPlayer who, long time);
 
     protected void vanish() {

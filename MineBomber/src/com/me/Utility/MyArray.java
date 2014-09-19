@@ -56,17 +56,11 @@ public class MyArray<T> {
 
     public void clear()
     {
-        for(int i=0;i<itemCount;i++)
-        {
-            arrayList[i]=null;
-        }
 
         itemCount=0;
     }
 
-    public void clear(){
-        itemCount = 0;
-    }
+
 
     public int size()
     {

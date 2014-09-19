@@ -119,7 +119,9 @@ public class MineBomber implements ApplicationListener {
                                       public void run() {
                                          //try {
                                                 sheduleDtStart = Calendar.getInstance().getTimeInMillis();
-                                              BombController.Calculate(sheduleDtStart);
+                                              //BombController.Calculate(sheduleDtStart);
+                                          GameObjectController.calculate(sheduleDtStart);
+
                                                 sheduleDtBomb = Calendar.getInstance().getTimeInMillis();
                                               PlayerController.Calculate(sheduleDtStart);
                                                 sheduleDtPlayer = Calendar.getInstance().getTimeInMillis();
@@ -188,7 +190,7 @@ public class MineBomber implements ApplicationListener {
 
         PlayerController.AfterBatch(camera.combined);
 
-        //ShapeCircle.Draw(camera.combined);
+        ShapeCircle.Draw(camera.combined);
 
         //batch.getProjectionMatrix().setToOrtho2D(0, 0,Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
 	/*	batch.setProjectionMatrix(camera.combined);

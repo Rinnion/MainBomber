@@ -30,8 +30,8 @@ public class AbstractPlayer implements IPlayer {
     int digDmg=5;
     float playerSpd=0.040f;
     float playerSpeedPerFrame = 2f;
-    float maxLife=100;
-    float curLife=100;
+    float maxLife=10000;
+    float curLife=10000;
     Vector2 v = new Vector2(0.7f,0.7f);
     boolean mDie=false;
     public Sprite sprite;

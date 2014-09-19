@@ -2,6 +2,7 @@ package com.me.controlers;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.me.Bombs.AbstractBomb;
 import com.me.Map.MapInfo;
 import com.me.minebomber.AbstractGameObject;
 import com.me.Map.MapManager;
@@ -14,7 +15,10 @@ import java.util.HashMap;
  */
 public class GameObjectController {
 
-    static private ArrayList<AbstractGameObject> objects = new ArrayList<AbstractGameObject>();
+    public  static final int  DEF_MAX_OBJECT=1000;
+    private static final ArrayList<AbstractGameObject> objects = new ArrayList<AbstractGameObject>(DEF_MAX_OBJECT);
+    private static final ArrayList<AbstractGameObject> bombToRemove=new ArrayList<AbstractGameObject>(DEF_MAX_OBJECT);
+
 
     public static void Render(SpriteBatch batch) {
         AbstractGameObject obj;
@@ -45,6 +49,29 @@ public class GameObjectController {
 
         return true;
     }
+
+    public static void calculate(long time)
+    {
+
+
+        /*for (AbstractGameObject obj: objects) {
+            obj.calculate(time);
+            if(obj.canremove)
+                bombToRemove.add(obj);
+
+        }
+
+        for(AbstractGameObject obj:bombToRemove)
+            objects.remove(obj);
+
+
+
+        bombToRemove.clear();
+       */
+        BombController.calculate(time);
+
+    }
+
 
     public static void Add(AbstractGameObject abstractGameObject) {
         int index = abstractGameObject.index;
