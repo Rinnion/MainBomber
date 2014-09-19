@@ -150,7 +150,7 @@ public class AbstractPlayer implements IPlayer {
             curLife-=dmg;
         if(dmg!=0) {
 
-            TextManager.Add(dmg + "", Color.PINK, this.getX() ,this.getY());
+            TextManager.Add("-"+ dmg, Color.PINK, this.getX() ,this.getY());
             mLifeProgressBar.DoItVisible();
         }
 

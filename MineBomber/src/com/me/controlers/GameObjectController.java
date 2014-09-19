@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AbstractBomb;
 import com.me.Map.MapInfo;
 import com.me.Players.PlayerController;
+import com.me.logger.Log;
 import com.me.minebomber.AbstractGameObject;
 import com.me.Map.MapManager;
 
@@ -25,18 +26,21 @@ public class GameObjectController {
         AbstractGameObject obj;
 
         final MapInfo[] mapInfos=MapManager.mapInfo;
-
-        for (int i = 0; i < objects.size(); i++) {
-            obj = objects.get(i);
-            int index = obj.index;
-            if(mapInfos[index].view) obj.Render(batch);
-        }
+         synchronized (objects) {
+             for (int i = 0; i < objects.size(); i++) {
+                 obj = objects.get(i);
+                 int index = obj.index;
+                 if (mapInfos[index].view) obj.Render(batch);
+             }
+         }
     }
 
     public static void Remove(AbstractGameObject abstractTreasure) {
-        objects.remove(abstractTreasure);
-        Integer index = abstractTreasure.index;
-        MapManager.fieldObjects[index].remove(abstractTreasure);
+        synchronized (objects) {
+            objects.remove(abstractTreasure);
+            Integer index = abstractTreasure.index;
+            MapManager.fieldObjects[index].remove(abstractTreasure);
+        }
     }
 
     public static boolean isRoom(Vector2 position){
@@ -62,9 +66,13 @@ public class GameObjectController {
 
         }
 
-        for(AbstractGameObject obj:bombToRemove) {
-            PlayerController.RemoveObject(obj);
-            objects.remove(obj);
+        synchronized (objects) {
+            for (AbstractGameObject obj : bombToRemove) {
+                Log.d("PlayerController.RemoveObject");
+                    PlayerController.RemoveObject(obj);
+                Log.d("objects.remove");
+                objects.remove(obj);
+            }
         }
 
 
@@ -77,8 +85,11 @@ public class GameObjectController {
 
     public static void Add(AbstractGameObject abstractGameObject) {
         int index = abstractGameObject.index;
-        MapManager.fieldObjects[index].add(abstractGameObject);
-        objects.add(abstractGameObject);
+        synchronized (objects) {
+
+            MapManager.fieldObjects[index].add(abstractGameObject);
+            objects.add(abstractGameObject);
+        }
     }
 }
 

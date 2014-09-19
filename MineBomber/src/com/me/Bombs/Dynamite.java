@@ -14,13 +14,13 @@ import java.util.Calendar;
  */
 public class Dynamite extends AbstractBomb {
 
-    public long   ActivationTime=5000;
+    public long   ActivationTime=3000;
 
     public boolean isActivated;
 
     public Dynamite(IPlayer player, Vector2 pos)
     {
-       super(player,new CircleExplosion(100,200,30), new Vector2I((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
+       super(player,new CircleExplosion(100,200,24), new Vector2I((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
         //       BombProperty(player,BombType.DYNAMITE,3000000,100,200,20,false,true,true)
 
         ActivationTime += Calendar.getInstance().getTimeInMillis();

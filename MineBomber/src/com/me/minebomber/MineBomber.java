@@ -3,7 +3,8 @@ package com.me.minebomber;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.GL10;
+
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -149,8 +150,12 @@ public class MineBomber implements ApplicationListener {
 
         //Log.d("render");
 
-		Gdx.gl.glClearColor(1, 0, 1, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		//Gdx.gl.glClearColor(1, 0, 1, 1);
+        //Gdx.gl.glClear(0);
+		Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT);
+
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT| (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
+
         camera.update();
 
         Gdx.gl.glViewport((int)viewPort.getX() ,(int)viewPort.getY(),(int)viewPort.getWidth(),(int)viewPort.getHeight());

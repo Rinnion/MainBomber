@@ -15,7 +15,7 @@ public class TextFont {
 
     public static void Initialize()
     {
-        bitmapFont=new BitmapFont(Gdx.files.internal("data/font.fnt"),Gdx.files.internal("data/font.png"),true);
+        bitmapFont=new BitmapFont(Gdx.files.internal("data/fnt.fnt"),Gdx.files.internal("data/fnt.png"),true);
 
 
     }
