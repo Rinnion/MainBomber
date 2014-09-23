@@ -1,6 +1,7 @@
 package com.me.Bombs;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -15,8 +16,8 @@ import com.me.minebomber.Settings;
 */
 public class AnimatedSprite extends Sprite {
 
-    public static final int WIDTH = 6;
-    public static final int HEIGHT = 6;
+    public static final int WIDTH = 8;
+    public static final int HEIGHT = 8;
     public static final float FRAME_DURATION = 0.24f;
     public static final String TREASURE_BIG_CHEST = "dyn";
 
@@ -24,20 +25,51 @@ public class AnimatedSprite extends Sprite {
     private float elapsedTime;
 
     public AnimatedSprite(Texture texture, int width, int height, Animation animSprite) {
+
+
         super(texture, width, height);
+
         this.animSprite = animSprite;
     }
 
     @Override
     public void draw(Batch batch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
+
+        //Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
+        //batch.setBlendFunction(Gdx.gl.GL_SRC_COLOR, Gdx.gl.GL_DST_ALPHA);
+
         setRegion(animSprite.getKeyFrame(elapsedTime, true));
+        //Texture texture=getTexture();
+        //
+        //  float alpha=0.5f;
+
         super.draw(batch);
+    }
+
+    @Override
+    public void draw(Batch batch,float alpha) {
+        elapsedTime += Gdx.graphics.getDeltaTime();
+
+        //Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
+        //batch.setBlendFunction(Gdx.gl.GL_SRC_COLOR, Gdx.gl.GL_DST_ALPHA);
+
+        setRegion(animSprite.getKeyFrame(elapsedTime, true));
+        //Texture texture=getTexture();
+        //
+        //  float alpha=0.5f;
+
+        super.draw(batch,alpha);
     }
 
     public static class Factory{
         public static AnimatedSprite CreateBomb(String bombName) {
+
+
+
+
             TextureAtlas dynamiteTex = AssetLoader.GetAtlas(Settings.BOMB_DYNAMITE);
+
             Array<TextureAtlas.AtlasRegion> region = dynamiteTex.findRegions (bombName);
             for(TextureAtlas.AtlasRegion tmpRegion : region)
             {

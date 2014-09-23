@@ -14,7 +14,7 @@ public class Settings {
 
     public static final String PARTICLE_001="data/particles/explosion4.p";
 
-    public static final String BOMB_DYNAMITE="data/bombs/bombsPack.txt";
+    public static final String BOMB_DYNAMITE="data/bombs/bombPack.txt";
     public static final String PAK_OBJECTS="data/Textures/objects.txt";
 
 

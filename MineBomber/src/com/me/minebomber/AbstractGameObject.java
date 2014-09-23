@@ -39,6 +39,14 @@ public abstract class AbstractGameObject {
                 pos.y * MapManager.rowH - (sprite.getHeight() / 2));
     }
 
+    public void SetPosition(int x,int y)
+    {
+        position = new Vector2I(x, y);
+        sprite.setPosition(
+                x * MapManager.rowW - (sprite.getWidth() / 2),
+                y * MapManager.rowH - (sprite.getHeight() / 2));
+    }
+
     public AbstractGameObject(Vector2I pos, int life, AnimatedSprite sprite) {
         this(null, pos, life, sprite);
     }

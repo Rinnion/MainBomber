@@ -123,7 +123,7 @@ public class MineBomber implements ApplicationListener {
                                                 sheduleDtPlayer = Calendar.getInstance().getTimeInMillis();
                                               MapManager.Calculate(sheduleDtStart);
                                                 sheduleDtMap = Calendar.getInstance().getTimeInMillis();
-
+                                                GameObjectController.applyActions();
                                           long diff = sheduleDtMap - sheduleDtStart;
                                           if (diff > 20) Log.w("logic time > 20 !!!" + diff);
                                          // }
@@ -154,6 +154,7 @@ public class MineBomber implements ApplicationListener {
         //Gdx.gl.glClear(0);
 		Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT);
 
+
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT| (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
 
         camera.update();
@@ -166,6 +167,7 @@ public class MineBomber implements ApplicationListener {
 
         //MapManager.mapRenderer.getSpriteBatch().getProjectionMatrix().setToOrtho2D(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
+
         batch.setProjectionMatrix(camera.combined);
 
         long dtStart = Calendar.getInstance().getTimeInMillis(); //new Date().getTime();
@@ -176,6 +178,15 @@ public class MineBomber implements ApplicationListener {
         MapManager.Render(batch);
         batch.enableBlending();
         PlayerController.Render(batch);
+        //Gdx.gl.glEnable(Gdx.gl.GL_BLEND); Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
+
+        //Gdx.gl20.glColorMask(true, true, true, false);
+        //batch.setBlendFunction(GL20.GL_DST_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA );
+
+
+
+        //Gdx.gl.glBlendEquation(Gdx.gl20.GL_FUNC_SUBTRACT);
+
         GameObjectController.Render(batch);
         ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());
         textZoom.Draw(batch);
@@ -190,7 +201,7 @@ public class MineBomber implements ApplicationListener {
 
         PlayerController.AfterBatch(camera.combined);
 
-        ShapeCircle.Draw(camera.combined);
+       // ShapeCircle.Draw(camera.combined);
 
         //batch.getProjectionMatrix().setToOrtho2D(0, 0,Gdx.graphics.getWidth(),  Gdx.graphics.getHeight());
 	/*	batch.setProjectionMatrix(camera.combined);

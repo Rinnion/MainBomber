@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>3.3.2</string>
         <key>fileName</key>
-        <string>E:/JAVA/MB2/graphic/bombs/bombsPack.tps</string>
+        <string>E:/JAVA/tiles/8/tiles.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>libgdx</string>
         <key>textureFileName</key>
-        <filename>bombPack.png</filename>
+        <filename>objects.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -68,13 +68,13 @@
         <key>textureFormat</key>
         <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
-        <uint>1</uint>
+        <uint>0</uint>
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>1024</int>
+            <int>2048</int>
             <key>height</key>
-            <int>1024</int>
+            <int>2048</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -131,7 +131,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>bombPack.txt</filename>
+                <filename>objects.txt</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -172,13 +172,29 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>dyn_001.png</filename>
-            <filename>dyn_002.png</filename>
-            <filename>dyn_003.png</filename>
-            <filename>dst_bomb_004.png</filename>
-            <filename>dst_bomb_001.png</filename>
-            <filename>dst_bomb_002.png</filename>
-            <filename>dst_bomb_003.png</filename>
+            <filename>012.png</filename>
+            <filename>013.png</filename>
+            <filename>014.png</filename>
+            <filename>021.png</filename>
+            <filename>022.png</filename>
+            <filename>031.png</filename>
+            <filename>033.png</filename>
+            <filename>034.png</filename>
+            <filename>041.png</filename>
+            <filename>042.png</filename>
+            <filename>051.png</filename>
+            <filename>052.png</filename>
+            <filename>053.png</filename>
+            <filename>054.png</filename>
+            <filename>061.png</filename>
+            <filename>091.png</filename>
+            <filename>001.png</filename>
+            <filename>002.png</filename>
+            <filename>003.png</filename>
+            <filename>004.png</filename>
+            <filename>011.png</filename>
+            <filename>032.png</filename>
+            <filename>../081.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

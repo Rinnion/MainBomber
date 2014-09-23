@@ -42,6 +42,8 @@ public class CircleExplosion implements IBehavior {
 
             MapManager.addDamageToField(ExplodeMask, bomb.position.x,bomb.position.y);
             ParticleManager.Fire(bomb.position.x*MapManager.rowW ,bomb.position.y*MapManager.rowH,range*4);
+
+
     }
 
 

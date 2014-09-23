@@ -1,0 +1,67 @@
+bombPack.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bomb
+  rotate: false
+  xy: 1, 1
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: 1
+bomb
+  rotate: false
+  xy: 18, 1
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: 2
+dst_bomb
+  rotate: false
+  xy: 35, 1
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: 1
+dst_bomb
+  rotate: false
+  xy: 1, 19
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: 2
+dst_bomb
+  rotate: false
+  xy: 18, 19
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: 3
+dst_bomb
+  rotate: false
+  xy: 35, 19
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: 4
+dyn
+  rotate: false
+  xy: 1, 36
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: 1
+dyn
+  rotate: false
+  xy: 18, 36
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: 2
+dyn
+  rotate: false
+  xy: 35, 36
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: 3

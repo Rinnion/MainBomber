@@ -1,13 +1,12 @@
 package com.me.Players;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.AbstractBomb;
-import com.me.Bombs.BombType;
-import com.me.Bombs.DestBomb;
-import com.me.Bombs.Dynamite;
+import com.me.Bombs.*;
+import com.me.TextManager.TextManager;
 import com.me.controlers.GameObjectController;
 import com.me.logger.Log;
 import com.me.minebomber.Settings;
@@ -36,8 +35,12 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
         AbstractBomb bomb = null;
         switch (mCurrentBomb){
-            case 0:bomb=new DestBomb(this,new Vector2(sprite.getX() + sprite.getOriginY(), sprite.getY() + sprite.getOriginY())); break;
-            case 1:bomb=new Dynamite(this,new Vector2(sprite.getX() + sprite.getOriginY(), sprite.getY() + sprite.getOriginY())); break;
+            case 0:bomb=new DestBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
+            case 1:bomb=new Dynamite(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
+            case 2:bomb=new RandomBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
+            case 3:bomb=new PunchTeraStone(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
+            case 4:bomb=new FastFilledBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
+            case 5:bomb=new FilledBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
         }
 
         if (bomb != null) {
@@ -69,7 +72,10 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
     @Override
     public void onDoubleSwipe(Vector2 v) {
-        mCurrentBomb = (mCurrentBomb + 1) % 2;
+        mCurrentBomb = (mCurrentBomb + 1) % 6;
+
+        TextManager.Add("CurBomb: " + mCurrentBomb, Color.GRAY,sprite.getX() + sprite.getOriginX(),sprite.getY() + sprite.getOriginY() );
+
         Log.d(String.format("%s: onDoubleSwipe(%s)", this.getName(), v.toString()));
     }
 

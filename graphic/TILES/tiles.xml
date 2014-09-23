@@ -74,4 +74,14 @@
 	<group id="012" life="999" next="012" canmove="false" candestroy="false">
 		<tile id="091"/>
 	</group>
+	
+	<!--Бетон-->
+	<group id="014" life="200" next="000" canmove="false">
+		<tile id="081"/>
+	</group>
+	<!--Бетон-->
+	<group id="015" life="300" next="000" canmove="false">
+		<tile id="082"/>
+	</group>
+	
 </tiles>

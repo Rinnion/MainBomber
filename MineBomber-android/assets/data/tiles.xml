@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tiles version="0.9b" src="objects.png">
 	<!--Земля-->
-	<group id="000" life="10" next="000" canmove="true">
-
-        <tile id="001"/>
+	<group id="000" life="0" next="000" canmove="true">
+		<tile id="001"/>
 		<tile id="002"/>
 		<tile id="003"/>
 		<tile id="004"/>
@@ -75,4 +74,14 @@
 	<group id="012" life="999" next="012" canmove="false" candestroy="false">
 		<tile id="091"/>
 	</group>
+	
+	<!--Бетон-->
+	<group id="014" life="200" next="000" canmove="false">
+		<tile id="081"/>
+	</group>
+	<!--Бетон-->
+	<group id="015" life="300" next="000" canmove="false">
+		<tile id="082"/>
+	</group>
+	
 </tiles>
