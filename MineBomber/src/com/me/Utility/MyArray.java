@@ -1,9 +1,5 @@
 package com.me.Utility;
 
-import com.badlogic.gdx.utils.Array;
-
-import java.util.ArrayList;
-
 /**
  * Created by alekseev on 07.04.2014.
  */
@@ -11,6 +7,7 @@ public class MyArray<T> {
 
     T []arrayList;//=new T[2000];
     int itemCount;
+
     public  MyArray(int capacity)
     {
         arrayList= (T[])new Object[capacity];
@@ -42,10 +39,7 @@ public class MyArray<T> {
         {
             itemCount=newCount;
             return true;
-
         }
-
-
 
         System.arraycopy(arrayList,i+1,arrayList,i,newCount);
         itemCount=newCount;
@@ -59,8 +53,6 @@ public class MyArray<T> {
 
         itemCount=0;
     }
-
-
 
     public int size()
     {
@@ -83,5 +75,6 @@ public class MyArray<T> {
 
         return null;
     }
+
 
 }

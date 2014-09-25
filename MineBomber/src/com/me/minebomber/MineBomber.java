@@ -3,17 +3,16 @@ package com.me.minebomber;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
-
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.me.Graphics.ShapeCircle;
 import com.me.Map.MapManager;
 import com.me.Particles.ParticleManager;
 import com.me.Players.PlayerController;
 import com.me.TextManager.IText;
 import com.me.TextManager.TextManager;
+import com.me.controlers.ActionController;
 import com.me.controlers.GameObjectController;
 import com.me.logger.Log;
 
@@ -23,30 +22,22 @@ import java.util.TimerTask;
 
 
 public class MineBomber implements ApplicationListener {
-	private OrthographicCamera camera;
-	private SpriteBatch batch;
-	//private Texture texture;
-	//private Sprite sprite;
-    //private Sprite sprite2;
-
     public static IText textZoom;
-
-
     public static long BeginDrawTime;
-    private Rectangle viewPort;
-
+    //private Texture texture;
+    //private Sprite sprite;
+    //private Sprite sprite2;
     float sX=0.008f;
     float sY=0.008f;
-
     float mX;
     float mY;
-
     FPSLogger loger;
-
     float scrW;
     float scrH;
-
     boolean fullScreen=true;
+    private OrthographicCamera camera;
+    private SpriteBatch batch;
+    private Rectangle viewPort;
     private Timer timer;
     private long sheduleDtStart;
     private long sheduleDtBomb;
@@ -86,7 +77,7 @@ public class MineBomber implements ApplicationListener {
         //texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
         //TextureRegion region = new TextureRegion(texture, 0, 0, 15, 15);
-       // TextureRegion region2 = new TextureRegion(texture, 0, 16, 15, 15);
+        // TextureRegion region2 = new TextureRegion(texture, 0, 16, 15, 15);
 
         //sprite = new Sprite(region);
         //sprite2 = new Sprite(region2);
@@ -94,7 +85,7 @@ public class MineBomber implements ApplicationListener {
         //sprite2.setSize(8,8);
 
 
-       // sY = (sY * sprite.getHeight()) / sprite.getWidth();
+        // sY = (sY * sprite.getHeight()) / sprite.getWidth();
         //mX = 1f / sX;
         //mY = 1f / sY;
 
@@ -113,26 +104,27 @@ public class MineBomber implements ApplicationListener {
         timer.scheduleAtFixedRate(new TimerTask() {
                                       @Override
                                       public void run() {
-                                         //try {
-                                                sheduleDtStart = Calendar.getInstance().getTimeInMillis();
-                                              //BombController.Calculate(sheduleDtStart);
+                                          //try {
+                                          sheduleDtStart = Calendar.getInstance().getTimeInMillis();
+                                          //BombController.Calculate(sheduleDtStart);
                                           GameObjectController.calculate(sheduleDtStart);
 
-                                                sheduleDtBomb = Calendar.getInstance().getTimeInMillis();
-                                              PlayerController.Calculate(sheduleDtStart);
-                                                sheduleDtPlayer = Calendar.getInstance().getTimeInMillis();
-                                              MapManager.Calculate(sheduleDtStart);
-                                                sheduleDtMap = Calendar.getInstance().getTimeInMillis();
-                                                GameObjectController.applyActions();
+                                          sheduleDtBomb = Calendar.getInstance().getTimeInMillis();
+                                          PlayerController.Calculate(sheduleDtStart);
+                                          sheduleDtPlayer = Calendar.getInstance().getTimeInMillis();
+                                          MapManager.Calculate(sheduleDtStart);
+                                          sheduleDtMap = Calendar.getInstance().getTimeInMillis();
+                                          ActionController.Calculate(sheduleDtStart);
+
                                           long diff = sheduleDtMap - sheduleDtStart;
                                           if (diff > 20) Log.w("logic time > 20 !!!" + diff);
-                                         // }
+                                          // }
                                           //catch (Exception _ex)
                                           //{
-                                           //   Log.e("Stack: " + _ex.getStackTrace() + "Message: " + _ex.getMessage() );
+                                          //   Log.e("Stack: " + _ex.getStackTrace() + "Message: " + _ex.getMessage() );
 
 
-                                         //}
+                                          //}
                                       }
                                   }, 0, 50
         );
