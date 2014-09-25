@@ -19,7 +19,9 @@ public class AnimatedSprite extends Sprite {
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
     public static final float FRAME_DURATION = 0.24f;
-    public static final String TREASURE_BIG_CHEST = "dyn";
+    public static final float FRAME_DURATION_T = 1.0f;
+
+    public static final String TREASURE_BIG_CHEST = "box";
 
     private com.badlogic.gdx.graphics.g2d.Animation animSprite;
     private float elapsedTime;
@@ -62,6 +64,11 @@ public class AnimatedSprite extends Sprite {
         super.draw(batch,alpha);
     }
 
+    public void SetPlayMode(Animation.PlayMode mode)
+    {
+        this.animSprite.setPlayMode(mode);
+    }
+
     public static class Factory{
         public static AnimatedSprite CreateBomb(String bombName) {
 
@@ -82,7 +89,32 @@ public class AnimatedSprite extends Sprite {
 
         public static AnimatedSprite CreateTreasure(String treasureName) {
             //FIXME: loading treasure image
-            return CreateBomb(treasureName);
+            TextureAtlas dynamiteTex = AssetLoader.GetAtlas(Settings.BOMB_DYNAMITE);
+
+            Array<TextureAtlas.AtlasRegion> region = dynamiteTex.findRegions (treasureName);
+            for(TextureAtlas.AtlasRegion tmpRegion : region)
+            {
+                tmpRegion.flip(false,true);
+            }
+            Animation animSprite = new Animation(FRAME_DURATION_T, region, Animation.PlayMode.LOOP_PINGPONG);
+
+            return new AnimatedSprite(region.get(0).getTexture(), WIDTH, HEIGHT, animSprite);
+        }
+
+
+
+        public static AnimatedSprite CreatePlayer(String playerSkin)
+        {
+            TextureAtlas playerTex = AssetLoader.GetAtlas(Settings.PLAYER_SKIN);
+
+            Array<TextureAtlas.AtlasRegion> region = playerTex.findRegions ("player_brake");
+            for(TextureAtlas.AtlasRegion tmpRegion : region)
+            {
+                tmpRegion.flip(false,true);
+            }
+            Animation animSprite = new Animation(0.15f, region);
+
+            return new AnimatedSprite(region.get(0).getTexture(), 10, 10, animSprite);
         }
     }
 }

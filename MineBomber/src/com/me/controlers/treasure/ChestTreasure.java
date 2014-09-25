@@ -14,7 +14,7 @@ public abstract class ChestTreasure extends AbstractTreasure {
     private final long value;
 
     public ChestTreasure(Vector2I pos, long value, String spriteName){
-        super(null, pos, 1, AnimatedSprite.Factory.CreateBomb(spriteName));
+        super(null, pos, 1, AnimatedSprite.Factory.CreateTreasure(spriteName));
         this.value = value;
     }
 

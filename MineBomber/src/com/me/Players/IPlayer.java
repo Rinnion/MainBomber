@@ -1,6 +1,7 @@
 package com.me.Players;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AbstractBomb;
 import com.me.controlers.treasure.AbstractTreasure;
 
@@ -35,6 +36,12 @@ public interface IPlayer {
     float getY();
     float getH();
     float getW();
+
+
+    Vector2 GetOrigin();
+
+    Arsenal GetArsenal();
+
 
     void addMoney(long value);
 
