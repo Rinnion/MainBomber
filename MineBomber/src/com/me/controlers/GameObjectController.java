@@ -62,19 +62,16 @@ public class GameObjectController {
         }
 
         for (AbstractGameObject obj : bombToRemove) {
-            //Log.d("PlayerController.RemoveObject");
             PlayerController.RemoveObject(obj);
-            //Log.d("objects.remove");
             objects.remove(obj);
-
             MapManager.fieldObjects[obj.index].remove(obj);
-
         }
         bombToRemove.clear();
     }
 
     public static void Add(AbstractGameObject ago) {
         objects.add(ago);
+        MapManager.fieldObjects[ago.index].add(ago);
     }
 }
 

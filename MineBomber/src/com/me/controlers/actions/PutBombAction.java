@@ -22,7 +22,6 @@ public class PutBombAction implements ActionController.IGameAction {
 
     @Override
     public void Calculate(long time) {
-        MapManager.fieldObjects[obj.index].add(obj);
         GameObjectController.Add(obj);
     }
 }

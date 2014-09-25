@@ -3,7 +3,6 @@ package com.me.Players;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -12,12 +11,15 @@ import java.util.HashMap;
 public class Arsenal {
     HashMap<Integer,Integer> mArsenal=null;
 
-    public Arsenal()
-    {
-        mArsenal=new HashMap<Integer, Integer>();
+    public Arsenal() {
+        mArsenal = new HashMap<Integer, Integer>();
 
-        mArsenal.put(0,20);
-        mArsenal.put(2,20);
+        mArsenal.put(BombType.DESTANATION, 200);
+        mArsenal.put(BombType.DYNAMITE, 200);
+        mArsenal.put(BombType.RANDOM, 200);
+        mArsenal.put(BombType.FAST_FILLED, 200);
+        mArsenal.put(BombType.FILLED, 200);
+        mArsenal.put(BombType.PUNCH_TERA, 200);
     }
 
     public void Add(int type,int count)
@@ -59,13 +61,13 @@ public class Arsenal {
             case BombType.RANDOM:
                 bomb=new RandomBomb(player,pos);
                 break;
-            case BombType.PunchTera :
+            case BombType.PUNCH_TERA:
                 bomb=new PunchTeraStone(player,pos);
                 break;
-            case BombType.FasFilled:
+            case BombType.FAST_FILLED:
                 bomb=new FastFilledBomb(player,pos);
                 break;
-            case BombType.Filled:
+            case BombType.FILLED:
                 bomb=new FilledBomb(player,pos);
                 break;
 
