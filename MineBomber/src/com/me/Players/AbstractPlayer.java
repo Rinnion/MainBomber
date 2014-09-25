@@ -3,11 +3,11 @@ package com.me.Players;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AbstractBomb;
+import com.me.Bombs.AnimatedSprite;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.MaskController;
 import com.me.ObjectMaskHelper.Vector2I;
@@ -19,6 +19,11 @@ import java.util.ArrayList;
  * Created by tretyakov on 06.05.2014.
  */
 public class AbstractPlayer implements IPlayer {
+
+    Arsenal arsenal;
+    ArsenalInfo arsenalInfo;
+
+
     private final Vector2I[] mask_go;
     private final Vector2I[] mask_dmg;
     public final Vector2I[] mask_view;
@@ -37,12 +42,19 @@ public class AbstractPlayer implements IPlayer {
     float curLife=10000;
     Vector2 v = new Vector2(0.7f,0.7f);
     boolean mDie=false;
-    public Sprite sprite;
+
+    public TextureAtlas textureAtlas;
+
+
+    public AnimatedSprite sprite;
+    //public Animation animationSprite;
+
     private float newX;
     private float newY;
     ShapeRenderer shapeRenderer;
 
     private static final boolean playerDebug=false;
+
 
 
     private static final int DEF_BOMB_COUNT=20;
@@ -51,6 +63,7 @@ public class AbstractPlayer implements IPlayer {
 
     public AbstractPlayer(String mName) {
         this.mName = mName;
+        arsenal=new Arsenal();
         mLifeProgressBar=new LifeProgressBar(this);
         mask_go = MaskController.GetMask(radiusGo);
         mask_dmg = MaskController.GetMask(radiusDig);
@@ -59,6 +72,8 @@ public class AbstractPlayer implements IPlayer {
 
         if(playerDebug)
         shapeRenderer=new ShapeRenderer();
+        arsenalInfo=new ArsenalInfo(this);
+
     }
 
 
@@ -92,7 +107,13 @@ public class AbstractPlayer implements IPlayer {
             shapeRenderer.end();
         }
 
+        //TextureRegion region= animationSprite.getKeyFrame(Gdx.graphics.getDeltaTime());
+        //region.flip(false,true);
+
+        //sprite.setRegion(region);
+
         sprite.draw(batch);
+        arsenalInfo.Render(batch);
     }
 
     @Override
@@ -180,6 +201,16 @@ public class AbstractPlayer implements IPlayer {
     @Override
     public float getW() {
         return sprite.getWidth() ;
+    }
+
+    @Override
+    public Vector2 GetOrigin() {
+        return new Vector2(sprite.getOriginX(),sprite.getOriginY());
+    }
+
+    @Override
+    public Arsenal GetArsenal() {
+        return arsenal;
     }
 
     @Override

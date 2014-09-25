@@ -17,8 +17,9 @@ public class PrepareAssetsFiles {
     {
 
         AssetLoader.load(Settings.TEX_MAP_OBJECTS, Pixmap.class);
-        AssetLoader.load(Settings.TEX_MAN, Texture.class);
         AssetLoader.load(Settings.BOMB_DYNAMITE, TextureAtlas.class);
+        AssetLoader.load(Settings.PLAYER_SKIN , TextureAtlas.class);
+
         AssetLoader.DoCompliteLoading();
     }
 

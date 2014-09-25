@@ -1,0 +1,46 @@
+player.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+player_brake
+  rotate: false
+  xy: 2, 2
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: 1
+player_brake
+  rotate: false
+  xy: 24, 2
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: 2
+player_go
+  rotate: false
+  xy: 2, 24
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: 1
+player_go
+  rotate: false
+  xy: 24, 24
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: 2
+player_go
+  rotate: false
+  xy: 2, 46
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: 3
+player_go
+  rotate: false
+  xy: 24, 46
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: 4

@@ -2,11 +2,14 @@ package com.me.Players;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.*;
 import com.me.TextManager.TextManager;
+import com.me.assetloader.AssetLoader;
 import com.me.controlers.GameObjectController;
 import com.me.logger.Log;
 import com.me.minebomber.Settings;
@@ -23,6 +26,9 @@ public class Player extends AbstractPlayer implements IPlayerControls {
     //    this.v = v;
     //}
 
+
+
+
     int mCurrentBomb = 0;
 
     public void ChangeMoveDirection(Vector2 vec) {
@@ -33,15 +39,18 @@ public class Player extends AbstractPlayer implements IPlayerControls {
         if(mDie) return;
 
 
-        AbstractBomb bomb = null;
-        switch (mCurrentBomb){
+        AbstractBomb bomb=arsenal.PutBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(),sprite.getY() + sprite.getOriginY()),mCurrentBomb);
+
+        /*switch (mCurrentBomb){
             case 0:bomb=new DestBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
             case 1:bomb=new Dynamite(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
             case 2:bomb=new RandomBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
             case 3:bomb=new PunchTeraStone(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
             case 4:bomb=new FastFilledBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
             case 5:bomb=new FilledBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
-        }
+        }*/
+
+
 
         if (bomb != null) {
             bombList.add(bomb);
@@ -112,20 +121,43 @@ public class Player extends AbstractPlayer implements IPlayerControls {
     public Texture mTexture;
 
 
-    TextureRegion tRegion;
+    //TextureRegion tRegion;
 
 
     public Player(String mName, IListenerRegistration registration, Vector2 position)
     {
         super(mName);
-        mTexture=new Texture(Settings.TEX_MAN);
-        tRegion=new TextureRegion(mTexture);
-        InitRegion(PlayerDirection.DOWN );
+        //mTexture=new Texture(Settings.TEX_MAN);
 
-        sprite=new Sprite(tRegion);
+
+       sprite = AnimatedSprite.Factory.CreatePlayer(Settings.PLAYER_SKIN);
+
+        //TextureAtlas atlas= AssetLoader.GetAtlas(Settings.PLAYER_SKIN);
+
+
+
+
+
+
+         /*
+        //InitRegion(PlayerDirection.DOWN);
+
+        animationSprite=new Animation(0.23f,atlas.findRegion("player_go") );
+
+        //animationSprite.getKeyFrame()
+
+        sprite=new Sprite(atlas.getTextures().first());
+
+        sprite.setRegion(animationSprite.getKeyFrame(0));
         sprite.flip(false,true);
+        */
+       // sprite.SetPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
         sprite.setSize(9.5f,9.5f);
+
         sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f);
+
+
 
         sprite.setPosition( position.x - sprite.getOriginX(), position.y - sprite.getOriginY() );
 
@@ -137,17 +169,17 @@ public class Player extends AbstractPlayer implements IPlayerControls {
         switch (i)
         {
             case PlayerDirection.DOWN:
-                tRegion.setRegion(0,0,15,15);
+
              break;
             case PlayerDirection.TOP:
-                tRegion.setRegion(0,16,15,15);
+
             break;
 
             case PlayerDirection.LEFT:
-                tRegion.setRegion(0,16+15,15,15);
+
                 break;
             case PlayerDirection.RIGHT:
-                tRegion.setRegion(0,16+15+15,15,15);
+
             break;
 
         }

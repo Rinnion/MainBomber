@@ -86,6 +86,16 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     }
 
     @Override
+    public Vector2 GetOrigin() {
+        return new Vector2(sprite.getOriginX(),sprite.getOriginY());
+    }
+
+    @Override
+    public Arsenal GetArsenal() {
+        return null;
+    }
+
+    @Override
     public void addMoney(long value) {
 
     }
