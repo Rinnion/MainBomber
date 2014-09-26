@@ -55,7 +55,6 @@ public class GameObjectController {
 
     public static void calculate(long time) {
 
-        Log.d(String.valueOf(objects.size()));
         for (AbstractGameObject obj : objects) {
             if (obj.calculate(time))
                 bombToRemove.add(obj);

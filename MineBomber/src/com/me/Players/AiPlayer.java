@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AbstractBomb;
+import com.me.Bombs.Activator.IActivator;
 import com.me.Utility.DelayTimer;
 import com.me.minebomber.Settings;
 
@@ -74,6 +75,11 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     }
 
     @Override
+    public void activateBombs(long time) {
+
+    }
+
+    @Override
     public float getH() {
         return sprite.getHeight();
     }
@@ -99,6 +105,11 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     @Override
     public Arsenal getArsenal() {
         return null;
+    }
+
+    @Override
+    public void addActivator(IActivator activator) {
+
     }
 
     @Override

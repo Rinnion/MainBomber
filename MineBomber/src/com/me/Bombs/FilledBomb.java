@@ -1,6 +1,7 @@
 package com.me.Bombs;
 
 import com.badlogic.gdx.math.Vector2;
+import com.me.Bombs.Activator.TimeActivator;
 import com.me.Bombs.Behavior.CircleExplosion;
 import com.me.Bombs.Behavior.FastTeramorf;
 import com.me.Bombs.Behavior.Teramorf;
@@ -16,25 +17,13 @@ import java.util.Calendar;
  */
 public class FilledBomb extends AbstractBomb {
 
-    private long   ActivationTime=100;
     private int delay=2000;
-    private int iteration=100;
 
-
-
-
-
-    public FilledBomb(IPlayer player, Vector2 pos)
-    {
-       super(player,new Teramorf((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH,81), new Vector2I((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
-        //       BombProperty(player,BombType.DYNAMITE,3000000,100,200,20,false,true,true)
-
-        ActivationTime += Calendar.getInstance().getTimeInMillis();
-
-
+    public FilledBomb(IPlayer player, Vector2 pos) {
+        super(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
+        behavior =new Teramorf((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH, 81);
+        activator = new TimeActivator(this, 3000);
     }
-
-
 
     @Override
     public void digdamage(long time) {

@@ -1,6 +1,7 @@
 package com.me.Bombs;
 
 import com.badlogic.gdx.math.Vector2;
+import com.me.Bombs.Activator.TimeActivator;
 import com.me.Bombs.Behavior.FastTeramorf;
 import com.me.Bombs.Behavior.PunchTera;
 import com.me.Map.MapManager;
@@ -14,19 +15,12 @@ import java.util.Calendar;
  * Created by alekseev on 27.03.2014.
  */
 public class FastFilledBomb extends AbstractBomb {
-
-    public long   ActivationTime=5000;
-
-    public boolean isActivated;
-
     public FastFilledBomb(IPlayer player, Vector2 pos)
     {
-       super(player,new FastTeramorf((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH,82), new Vector2I((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
-        //       BombProperty(player,BombType.DYNAMITE,3000000,100,200,20,false,true,true)
+       super(player,new Vector2I((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
 
-        ActivationTime += Calendar.getInstance().getTimeInMillis();
-
-
+        behavior = new FastTeramorf((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH,82);
+        activator = new TimeActivator(this, 3000);
     }
 
 

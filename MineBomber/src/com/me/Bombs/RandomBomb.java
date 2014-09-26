@@ -1,6 +1,7 @@
 package com.me.Bombs;
 
 import com.badlogic.gdx.math.Vector2;
+import com.me.Bombs.Activator.TimeActivator;
 import com.me.Bombs.Behavior.CircleExplosion;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
@@ -35,23 +36,14 @@ public class RandomBomb extends AbstractBomb {
     }
 
     public RandomBomb(IPlayer player, Vector2 pos, int jumps, int activationTime) {
-        super(player, new CircleExplosion(100, 200, 14), new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("bomb"));
+        super(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("bomb"));
 
-        if (activationTime == 0)
-            ActivationTime = DEF_ActivationTime;
-        else
-            ActivationTime = activationTime;
+        behavior =new CircleExplosion(100, 200, 14);
+        activator = new TimeActivator(this, activationTime);
 
         px = (int) pos.x;
         py = (int) pos.y;
-
         this.jumps = jumps;
-
-
-        //       BombProperty(player,BombType.DYNAMITE,3000000,100,200,20,false,true,true)
-
-        ActivationTime += Calendar.getInstance().getTimeInMillis();
-
 
     }
 
@@ -73,9 +65,6 @@ public class RandomBomb extends AbstractBomb {
             return true;
 
         }
-
-
-        //int rX=MapManager.
 
         int dXInt = ((int) (Math.random() * 20)) - 10;
         int dYInt = ((int) (Math.random() * 20)) - 10;

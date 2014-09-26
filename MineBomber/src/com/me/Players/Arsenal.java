@@ -3,8 +3,6 @@ package com.me.Players;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -35,7 +33,7 @@ public class Arsenal {
 
 
 
-    public int getFistArmor(int sindex)
+    public int getFirstWeapon(int sindex)
     {
         if(mArsenal.size()==0)
             return -1;
@@ -70,7 +68,7 @@ public class Arsenal {
     }
     public AbstractBomb PutBomb(IPlayer player,Vector2 pos)
     {
-       int index=getFistArmor(sindex);
+       int index= getFirstWeapon(sindex);
 
         if(index==-1)
             return null;

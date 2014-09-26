@@ -1,6 +1,7 @@
 package com.me.Bombs;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.me.Bombs.Activator.IActivator;
 import com.me.Bombs.Behavior.IBehavior;
 import com.me.minebomber.AbstractGameObject;
 import com.me.ObjectMaskHelper.Vector2I;
@@ -13,19 +14,14 @@ import java.util.Calendar;
  * Created by tretyakov on 09.04.2014.
  */
 public abstract class AbstractBomb extends AbstractGameObject {
-    public IBehavior behavior;
-    //public final BombProperty Property;
+    public IBehavior behavior = null;
+    public IActivator activator = null;
 
+    public long ActivationTime = Long.MAX_VALUE;
 
-
-
-
-    public AbstractBomb(IPlayer player,IBehavior behavior, Vector2I pos, AnimatedSprite animatedSprite) {
+    public AbstractBomb(IPlayer player, Vector2I pos, AnimatedSprite animatedSprite) {
         //FIXME life from bomb
         super(player, pos, 1, animatedSprite);
-
-        this.behavior = behavior;
-
     }
 
     @Override
@@ -57,16 +53,6 @@ public abstract class AbstractBomb extends AbstractGameObject {
     }
 
     public  abstract void detonate(long time);
-
-
-
-
-
-
-
-
-
-
 
     public abstract void digdamage(long time);
 
