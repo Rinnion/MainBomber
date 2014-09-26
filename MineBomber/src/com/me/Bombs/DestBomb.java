@@ -3,13 +3,9 @@ package com.me.Bombs;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.Activator.DestinationActivator;
 import com.me.Bombs.Behavior.CircleExplosion;
-import com.me.Bombs.Behavior.IBehavior;
 import com.me.Map.MapManager;
-import com.me.ObjectMaskHelper.MaskController;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
-
-import java.util.Calendar;
 
 
 /**
@@ -26,7 +22,7 @@ public class DestBomb extends AbstractBomb {
 
     @Override
     public boolean activate(long time) {
-        ActivationTime=time;
+        ActivationTime = time;
         return true;
     }
 
@@ -37,13 +33,10 @@ public class DestBomb extends AbstractBomb {
 
     @Override
     public boolean calculate(long time) {
-        if(!(ActivationTime < time)) return false;
+        if (!(ActivationTime < time)) return false;
         super.calculate(time);
         return true;
     }
-
-
-
 
     @Override
     public void detonate(long time) {

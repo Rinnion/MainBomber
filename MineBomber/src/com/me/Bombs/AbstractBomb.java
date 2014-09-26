@@ -1,14 +1,10 @@
 package com.me.Bombs;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.me.Bombs.Activator.IActivator;
 import com.me.Bombs.Behavior.IBehavior;
-import com.me.minebomber.AbstractGameObject;
 import com.me.ObjectMaskHelper.Vector2I;
-import com.me.ObjectMaskHelper.MaskController;
 import com.me.Players.IPlayer;
-
-import java.util.Calendar;
+import com.me.minebomber.AbstractGameObject;
 
 /**
  * Created by tretyakov on 09.04.2014.
@@ -28,7 +24,6 @@ public abstract class AbstractBomb extends AbstractGameObject {
     public void applyDamage(IPlayer who, int dmg, long time) {
         detonate(time);
         life -= dmg;
-
     }
 
     @Override
@@ -56,4 +51,11 @@ public abstract class AbstractBomb extends AbstractGameObject {
 
     public abstract void digdamage(long time);
 
+    @Override
+    public String toString() {
+        String t = this.getClass().getSimpleName();
+        String a = String.valueOf(activator);
+        String b = String.valueOf(behavior);
+        return String.format("%s: [a: %s] [b: %s]", t, a, b);
+    }
 }

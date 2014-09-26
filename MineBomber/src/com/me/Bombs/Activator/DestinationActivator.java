@@ -1,7 +1,6 @@
 package com.me.Bombs.Activator;
 
 import com.me.Bombs.DestBomb;
-import com.me.Players.AbstractPlayer;
 
 /**
 * Created by tretyakov on 26.09.2014.
@@ -22,4 +21,10 @@ public class DestinationActivator implements IActivator{
     public void Calculate(long time) {
         bomb.activate(time);
     }
+
+    @Override
+    public String toString() {
+        return (String.format("%s", getClass().getSimpleName()));
+    }
 }
+

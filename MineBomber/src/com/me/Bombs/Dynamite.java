@@ -7,20 +7,17 @@ import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 
-import java.util.Calendar;
-
 
 /**
  * Created by alekseev on 27.03.2014.
  */
 public class Dynamite extends AbstractBomb {
-
-    public Dynamite(IPlayer player, Vector2 pos)
+    public Dynamite(IPlayer player, Vector2 pos, long activationTime)
     {
         super(player, new Vector2I((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
 
         behavior =   new CircleExplosion(100,200,24);
-        activator = new TimeActivator(this, 3000);
+        activator = new TimeActivator(this, activationTime);
     }
 
     @Override
@@ -30,14 +27,10 @@ public class Dynamite extends AbstractBomb {
 
     @Override
     public boolean calculate(long time) {
-
-        if(time<ActivationTime)return false;
+        if (time < ActivationTime) return false;
         super.calculate(time);
         return true;
     }
-
-
-
 
     @Override
     public void detonate(long time) {
