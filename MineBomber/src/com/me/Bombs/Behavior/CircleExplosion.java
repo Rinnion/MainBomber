@@ -12,6 +12,12 @@ import com.me.Particles.ParticleManager;
  */
 public class CircleExplosion implements IBehavior {
 
+    public static final int MAX_DAMAGE = 1000;
+    public static final int DEFAULT_DAMAGE = 1000;
+    public static final int MIN_DAMAGE = 10;
+    static final double MAX_RADIUS = 20;
+    static int MIN_RADIUS = 5;
+
     public int dmgMin;
     public int dmgMax;
     public float range;
@@ -40,5 +46,8 @@ public class CircleExplosion implements IBehavior {
         ParticleManager.Fire(bomb.position.x * MapManager.rowW, bomb.position.y * MapManager.rowH, range * 4);
     }
 
-
+    @Override
+    public String toString() {
+        return String.format("%s: [min: %s][max: %s][range: %s]", getClass().getSimpleName(), dmgMin, dmgMax, range);
+    }
 }

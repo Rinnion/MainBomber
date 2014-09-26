@@ -9,6 +9,8 @@ import java.util.Calendar;
 */
 public class TimeActivator implements IActivator{
     public static final long DEFAULT_TIME = 3000;
+    public static final long CASUAL_MIN_TIME = 500;
+    public static final long CASUAL_MAX_TIME = 5000;
     public static final long MAX_TIME = 3600000; //one hour
     public static final long MIN_TIME = 100;
 

@@ -2,8 +2,8 @@ package com.me.Bombs.Behavior;
 
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AbstractBomb;
-import com.me.Bombs.Activator.TimeActivator;
 import com.me.Bombs.RandomBomb;
+import com.me.Map.MapManager;
 import com.me.controlers.ActionController;
 import com.me.controlers.actions.PutBombAction;
 
@@ -35,6 +35,9 @@ public class JumpBehavior implements IBehavior {
 
         if (newX < radius) newX = radius;
         if (newY < radius) newY = radius;
+        if (newX > MapManager.maxCel - radius - 1) newX = MapManager.maxCel - radius - 1;
+        if (newY > MapManager.maxCel - radius - 1) newY = MapManager.maxCel - radius - 1;
+
 
         if (jumps == 1) return;
 
@@ -46,9 +49,13 @@ public class JumpBehavior implements IBehavior {
                                 bomb.owner,
                                 new Vector2(2 * newX, 2 * newY),
                                 jumps - 1,
-                                radius,
-                                TimeActivator.DEFAULT_TIME)
+                                radius)
                 )
         );
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s: [j: %s][r: %s][e: %s]", getClass().getSimpleName(), jumps, radius, explosion);
     }
 }

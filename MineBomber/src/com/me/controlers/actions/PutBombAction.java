@@ -1,7 +1,6 @@
 package com.me.controlers.actions;
 
 import com.me.Bombs.AbstractBomb;
-import com.me.Map.MapManager;
 import com.me.Players.IPlayer;
 import com.me.controlers.ActionController;
 import com.me.controlers.GameObjectController;
@@ -23,7 +22,7 @@ public class PutBombAction implements ActionController.IGameAction {
 
     @Override
     public void Calculate(long time) {
-        Log.i("Put: " + obj.toString());
+        Log.i("PutBombAction: " + obj.toString());
         GameObjectController.Add(obj);
         obj.activator.Register(time);
     }

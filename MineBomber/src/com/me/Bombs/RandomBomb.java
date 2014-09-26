@@ -1,9 +1,9 @@
 package com.me.Bombs;
 
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.Activator.TimeActivator;
-import com.me.Bombs.Behavior.CircleExplosion;
+import com.me.Bombs.Activator.RandomTimeActivator;
 import com.me.Bombs.Behavior.JumpBehavior;
+import com.me.Bombs.Behavior.RandomCircleExplosion;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
@@ -15,19 +15,18 @@ import com.me.logger.Log;
  */
 public class RandomBomb extends AbstractBomb {
 
-    public RandomBomb(IPlayer player, Vector2 pos, int jumps, int radius, long activationTime) {
+    public RandomBomb(IPlayer player, Vector2 pos, int jumps, int radius) {
         super(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("bomb"));
 
-        behavior = new JumpBehavior(jumps, radius, new CircleExplosion(100, 200, 14));
-        activator = new TimeActivator(this, activationTime);
+        behavior = new JumpBehavior(jumps, radius, new RandomCircleExplosion());
+        activator = new RandomTimeActivator(this);
 
-        Log.d(String.format("ctor %s: [player:%s, pos:%s, jumps:%s, radius:%s, at: %s]",
+        Log.d(String.format("ctor %s: [player:%s, pos:%s, jumps:%s, radius:%s]",
                 getClass().getSimpleName(),
                 player,
                 pos,
                 jumps,
-                radius,
-                activationTime));
+                radius));
 
     }
 

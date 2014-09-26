@@ -117,7 +117,8 @@ public class MineBomber implements ApplicationListener {
                                           ActionController.Calculate(sheduleDtStart);
 
                                           long diff = sheduleDtMap - sheduleDtStart;
-                                          if (diff > 20) Log.w("logic time > 20 !!!" + diff);
+                                          if (diff > 20)
+                                              Log.w(String.format("########## LOGIC TIME > 20 (%s) !!! ##########", diff));
                                           // }
                                           //catch (Exception _ex)
                                           //{

@@ -120,7 +120,7 @@ public class Arsenal {
                 bomb=new DestBomb(player,pos);
                 break;
             case BombType.RANDOM:
-                bomb = new RandomBomb(player, pos, JumpBehavior.DEFAULT_JUMPS, JumpBehavior.DEFAULT_RADIUS, TimeActivator.DEFAULT_TIME);
+                bomb = new RandomBomb(player, pos, JumpBehavior.DEFAULT_JUMPS, JumpBehavior.DEFAULT_RADIUS);
                 break;
             case BombType.PUNCH_TERA :
                 bomb=new PunchTeraStone(player,pos);
