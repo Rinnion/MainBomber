@@ -10,7 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.*;
 import com.me.TextManager.TextManager;
 import com.me.assetloader.AssetLoader;
+import com.me.controlers.ActionController;
 import com.me.controlers.GameObjectController;
+import com.me.controlers.actions.PutBombAction;
 import com.me.logger.Log;
 import com.me.minebomber.Settings;
 
@@ -55,7 +57,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
         if (bomb != null) {
             bombList.add(bomb);
-            GameObjectController.Add(bomb);
+            ActionController.Add(new PutBombAction(this, Calendar.getInstance().getTime().getTime(), bomb));
         }
     }
 

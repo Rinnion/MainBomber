@@ -31,10 +31,7 @@ public abstract class AbstractTreasure extends AbstractGameObject {
 
     @Override
     public boolean applyTake(IPlayer who, long time) {
-
-
         collected=collected||collect(who, time);
-
         return collected;
     }
 
