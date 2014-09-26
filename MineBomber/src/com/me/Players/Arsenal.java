@@ -121,13 +121,13 @@ public class Arsenal {
             case BombType.RANDOM:
                 bomb=new RandomBomb(player,pos);
                 break;
-            case BombType.PunchTera :
+            case BombType.PUNCH_TERA :
                 bomb=new PunchTeraStone(player,pos);
                 break;
-            case BombType.FasFilled:
+            case BombType.FAST_FILLED:
                 bomb=new FastFilledBomb(player,pos);
                 break;
-            case BombType.Filled:
+            case BombType.FILLED:
                 bomb=new FilledBomb(player,pos);
                 break;
 
