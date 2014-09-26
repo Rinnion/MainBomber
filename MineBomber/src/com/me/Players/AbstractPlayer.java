@@ -22,7 +22,7 @@ public class AbstractPlayer implements IPlayer {
 
     Arsenal arsenal;
     ArsenalInfo arsenalInfo;
-
+    public int mCurrentBomb = 0;
 
     private final Vector2I[] mask_go;
     private final Vector2I[] mask_dmg;
@@ -113,6 +113,7 @@ public class AbstractPlayer implements IPlayer {
         //sprite.setRegion(region);
 
         sprite.draw(batch);
+        if(arsenalInfo.isVisible)
         arsenalInfo.Render(batch);
     }
 
@@ -208,7 +209,7 @@ public class AbstractPlayer implements IPlayer {
         return new Vector2(sprite.getOriginX(),sprite.getOriginY());
     }
 
-    @Override
+
     public Arsenal GetArsenal() {
         return arsenal;
     }
@@ -216,6 +217,11 @@ public class AbstractPlayer implements IPlayer {
     @Override
     public void addMoney(long value) {
 
+    }
+
+    @Override
+    public Arsenal getArsenal() {
+        return arsenal;
     }
 
     void calculate(long time) {

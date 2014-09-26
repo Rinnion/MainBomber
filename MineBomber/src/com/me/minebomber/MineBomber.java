@@ -177,7 +177,7 @@ public class MineBomber implements ApplicationListener {
         batch.disableBlending();
         MapManager.Render(batch);
         batch.enableBlending();
-        PlayerController.Render(batch);
+
         //Gdx.gl.glEnable(Gdx.gl.GL_BLEND); Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
 
         //Gdx.gl20.glColorMask(true, true, true, false);
@@ -188,6 +188,7 @@ public class MineBomber implements ApplicationListener {
         //Gdx.gl.glBlendEquation(Gdx.gl20.GL_FUNC_SUBTRACT);
 
         GameObjectController.Render(batch);
+        PlayerController.Render(batch);
         ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());
         textZoom.Draw(batch);
         TextManager.Draw(batch);

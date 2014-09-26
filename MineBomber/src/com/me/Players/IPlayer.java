@@ -40,9 +40,10 @@ public interface IPlayer {
 
     Vector2 GetOrigin();
 
-    Arsenal GetArsenal();
+
 
 
     void addMoney(long value);
+    Arsenal getArsenal();
 
 }

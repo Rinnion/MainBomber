@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.me.Bombs.BombType;
+import com.me.ObjectMaskHelper.Vector2I;
+import com.me.Utility.DelayTimer;
 import com.me.assetloader.AssetLoader;
 import com.me.minebomber.Settings;
 
@@ -16,121 +18,190 @@ import com.me.minebomber.Settings;
  * Created by alekseev on 23.09.2014.
  */
 public class ArsenalInfo {
-    int curIndex=0;
-    TextureAtlas atlas=null;
-    Pixmap pixmap;
-    Texture texture;
 
-    Sprite sprite;
+    static TextureAtlas atlas=null;
+    static Pixmap pixmap;
+    static Texture texture;
+    static TextureRegion textureRegion;
+    static Sprite spriteRegion;
+    static Sprite sprite;
 
-    IPlayer owner;
-
-    TextureRegion textureRegion;
-    Sprite spriteRegion;
+    AbstractPlayer owner;
 
 
-    final int pW=16;
-    final int pH=16;
 
-    final int spriteH=pH;
-    final int spriteW=pW*3+4;
+
 
 
     final int stepX=1;
+    final int stepY=1;
+    final Vector2I activBox=new Vector2I(20,20);
+    final Vector2I deactivatedBox=new Vector2I(10,10);
+
+    final Vector2I pixMapSize=new Vector2I(activBox.x+deactivatedBox.x*2,activBox.y );
 
 
-    public ArsenalInfo(IPlayer owner)
+    Vector2I leftBoxCenter;
+    Vector2I centerBoxCenter;
+    Vector2I rightBoxCenter;
+
+    float alpha=1;
+
+
+
+
+    private DelayTimer mFlashTimer =new DelayTimer(100);
+    private DelayTimer mDisableTimeout=new DelayTimer(1000,false);
+
+    public boolean isVisible=false;
+
+    boolean beginDoitInvisible=false;
+
+
+    private void createPixmapPanel()
     {
-        atlas=AssetLoader.GetAtlas(Settings.BOMB_DYNAMITE);
 
-        textureRegion=atlas.findRegion(BombType.ATLAS[0]);
-
-        spriteRegion=new Sprite(textureRegion);
-
-
-
-        spriteRegion.setRegion(textureRegion);
-
-        spriteRegion.setSize(pW,pH);
-
-        spriteRegion.flip(false,true);
-
-
-
-
-
-        pixmap=new Pixmap(pW*3+stepX,pH, Pixmap.Format.RGBA8888);
+        pixmap=new Pixmap(pixMapSize.x,pixMapSize.y, Pixmap.Format.RGBA8888);
 
         pixmap.setColor(Color.rgba8888(0.158f,0.235f,0.255f,0.5f));
-        pixmap.fill();
+        //pixmap.fill();
+
+        leftBoxCenter=new Vector2I(deactivatedBox.x/2,pixMapSize.y/2);
+        centerBoxCenter=new Vector2I(pixMapSize.x/2,pixMapSize.y/2);
+        rightBoxCenter=new Vector2I((pixMapSize.x-deactivatedBox.x/2) ,pixMapSize.y/2);
+
+        pixmap.fillRectangle(leftBoxCenter.x-deactivatedBox.x/2,leftBoxCenter.y-deactivatedBox.y/2 ,deactivatedBox.x,deactivatedBox.y);
+        pixmap.fillRectangle(rightBoxCenter.x-deactivatedBox.x/2,rightBoxCenter.y-deactivatedBox.y/2 ,deactivatedBox.x,deactivatedBox.y);
+        //pixmap.fillRectangle(pixMapSize.x- ,stepY,deactivatedBox.x,deactivatedBox.y);
 
 
 
+        pixmap.setColor(Color.rgba8888 (0.7f,0.7f,0.7f,1));
+        pixmap.fillRectangle(centerBoxCenter.x-activBox.x/2, centerBoxCenter.y-activBox.y/2 , activBox.x, activBox.y);
 
-        pixmap.setColor(Color.rgba8888 (0.558f,0.935f,1,1));
-        pixmap.fillRectangle(pW, 0, pW, pH);
-
-        pixmap.setColor(Color.rgba8888 (0.5f,0.5f,0.5f,1));
-        pixmap.drawRectangle(pW-1,0,pW+1,pH);
-        pixmap.drawRectangle(0,0,pixmap.getWidth(),pixmap.getHeight());
-
-
-
-        texture=new Texture(pixmap);
-
-        sprite =new Sprite(texture);
-        sprite.flip(false,true);
-
-        this.owner=owner;
+        //pixmap.setColor(Color.rgba8888 (0.5f,0.5f,0.5f,1));
+        //pixmap.drawRectangle(pW-1,0,pW+1,pH);
+        //pixmap.drawRectangle(0,0,pixmap.getWidth(),pixmap.getHeight());
     }
 
+
+    public ArsenalInfo(AbstractPlayer owner)
+    {
+        if(atlas==null) {
+            atlas = AssetLoader.GetAtlas(Settings.BOMB_DYNAMITE);
+
+            textureRegion = atlas.findRegion(BombType.ATLAS[0]);
+
+            spriteRegion = new Sprite(textureRegion);
+
+
+            spriteRegion.setRegion(textureRegion);
+
+            spriteRegion.setSize(16, 16);
+
+            spriteRegion.flip(false, true);
+
+
+            createPixmapPanel();
+
+
+            texture = new Texture(pixmap);
+
+            sprite = new Sprite(texture);
+            sprite.flip(false, true);
+        }
+        else {
+            leftBoxCenter = new Vector2I(deactivatedBox.x / 2, pixMapSize.y / 2);
+            centerBoxCenter = new Vector2I(pixMapSize.x / 2, pixMapSize.y / 2);
+            rightBoxCenter = new Vector2I((pixMapSize.x - deactivatedBox.x / 2), pixMapSize.y / 2);
+        }
+            this.owner = owner;
+
+    }
+
+
+    public void DoItVisible()
+    {
+        alpha=1;
+        beginDoitInvisible=false;
+       mDisableTimeout.Restart();
+
+        isVisible=true;
+    }
 
 
 
 
     public void Render(Batch batch)
     {
+        if(isVisible==false)
+            return;
+
         int x=(int)owner.getX();
         int y=(int)owner.getY();
         int h=(int)owner.getH();
         int w=(int)owner.getW();
-
-        sprite.setPosition((x+w/2)-pixmap.getWidth()/2,y);
-
-        sprite.draw(batch);
+        x=(x+w/2)-pixmap.getWidth()/2;
 
 
-        textureRegion=atlas.findRegion(BombType.ATLAS[0]);
-        spriteRegion.setRegion(textureRegion);
-        spriteRegion.flip(false,true);
-        spriteRegion.setSize(16,16);
+        if(y-pixMapSize.y<=0)
+            y+=h;
+        else
+            y-=pixMapSize.y+5;
 
-        spriteRegion.setPosition((x+w/2)-pixmap.getWidth()/2+16,y);
-        spriteRegion.draw(batch);
+        sprite.setPosition(x,y);
 
-        textureRegion=atlas.findRegion(BombType.ATLAS[1]);
-        spriteRegion.setRegion(textureRegion);
+        sprite.draw(batch,alpha);
 
-        spriteRegion.flip(false,true);
-        spriteRegion.setSize(8,8);
-        spriteRegion.setPosition((x+w/2)-pixmap.getWidth()/2+1,y);
-        spriteRegion.draw(batch);
+        if(mDisableTimeout.CheckTimeOut())
+        {
+            beginDoitInvisible=true;
+        }
 
-        textureRegion=atlas.findRegion(BombType.ATLAS[2]);
-        spriteRegion.setRegion(textureRegion);
-        spriteRegion.flip(false,true);
-        spriteRegion.setSize(8,8);
-        //findRegion.setSize(4,4);
-        spriteRegion.setPosition((x+w/2)-pixmap.getWidth()/2+32,y);
-        spriteRegion.draw(batch);
 
+
+
+        int index1=owner.arsenal.getFistArmor(owner.arsenal.sindex-1);
+        int index2=owner.arsenal.getFistArmor(owner.arsenal.sindex);
+        int index3=owner.arsenal.getFistArmor(owner.arsenal.sindex+1);
+
+
+        if((index1!=-1)&&(index1!=index2)&&(index1!=index3))
+        drawElement(batch,x+leftBoxCenter.x,y+leftBoxCenter.y,index1,8,8);
+        if(index2!=-1)
+        drawElement(batch,x+centerBoxCenter.x,y+centerBoxCenter.y,index2,10,10);
+        if((index3!=-1)&&(index3!=index2)&&(index3!=index1))
+        drawElement(batch,x+rightBoxCenter.x,y+rightBoxCenter.y,index3,8,8);
+
+
+
+        if(mFlashTimer.CheckTimeOut()) {
+            if(beginDoitInvisible) {
+                alpha -= 0.05f;
+             if(alpha<0) {
+                 alpha = 0;
+                 isVisible=true;
+             }
+            }
+
+        }
+
+        /**/
 
         //batch.draw(texture,x-texture.getWidth()/2,y-10,0.5f );
 
     }
 
+    private void drawElement(Batch batch, int x, int y, int type,int w,int h) {
 
+        textureRegion=atlas.findRegion(BombType.ATLAS[type]);
+        spriteRegion.setRegion(textureRegion);
+        spriteRegion.flip(false,true);
+        spriteRegion.setSize(w,h);
 
+        spriteRegion.setPosition(x-w/2,y-h/2);
+        spriteRegion.draw(batch,alpha);
+    }
 
 
 }

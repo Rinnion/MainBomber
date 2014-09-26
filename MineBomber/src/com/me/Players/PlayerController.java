@@ -109,6 +109,12 @@ public class PlayerController {
 
     }
 
+    public static void addRandomWeapon(IPlayer who)
+    {
+        int cb=who.getArsenal().AddRandom();
+        TextManager.Add("+" +cb + "", Color.GREEN ,who.getX(),who.getY());
+    }
+
     public static void removeMoney(IPlayer who, long value){
         who.addMoney(- value);
     }

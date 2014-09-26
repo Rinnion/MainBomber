@@ -29,7 +29,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
 
 
-    int mCurrentBomb = 0;
+
 
     public void ChangeMoveDirection(Vector2 vec) {
         v=vec;
@@ -39,7 +39,8 @@ public class Player extends AbstractPlayer implements IPlayerControls {
         if(mDie) return;
 
 
-        AbstractBomb bomb=arsenal.PutBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(),sprite.getY() + sprite.getOriginY()),mCurrentBomb);
+        AbstractBomb bomb=arsenal.PutBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(),sprite.getY() + sprite.getOriginY()));
+        arsenalInfo.DoItVisible();
 
         /*switch (mCurrentBomb){
             case 0:bomb=new DestBomb(this,new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY())); break;
@@ -81,10 +82,11 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
     @Override
     public void onDoubleSwipe(Vector2 v) {
-        mCurrentBomb = (mCurrentBomb + 1) % 6;
+        //mCurrentBomb = (mCurrentBomb + 1) % 6;
+        arsenal.addIndex();
 
-        TextManager.Add("CurBomb: " + mCurrentBomb, Color.GRAY,sprite.getX() + sprite.getOriginX(),sprite.getY() + sprite.getOriginY() );
-
+        TextManager.Add("CurBomb: " + arsenal.sindex, Color.GRAY,sprite.getX() + sprite.getOriginX(),sprite.getY() + sprite.getOriginY() );
+        arsenalInfo.DoItVisible();
         Log.d(String.format("%s: onDoubleSwipe(%s)", this.getName(), v.toString()));
     }
 

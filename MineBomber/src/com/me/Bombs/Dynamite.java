@@ -14,7 +14,7 @@ import java.util.Calendar;
  */
 public class Dynamite extends AbstractBomb {
 
-    public long   ActivationTime=3000;
+    public long   ActivationTime=2000;
 
     public boolean isActivated;
 

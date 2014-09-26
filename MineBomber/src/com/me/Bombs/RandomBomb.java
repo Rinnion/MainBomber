@@ -83,8 +83,10 @@ public class RandomBomb extends AbstractBomb {
 
             //int rX=MapManager.
 
-            int dXInt= ((int)(Math.random()*20))-10;
-            int dYInt= ((int)(Math.random()*20))-10;
+            int dXInt= ((int)(Math.random()*100))-50;
+            int dYInt= ((int)(Math.random()*100))-50;
+
+
 
              int newX=px+dXInt;
              int newY=py+dYInt;
