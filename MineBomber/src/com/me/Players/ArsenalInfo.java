@@ -161,9 +161,9 @@ public class ArsenalInfo {
 
 
 
-        int index1=owner.arsenal.getFistArmor(owner.arsenal.sindex-1);
-        int index2=owner.arsenal.getFistArmor(owner.arsenal.sindex);
-        int index3=owner.arsenal.getFistArmor(owner.arsenal.sindex+1);
+        int index1=owner.arsenal.getFirstWeapon(owner.arsenal.sindex - 1);
+        int index2=owner.arsenal.getFirstWeapon(owner.arsenal.sindex);
+        int index3=owner.arsenal.getFirstWeapon(owner.arsenal.sindex + 1);
 
 
         if((index1!=-1)&&(index1!=index2)&&(index1!=index3))

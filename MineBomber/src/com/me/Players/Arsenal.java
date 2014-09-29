@@ -2,9 +2,9 @@ package com.me.Players;
 
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.*;
+import com.me.Bombs.Activator.TimeActivator;
+import com.me.Bombs.Behavior.JumpBehavior;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -14,14 +14,15 @@ public class Arsenal {
 
 
 
-    HashMap<Integer,Integer> mArsenal=null;
     public int sindex;
+    HashMap<Integer, Integer> mArsenal = null;
     public Arsenal()
     {
         mArsenal=new HashMap<Integer, Integer>();
         sindex=0;
 
-        //mArsenal.put(0,5);
+        mArsenal.put(BombType.DYNAMITE, 50);
+        mArsenal.put(BombType.RANDOM, 50);
         //mArsenal.put(2,5);
         //mArsenal.put(1,5);
     }
@@ -35,7 +36,7 @@ public class Arsenal {
 
 
 
-    public int getFistArmor(int sindex)
+    public int getFirstWeapon(int sindex)
     {
         if(mArsenal.size()==0)
             return -1;
@@ -70,7 +71,7 @@ public class Arsenal {
     }
     public AbstractBomb PutBomb(IPlayer player,Vector2 pos)
     {
-       int index=getFistArmor(sindex);
+       int index= getFirstWeapon(sindex);
 
         if(index==-1)
             return null;
@@ -115,13 +116,13 @@ public class Arsenal {
         switch (type)
         {
             case BombType.DYNAMITE:
-                bomb=new Dynamite(player,pos);
+                bomb = new Dynamite(player, pos, TimeActivator.DEFAULT_TIME);
                 break;
             case BombType.DESTANATION:
                 bomb=new DestBomb(player,pos);
                 break;
             case BombType.RANDOM:
-                bomb=new RandomBomb(player,pos);
+                bomb = new RandomBomb(player, pos, JumpBehavior.DEFAULT_JUMPS, JumpBehavior.DEFAULT_RADIUS);
                 break;
             case BombType.PUNCH_TERA :
                 bomb=new PunchTeraStone(player,pos);

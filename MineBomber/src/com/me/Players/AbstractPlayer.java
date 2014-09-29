@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AbstractBomb;
+import com.me.Bombs.Activator.DestinationActivator;
+import com.me.Bombs.Activator.IActivator;
 import com.me.Bombs.AnimatedSprite;
+import com.me.Bombs.DestBomb;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.MaskController;
 import com.me.ObjectMaskHelper.Vector2I;
@@ -22,7 +25,6 @@ public class AbstractPlayer implements IPlayer {
 
     Arsenal arsenal;
     ArsenalInfo arsenalInfo;
-    public int mCurrentBomb = 0;
 
     private final Vector2I[] mask_go;
     private final Vector2I[] mask_dmg;
@@ -60,7 +62,6 @@ public class AbstractPlayer implements IPlayer {
     private static final int DEF_BOMB_COUNT=20;
     protected final ArrayList<AbstractBomb> bombList;
 
-
     public AbstractPlayer(String mName) {
         this.mName = mName;
         arsenal=new Arsenal();
@@ -75,8 +76,6 @@ public class AbstractPlayer implements IPlayer {
         arsenalInfo=new ArsenalInfo(this);
 
     }
-
-
 
     @Override
     public void Render(Batch batch) {
@@ -183,6 +182,21 @@ public class AbstractPlayer implements IPlayer {
         bombList.remove(bomb);
     }
 
+    public static final int MAX_ACTIVATORS = 2500;
+    static ArrayList<IActivator> activators = new ArrayList<IActivator>(MAX_ACTIVATORS);
+
+    @Override
+    public void activateBombs(long time) {
+        for (IActivator act: activators){
+            act.Calculate(time);
+        }
+    }
+
+    @Override
+    public void addActivator(IActivator activator) {
+        activators.add(activator);
+    }
+
     @Override
     public float getX() {
         return sprite.getX();
@@ -240,9 +254,6 @@ public class AbstractPlayer implements IPlayer {
             newY += yStep;
             sprite.translate(xStep, yStep);
             MapManager.collect(this, mask_go, newX / MapManager.rowW, newY / MapManager.rowH, time);
-
-
-
         }
 
         MapManager.addDigDamageToField(mask_dmg, digDmg, newX / MapManager.rowW, newY / MapManager.rowH);
