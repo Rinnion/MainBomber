@@ -90,6 +90,8 @@ public class Arsenal {
     public void AddRandom(int count)
     {
         int type=(int)(Math.random()*BombType.TYPE_COUNT);
+        if(mArsenal.containsKey(type))
+            count=mArsenal.get(type)+count;
 
         mArsenal.put(type,count);
     }
