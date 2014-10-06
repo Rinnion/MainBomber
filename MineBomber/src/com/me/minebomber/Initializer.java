@@ -21,9 +21,7 @@ public class Initializer {
         Log.d("Prepare textures and assets files");
         PrepareAssetsFiles.Prepare();
         Log.d("Initialize tiles from XML");
-            TilesLoader.Initialize();
-
-
+        TilesLoader.Initialize();
 
         Log.d("Initialize TextManager");
         TextManager.Initialize();
@@ -39,6 +37,9 @@ public class Initializer {
         ParticleManager.Initialize();
         Log.d("Initialize Players") ;
         PlayerController.Initialize();
+
+        Log.d("Initialize Memory") ;
+        MemoryManager.Initialize();
 
     }
 

@@ -7,11 +7,12 @@ import com.me.Map.MapManager;
 import com.me.Map.MapProperty;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
+import com.me.Utility.RecyclableObject;
 
 /**
  * Created by tretyakov on 16.04.2014.
  */
-public abstract class AbstractGameObject {
+public abstract class AbstractGameObject extends RecyclableObject {
     public final IPlayer owner;
     public final int index;
     public int life;

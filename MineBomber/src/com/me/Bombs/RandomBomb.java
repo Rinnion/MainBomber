@@ -27,19 +27,19 @@ public class RandomBomb extends AbstractBomb {
                 pos,
                 jumps,
                 radius));
-
     }
 
 
     @Override
     public void digdamage(long time) {
-
     }
 
     @Override
     public boolean calculate(long time) {
         if (time < ActivationTime) return false;
-        return super.calculate(time);
+        super.calculate(time);
+        //recycle();
+        return true;
     }
 
 
@@ -47,4 +47,5 @@ public class RandomBomb extends AbstractBomb {
     public void detonate(long time) {
         ActivationTime = time;
     }
+
 }

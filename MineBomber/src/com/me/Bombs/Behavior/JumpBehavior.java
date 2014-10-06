@@ -6,6 +6,7 @@ import com.me.Bombs.RandomBomb;
 import com.me.Map.MapManager;
 import com.me.controlers.ActionController;
 import com.me.controlers.actions.PutBombAction;
+import com.me.minebomber.MemoryManager;
 
 /**
  * Created by alekseev on 18.09.2014.
@@ -41,17 +42,18 @@ public class JumpBehavior implements IBehavior {
 
         if (jumps == 1) return;
 
-        ActionController.Add(
-                new PutBombAction(
+
+        PutBombAction take = MemoryManager.take(PutBombAction.class);
+        take.update(bomb.owner,
+                time,
+                new RandomBomb(
                         bomb.owner,
-                        time,
-                        new RandomBomb(
-                                bomb.owner,
-                                new Vector2(2 * newX, 2 * newY),
-                                jumps - 1,
-                                radius)
-                )
+                        new Vector2(2 * newX, 2 * newY),
+                        jumps - 1,
+                        radius)
         );
+
+        ActionController.Add(take);
     }
 
     @Override
