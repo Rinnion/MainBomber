@@ -15,9 +15,8 @@ public abstract class AbstractBomb extends AbstractGameObject {
 
     public long ActivationTime = Long.MAX_VALUE;
 
-    public AbstractBomb(IPlayer player, Vector2I pos, AnimatedSprite animatedSprite) {
-        //FIXME life from bomb
-        super(player, pos, 1, animatedSprite);
+    public void update(IPlayer player, Vector2I pos, AnimatedSprite animatedSprite) {
+        super.update(player, pos, 1, animatedSprite);
     }
 
     @Override
@@ -38,16 +37,15 @@ public abstract class AbstractBomb extends AbstractGameObject {
 
     @Override
     public boolean calculate(long time) {
-        behavior.detonate(this,time);
+        behavior.detonate(this, time);
         return true;
     }
 
-    public  boolean activate(long time)
-    {
+    public boolean activate(long time) {
         return false;
     }
 
-    public  abstract void detonate(long time);
+    public abstract void detonate(long time);
 
     public abstract void digdamage(long time);
 

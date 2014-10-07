@@ -1,13 +1,13 @@
 package com.me.minebomber;
 
-import com.me.TextManager.TextFont;
-import com.me.TilesManager.TilesLoader;
 import com.me.Map.MapManager;
 import com.me.Map.PixmapHelper;
 import com.me.Particles.ParticleManager;
 import com.me.Players.PlayerController;
+import com.me.TextManager.TextFont;
 import com.me.TextManager.TextManager;
 import com.me.TextManager.TextOut;
+import com.me.TilesManager.TilesLoader;
 import com.me.logger.Log;
 
 /**
@@ -30,6 +30,9 @@ public class Initializer {
 
         Log.d("Initialize PixmapHelper");
         PixmapHelper.Initialize();
+
+        Log.d("Initialize Memory");
+        MemoryManager.Initialize();
         Log.d("Initialize MapManager");
         MapManager.Initialize();
 
@@ -37,9 +40,6 @@ public class Initializer {
         ParticleManager.Initialize();
         Log.d("Initialize Players") ;
         PlayerController.Initialize();
-
-        Log.d("Initialize Memory") ;
-        MemoryManager.Initialize();
 
     }
 

@@ -6,6 +6,7 @@ import com.me.Bombs.Behavior.CircleExplosion;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
+import com.me.Utility.RecyclableArray;
 
 
 /**
@@ -13,11 +14,13 @@ import com.me.Players.IPlayer;
  */
 public class DestBomb extends AbstractBomb {
 
-    public DestBomb(IPlayer player, Vector2 pos) {
-        super(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dst_bomb"));
+    public DestBomb update(IPlayer player, Vector2 pos) {
+        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dst_bomb"));
 
         behavior = new CircleExplosion(100, 200, 20);
         activator = new DestinationActivator(this);
+
+        return this;
     }
 
     @Override
@@ -41,5 +44,13 @@ public class DestBomb extends AbstractBomb {
     @Override
     public void detonate(long time) {
         activate(time);
+    }
+
+    public static class Factory implements RecyclableArray.Factory {
+
+        @Override
+        public Object newItem() {
+            return new DestBomb();
+        }
     }
 }

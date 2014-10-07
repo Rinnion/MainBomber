@@ -29,7 +29,7 @@ public class GameObjectController {
         try {
             for (int i = 0; i < objects.size(); i++) {
                 obj = objects.get(i);
-                int index = obj.index;
+                int index = obj.getIndex();
                 if (mapInfos[index].view) obj.Render(batch);
             }
         } catch (ConcurrentModificationException _ex) {
@@ -63,14 +63,14 @@ public class GameObjectController {
         for (AbstractGameObject obj : bombToRemove) {
             PlayerController.RemoveObject(obj);
             objects.remove(obj);
-            MapManager.fieldObjects[obj.index].remove(obj);
+            MapManager.fieldObjects[obj.getIndex()].remove(obj);
         }
         bombToRemove.clear();
     }
 
     public static void Add(AbstractGameObject ago) {
         objects.add(ago);
-        MapManager.fieldObjects[ago.index].add(ago);
+        MapManager.fieldObjects[ago.getIndex()].add(ago);
     }
 }
 

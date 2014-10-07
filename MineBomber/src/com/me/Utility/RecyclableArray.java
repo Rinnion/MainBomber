@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  */
 public class RecyclableArray<E extends RecyclableObject> {
 
-    private static int MAX_LENGTH = 50;
+    private static int MAX_LENGTH = 1000;
 
     Carrier header = new Carrier(null, null, null);
 
@@ -21,7 +21,6 @@ public class RecyclableArray<E extends RecyclableObject> {
     public RecyclableArray(Factory<E> factory, int initialSize) {
         for (int i = 0; i < initialSize; i++) {
             header = new Carrier(factory.newItem(), null, header);
-            header.element.rl = this;
             header.next.previous = header;
             size++;
         }

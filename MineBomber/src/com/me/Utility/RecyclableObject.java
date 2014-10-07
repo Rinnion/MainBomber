@@ -1,18 +1,19 @@
 package com.me.Utility;
 
+import com.me.logger.Log;
+import com.me.minebomber.MemoryManager;
+
 /**
-* Created by tretyakov on 06.10.2014.
-*/
+ * Created by tretyakov on 06.10.2014.
+ */
 public abstract class RecyclableObject {
-    private boolean updated = false;
-    public RecyclableArray rl;
 
-    public void update(){
-        updated = true;
+    public RecyclableObject() {
+        Log.d(String.format("ctor " + getClass().getCanonicalName()));
     }
 
-    public void recycle(){
-        rl.recycle(this);
-        updated = false;
+    public void recycle() {
+        MemoryManager.recycle(this);
     }
+
 }

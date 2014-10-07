@@ -17,15 +17,7 @@ public class PutBombAction extends RecyclableObject
     private long time;
     private AbstractBomb obj;
 
-    public static class Factory implements RecyclableArray.Factory<PutBombAction> {
-        @Override
-        public PutBombAction newItem() {
-            return new PutBombAction();
-        }
-    }
-
-    public void update(IPlayer owner, long time, AbstractBomb randomBomb){
-        super.update();
+    public void update(IPlayer owner, long time, AbstractBomb randomBomb) {
         this.owner = owner;
         this.time = time;
         this.obj = randomBomb;
@@ -37,5 +29,12 @@ public class PutBombAction extends RecyclableObject
         GameObjectController.Add(obj);
         obj.activator.Register(time);
         recycle();
+    }
+
+    public static class Factory implements RecyclableArray.Factory<PutBombAction> {
+        @Override
+        public PutBombAction newItem() {
+            return new PutBombAction();
+        }
     }
 }

@@ -44,10 +44,9 @@ public class JumpBehavior implements IBehavior {
 
 
         PutBombAction take = MemoryManager.take(PutBombAction.class);
-        take.update(bomb.owner,
+        take.update(bomb.getOwner(),
                 time,
-                new RandomBomb(
-                        bomb.owner,
+                MemoryManager.take(RandomBomb.class).update(bomb.getOwner(),
                         new Vector2(2 * newX, 2 * newY),
                         jumps - 1,
                         radius)
