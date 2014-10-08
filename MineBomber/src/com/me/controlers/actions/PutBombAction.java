@@ -3,15 +3,15 @@ package com.me.controlers.actions;
 import com.me.Bombs.AbstractBomb;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
-import com.me.Utility.RecyclableObject;
 import com.me.controlers.ActionController;
 import com.me.controlers.GameObjectController;
+import com.me.controlers.RecyclableAction;
 import com.me.logger.Log;
 
 /**
  * Created by tretyakov on 25.09.2014.
  */
-public class PutBombAction extends RecyclableObject
+public class PutBombAction extends RecyclableAction
         implements ActionController.IGameAction {
     private IPlayer owner;
     private long time;
@@ -28,7 +28,6 @@ public class PutBombAction extends RecyclableObject
         Log.i("PutBombAction: " + obj.toString());
         GameObjectController.Add(obj);
         obj.activator.Register(time);
-        recycle();
     }
 
     public static class Factory implements RecyclableArray.Factory<PutBombAction> {

@@ -2,21 +2,16 @@ package com.me.controlers.actions;
 
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
-import com.me.Utility.RecyclableObject;
 import com.me.controlers.ActionController;
+import com.me.controlers.RecyclableAction;
 
 /**
  * Created by tretyakov on 25.09.2014.
  */
-public class ActivateBombAction extends RecyclableObject
+public class ActivateBombAction extends RecyclableAction
         implements ActionController.IGameAction {
     private IPlayer owner;
     private long time;
-
-    @Override
-    public void recycle() {
-        super.recycle();
-    }
 
     public void update(IPlayer owner, long time) {
         this.owner = owner;
@@ -26,7 +21,6 @@ public class ActivateBombAction extends RecyclableObject
     @Override
     public void Calculate(long time) {
         owner.activateBombs(time);
-        recycle();
     }
 
     public static class Factory implements RecyclableArray.Factory<ActivateBombAction> {

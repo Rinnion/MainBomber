@@ -1,5 +1,7 @@
 package com.me.controlers;
 
+import com.me.Utility.IRecyclable;
+
 import java.util.ArrayList;
 
 /**
@@ -15,6 +17,7 @@ public class ActionController {
         synchronized (actionsBuffer) {
             for (IGameAction action : actionsBuffer) {
                 action.Calculate(time);
+                ((IRecyclable) action).recycle();
             }
             actionsBuffer.clear();
         }

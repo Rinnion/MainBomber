@@ -7,6 +7,7 @@ import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
+import com.me.minebomber.MemoryManager;
 
 
 /**
@@ -17,8 +18,8 @@ public class FastFilledBomb extends AbstractBomb {
     public FastFilledBomb update(IPlayer player, Vector2 pos) {
         super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
 
-        behavior = new FastTeramorf((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH, 82);
-        activator = new TimeActivator(this, 3000);
+        behavior = MemoryManager.take(FastTeramorf.class).update((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH, 82);
+        activator = MemoryManager.take(TimeActivator.class).update(this, 3000);
 
         return this;
     }

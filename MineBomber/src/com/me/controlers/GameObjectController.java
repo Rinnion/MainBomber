@@ -16,9 +16,9 @@ import java.util.ConcurrentModificationException;
  */
 public class GameObjectController {
 
-    public  static final int  DEF_MAX_OBJECT=10000;
+    public static final int DEF_MAX_OBJECT = 10000;
     private static final ArrayList<AbstractGameObject> objects = new ArrayList<AbstractGameObject>(DEF_MAX_OBJECT);
-    private static final ArrayList<AbstractGameObject> bombToRemove=new ArrayList<AbstractGameObject>(DEF_MAX_OBJECT);
+    private static final ArrayList<AbstractGameObject> bombToRemove = new ArrayList<AbstractGameObject>(DEF_MAX_OBJECT);
     private static final String MOD_SRC = "GameObjectController.";
 
     public static void Render(SpriteBatch batch) {
@@ -40,13 +40,12 @@ public class GameObjectController {
     }
 
 
+    public static boolean isRoom(Vector2 position) {
+        int x = (int) position.x / MapManager.rowW;
+        int y = (int) position.y / MapManager.rowH;
+        int index = y * MapManager.maxCel + x;
 
-    public static boolean isRoom(Vector2 position){
-        int x = (int) position.x/MapManager.rowW;
-        int y = (int) position.y/MapManager.rowH;
-        int index = y*MapManager.maxCel + x;
-
-        if (MapManager.fieldObjects[index].size() == MapManager.FIELD_CAPACITY){
+        if (MapManager.fieldObjects[index].size() == MapManager.FIELD_CAPACITY) {
             return false;
         }
 
@@ -64,6 +63,7 @@ public class GameObjectController {
             PlayerController.RemoveObject(obj);
             objects.remove(obj);
             MapManager.fieldObjects[obj.getIndex()].remove(obj);
+            obj.recycle();
         }
         bombToRemove.clear();
     }

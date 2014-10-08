@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AbstractBomb;
 import com.me.Bombs.RandomBomb;
 import com.me.Map.MapManager;
+import com.me.Utility.RecyclableArray;
 import com.me.controlers.ActionController;
 import com.me.controlers.actions.PutBombAction;
 import com.me.minebomber.MemoryManager;
@@ -11,18 +12,19 @@ import com.me.minebomber.MemoryManager;
 /**
  * Created by alekseev on 18.09.2014.
  */
-public class JumpBehavior implements IBehavior {
+public class JumpBehavior extends RecyclableBehavior implements IBehavior {
 
     public static final int DEFAULT_JUMPS = 25;
     public static final int DEFAULT_RADIUS = 10;
-    private final int jumps;
-    private final int radius;
-    private final CircleExplosion explosion;
+    private int jumps;
+    private int radius;
+    private CircleExplosion explosion;
 
-    public JumpBehavior(int jumps, int radius, CircleExplosion circleExplosion) {
+    public JumpBehavior update(int jumps, int radius, CircleExplosion circleExplosion) {
         this.jumps = jumps;
         this.radius = radius;
         this.explosion = circleExplosion;
+        return this;
     }
 
     @Override
@@ -39,9 +41,7 @@ public class JumpBehavior implements IBehavior {
         if (newX > MapManager.maxCel - radius - 1) newX = MapManager.maxCel - radius - 1;
         if (newY > MapManager.maxCel - radius - 1) newY = MapManager.maxCel - radius - 1;
 
-
         if (jumps == 1) return;
-
 
         PutBombAction take = MemoryManager.take(PutBombAction.class);
         take.update(bomb.getOwner(),
@@ -58,5 +58,13 @@ public class JumpBehavior implements IBehavior {
     @Override
     public String toString() {
         return String.format("%s: [j: %s][r: %s][e: %s]", getClass().getSimpleName(), jumps, radius, explosion);
+    }
+
+    public static class Factory implements RecyclableArray.Factory<JumpBehavior> {
+
+        @Override
+        public JumpBehavior newItem() {
+            return new JumpBehavior();
+        }
     }
 }

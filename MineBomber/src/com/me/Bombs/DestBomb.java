@@ -7,6 +7,7 @@ import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
+import com.me.minebomber.MemoryManager;
 
 
 /**
@@ -17,8 +18,8 @@ public class DestBomb extends AbstractBomb {
     public DestBomb update(IPlayer player, Vector2 pos) {
         super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dst_bomb"));
 
-        behavior = new CircleExplosion(100, 200, 20);
-        activator = new DestinationActivator(this);
+        behavior = MemoryManager.take(CircleExplosion.class).update(100, 200, 20);
+        activator = MemoryManager.take(DestinationActivator.class).update(this);
 
         return this;
     }

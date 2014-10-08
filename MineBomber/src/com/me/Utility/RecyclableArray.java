@@ -18,8 +18,8 @@ public class RecyclableArray<E extends RecyclableObject> {
         this(factory, MAX_LENGTH);
     }
 
-    public RecyclableArray(Factory<E> factory, int initialSize) {
-        for (int i = 0; i < initialSize; i++) {
+    public RecyclableArray(Factory<E> factory, int count) {
+        for (int i = 0; i < count; i++) {
             header = new Carrier(factory.newItem(), null, header);
             header.next.previous = header;
             size++;

@@ -1,7 +1,7 @@
 package com.me.Bombs;
 
-import com.me.Bombs.Activator.IActivator;
-import com.me.Bombs.Behavior.IBehavior;
+import com.me.Bombs.Activator.RecyclableActivator;
+import com.me.Bombs.Behavior.RecyclableBehavior;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.minebomber.AbstractGameObject;
@@ -10,8 +10,8 @@ import com.me.minebomber.AbstractGameObject;
  * Created by tretyakov on 09.04.2014.
  */
 public abstract class AbstractBomb extends AbstractGameObject {
-    public IBehavior behavior = null;
-    public IActivator activator = null;
+    public RecyclableBehavior behavior = null;
+    public RecyclableActivator activator = null;
 
     public long ActivationTime = Long.MAX_VALUE;
 
@@ -48,6 +48,13 @@ public abstract class AbstractBomb extends AbstractGameObject {
     public abstract void detonate(long time);
 
     public abstract void digdamage(long time);
+
+    @Override
+    public void recycle() {
+        behavior.recycle();
+        activator.recycle();
+        super.recycle();
+    }
 
     @Override
     public String toString() {
