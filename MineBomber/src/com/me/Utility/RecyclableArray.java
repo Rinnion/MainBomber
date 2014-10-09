@@ -35,6 +35,7 @@ public class RecyclableArray<E extends RecyclableObject> {
     }
 
     public E take(){
+        //TODO: увеличение массива по необходимости
         if (size == 0) throw new NoSuchElementException();
         header = header.next;
         size--;

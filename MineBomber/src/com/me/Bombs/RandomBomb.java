@@ -21,9 +21,7 @@ public final class RandomBomb extends AbstractBomb {
 
         RandomCircleExplosion randomExplosion = MemoryManager.take(RandomCircleExplosion.class).update();
         behavior = MemoryManager.take(JumpBehavior.class).update(jumps, radius, randomExplosion);
-
         activator = MemoryManager.take(RandomTimeActivator.class).update(this);
-
         return this;
     }
 

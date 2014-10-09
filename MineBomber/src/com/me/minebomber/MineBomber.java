@@ -12,13 +12,14 @@ import com.me.Particles.ParticleManager;
 import com.me.Players.PlayerController;
 import com.me.TextManager.IText;
 import com.me.TextManager.TextManager;
-import com.me.controlers.ActionController;
 import com.me.controlers.GameObjectController;
 import com.me.logger.Log;
+import com.minebomber.MenuManager.MenuAction;
+import com.minebomber.MenuManager.MenuActions;
+
+import com.minebomber.MenuManager.MenuManager;
 
 import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class MineBomber implements ApplicationListener {
@@ -32,23 +33,16 @@ public class MineBomber implements ApplicationListener {
     float mX;
     float mY;
     FPSLogger loger;
-    float scrW;
-    float scrH;
-    boolean fullScreen=true;
-    private OrthographicCamera camera;
+    static float scrW;
+    static float scrH;
+    static boolean fullScreen=true;
+    private static OrthographicCamera camera;
     private SpriteBatch batch;
-    private Rectangle viewPort;
-    private Timer timer;
-    private long sheduleDtStart;
-    private long sheduleDtBomb;
-    private long sheduleDtPlayer;
-    private long sheduleDtMap;
+    private static Rectangle viewPort;
 
 
-    @Override
-	public void create() {
-
-        Log.d("create");
+    public static void startgame()
+    {
         Initializer.Initialize();
 
         scrW = MapManager.mapProperty.width; //Gdx.graphics.getWidth();
@@ -64,7 +58,20 @@ public class MineBomber implements ApplicationListener {
             viewPort = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //camera.zoom=0.5f;
         //MapManager.SetView(camera);
+
+
         MapManager.Refresh(camera);
+    }
+
+
+
+
+
+    @Override
+	public void create() {
+
+        Log.d("create");
+
 
 
         //camera.position.set( 1/2,(h/w)/2,0);
@@ -73,62 +80,33 @@ public class MineBomber implements ApplicationListener {
         loger = new FPSLogger();
         batch = new SpriteBatch();
 
-        //texture = new Texture(Gdx.files.internal("data/FullGraphic.png"));
-        //texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        MenuActions.SetCallback(new MenuAction() {
+            @Override
+            public void buttonDown(String action) {
+                if(action.equals("start.2"))
+                {
+                    PlayerController.hotSeatPlayers=2;
+                    startgame();
+                }
+                if(action.equals("start.3"))
+                {
+                    PlayerController.hotSeatPlayers=3;
+                    startgame();
+                }
+                if(action.equals("start.4"))
+                {
+                    PlayerController.hotSeatPlayers=4;
+                    startgame();
+                }
 
-        //TextureRegion region = new TextureRegion(texture, 0, 0, 15, 15);
-        // TextureRegion region2 = new TextureRegion(texture, 0, 16, 15, 15);
+            }
+        });
 
-        //sprite = new Sprite(region);
-        //sprite2 = new Sprite(region2);
-        //sprite.setSize(8,8);
-        //sprite2.setSize(8,8);
-
-
-        // sY = (sY * sprite.getHeight()) / sprite.getWidth();
-        //mX = 1f / sX;
-        //mY = 1f / sY;
-
-
-        //sprite.setSize(sX, sY);
-        //sprite2.setSize(sX, sY);
-        //sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
-        //sprite.setPosition(mX, mY);
-        //sprite.setPosition(0, 0);
-        //sprite2.setPosition(0, 0);
-
-
-        timer = new Timer("logic timer");
+        MenuManager.Initialize();
+        viewPort = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 
-        timer.scheduleAtFixedRate(new TimerTask() {
-                                      @Override
-                                      public void run() {
-                                          //try {
-                                          sheduleDtStart = Calendar.getInstance().getTimeInMillis();
-                                          //BombController.Calculate(sheduleDtStart);
-                                          GameObjectController.calculate(sheduleDtStart);
 
-                                          sheduleDtBomb = Calendar.getInstance().getTimeInMillis();
-                                          PlayerController.Calculate(sheduleDtStart);
-                                          sheduleDtPlayer = Calendar.getInstance().getTimeInMillis();
-                                          MapManager.Calculate(sheduleDtStart);
-                                          sheduleDtMap = Calendar.getInstance().getTimeInMillis();
-                                          ActionController.Calculate(sheduleDtStart);
-
-                                          long diff = sheduleDtMap - sheduleDtStart;
-                                          if (diff > 20)
-                                              Log.w(String.format("########## LOGIC TIME > 20 (%s) !!! ##########", diff));
-                                          // }
-                                          //catch (Exception _ex)
-                                          //{
-                                          //   Log.e("Stack: " + _ex.getStackTrace() + "Message: " + _ex.getMessage() );
-
-
-                                          //}
-                                      }
-                                  }, 0, 50
-        );
 
     }
 
@@ -150,50 +128,45 @@ public class MineBomber implements ApplicationListener {
 
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT| (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
 
-        camera.update();
+
 
         Gdx.gl.glViewport((int)viewPort.getX() ,(int)viewPort.getY(),(int)viewPort.getWidth(),(int)viewPort.getHeight());
 
-        //Gdx.gl.glViewport((int)viewPort.getX() ,(int)viewPort.getY(),(int)viewPort.getWidth(),(int)viewPort.getHeight());
+        switch (Initializer.stage) {
+            case Initializer.STAGE_GAME:
+                camera.update();
+                batch.setProjectionMatrix(camera.combined);
 
-        //Gdx.gl.glViewport(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+                long dtStart = Calendar.getInstance().getTimeInMillis(); //new Date().getTime();
+                BeginDrawTime = dtStart;
 
-        //MapManager.mapRenderer.getSpriteBatch().getProjectionMatrix().setToOrtho2D(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-
-
-        batch.setProjectionMatrix(camera.combined);
-
-        long dtStart = Calendar.getInstance().getTimeInMillis(); //new Date().getTime();
-        BeginDrawTime=dtStart;
-
-        batch.begin();
-        batch.disableBlending();
-        MapManager.Render(batch);
-        batch.enableBlending();
-
-        //Gdx.gl.glEnable(Gdx.gl.GL_BLEND); Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
-
-        //Gdx.gl20.glColorMask(true, true, true, false);
-        //batch.setBlendFunction(GL20.GL_DST_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA );
+                batch.begin();
+                batch.disableBlending();
+                MapManager.Render(batch);
+                batch.enableBlending();
 
 
+                GameObjectController.Render(batch);
+                PlayerController.Render(batch);
+                ParticleManager.Draw(batch, Gdx.graphics.getDeltaTime());
+                textZoom.Draw(batch);
+                TextManager.Draw(batch);
+                batch.end();
 
-        //Gdx.gl.glBlendEquation(Gdx.gl20.GL_FUNC_SUBTRACT);
+                long dtEnd = Calendar.getInstance().getTimeInMillis();
+                long dtResMap = Initializer.sheduleDtMap - Initializer.sheduleDtStart;
+                if (dtResMap < 0)
+                    dtResMap = 0;
+                textZoom.SetText(Long.toString(dtEnd - dtStart) + " " + Long.toString(Initializer.sheduleDtBomb - Initializer.sheduleDtStart) + " " + Long.toString(Initializer.sheduleDtPlayer - Initializer.sheduleDtStart) + " " + Long.toString(dtResMap));
 
-        GameObjectController.Render(batch);
-        PlayerController.Render(batch);
-        ParticleManager.Draw(batch,Gdx.graphics.getDeltaTime());
-        textZoom.Draw(batch);
-        TextManager.Draw(batch);
-        batch.end();
+                PlayerController.AfterBatch(camera.combined);
+                break;
+                case  Initializer.STAGE_MENU:
+                    MenuManager.Draw();
+                break;
+            }
 
-        long dtEnd = Calendar.getInstance().getTimeInMillis();
-        long dtResMap=sheduleDtMap-sheduleDtStart;
-        if(dtResMap<0)
-            dtResMap=0;
-        textZoom.SetText(Long.toString(dtEnd-dtStart) + " " + Long.toString(sheduleDtBomb-sheduleDtStart)+ " " + Long.toString(sheduleDtPlayer -sheduleDtStart)+ " " + Long.toString(dtResMap));
 
-        PlayerController.AfterBatch(camera.combined);
 
        // ShapeCircle.Draw(camera.combined);
 

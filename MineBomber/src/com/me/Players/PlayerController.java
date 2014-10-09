@@ -27,30 +27,60 @@ public class PlayerController {
 
     static public ArrayList<AbstractPlayer> players=new ArrayList<AbstractPlayer>();
 
-    static FightInputProcessor inputProcessor1;
-    static FightInputProcessor inputProcessor2;
-    static FightInputProcessor inputProcessor3;
-    static ShapeProgressBar shapeProgressBar;
+    static FightInputProcessor []inputProcessor;
 
+    static ShapeProgressBar shapeProgressBar;
+    public static int hotSeatPlayers =0;
     public static void Initialize()
     {
         float h = Gdx.graphics.getHeight();
         float w = Gdx.graphics.getWidth();
-        inputProcessor1=new FightInputProcessor(new Rectangle(0,0,w*0.25f,h));
-        inputProcessor2=new FightInputProcessor(new Rectangle(w*0.75f,0,w*0.25f,h));
-        inputProcessor3=new FightInputProcessor(new Rectangle(w*0.25f,h*0.5f,w*0.75f,h));
+
+        inputProcessor=new FightInputProcessor[hotSeatPlayers];
+
+
+
+        if(hotSeatPlayers>=2) {
+            inputProcessor[0] = new FightInputProcessor(new Rectangle(0, 0, w * 0.25f, h));
+            inputProcessor[1] = new FightInputProcessor(new Rectangle(w * 0.75f, 0, w * 0.25f, h));
+        }
+
+
+        if(hotSeatPlayers>=3)
+        inputProcessor[2]=new FightInputProcessor(new Rectangle(w*0.25f,h*0.5f,w*0.75f,h));
+
+        if(hotSeatPlayers>=4)
+            inputProcessor[3]=new FightInputProcessor(new Rectangle(w*0.25f,h*0f,w*0.75f,h*0.5f));
+
+
 
         InputMultiplexer im = new InputMultiplexer();
-        im.addProcessor(inputProcessor1);
-        im.addProcessor(inputProcessor2);
-        im.addProcessor(inputProcessor3);
-        Gdx.input.setInputProcessor(im);
+        for(int i=0;i<hotSeatPlayers;i++) {
+            im.addProcessor(inputProcessor[i]);
+            Vector2 plPos=null;
 
-        Add(new Player("First player", inputProcessor2, new Vector2(700, 10)));
-        Add(new Player("Second player", inputProcessor1, new Vector2(10,10)));
-        Add(new Player("Second player3", inputProcessor3, new Vector2(300,300)));
+            switch (i)
+            {
+                case 0:
+                    plPos=new Vector2(10,10);
+                    break;
+                case 1:
+                    plPos=new Vector2(700,10);
+                    break;
+                case 2:
+                    plPos=new Vector2(10,580);
+                    break;
+                case 3:
+                    plPos=new Vector2(700,580);
+                break;
+
+            }
+            Add(new Player("player" + i, inputProcessor[i], plPos));
+
+        }
 
 
+            Gdx.input.setInputProcessor(im);
         shapeProgressBar=new ShapeProgressBar();
     }
 
