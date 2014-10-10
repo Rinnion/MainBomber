@@ -52,26 +52,26 @@ public class MemoryManager {
         RegisterClass(ActivateBombAction.class, 100);
         RegisterClass(PutBombAction.class, 100);
 
-        RegisterClass(RandomBomb.class, 1000);
-        RegisterClass(DestBomb.class, 1000);
-        RegisterClass(Dynamite.class, 1000);
-        RegisterClass(FastFilledBomb.class, 1000);
-        RegisterClass(FilledBomb.class, 1000);
-        RegisterClass(PunchTeraStone.class, 1000);
+        RegisterClass(RandomBomb.class, 100);
+        RegisterClass(DestBomb.class, 100);
+        RegisterClass(Dynamite.class, 100);
+        RegisterClass(FastFilledBomb.class, 100);
+        RegisterClass(FilledBomb.class, 100);
+        RegisterClass(PunchTeraStone.class, 100);
 
-        RegisterClass(BigChestTreasure.class, 1000);
-        RegisterClass(SmallChestTreasure.class, 1000);
+        RegisterClass(BigChestTreasure.class, 100);
+        RegisterClass(SmallChestTreasure.class, 100);
 
-        RegisterClass(DestinationActivator.class, 1000);
-        RegisterClass(RandomTimeActivator.class, 1000);
-        RegisterClass(TimeActivator.class, 1000);
+        RegisterClass(DestinationActivator.class, 100);
+        RegisterClass(RandomTimeActivator.class, 100);
+        RegisterClass(TimeActivator.class, 100);
 
-        RegisterClass(CircleExplosion.class, 1000);
-        RegisterClass(RandomCircleExplosion.class, 1000);
-        RegisterClass(FastTeramorf.class, 1000);
-        RegisterClass(JumpBehavior.class, 1000);
-        RegisterClass(PunchTera.class, 1000);
-        RegisterClass(Teramorf.class, 1000);
+        RegisterClass(CircleExplosion.class, 100);
+        RegisterClass(RandomCircleExplosion.class, 100);
+        RegisterClass(FastTeramorf.class, 10);
+        RegisterClass(JumpBehavior.class, 100);
+        RegisterClass(PunchTera.class, 10);
+        RegisterClass(Teramorf.class, 10);
 
     }
 
@@ -85,5 +85,4 @@ public class MemoryManager {
         RecyclableArray ra = hm.get(aClass);
         ra.recycle(object);
     }
-
 }

@@ -20,11 +20,17 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
     private int radius;
     private CircleExplosion explosion;
 
-    public JumpBehavior update(int jumps, int radius, CircleExplosion circleExplosion) {
+    public JumpBehavior update(int jumps, int radius) {
         this.jumps = jumps;
         this.radius = radius;
-        this.explosion = circleExplosion;
+        this.explosion = MemoryManager.take(RandomCircleExplosion.class).update();
         return this;
+    }
+
+    @Override
+    public void recycle() {
+        explosion.recycle();
+        super.recycle();
     }
 
     @Override

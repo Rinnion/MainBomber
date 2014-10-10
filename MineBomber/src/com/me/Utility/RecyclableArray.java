@@ -9,9 +9,9 @@ import java.util.NoSuchElementException;
 public class RecyclableArray<E extends RecyclableObject> {
 
     private static int MAX_LENGTH = 1000;
+    private final Class<? extends RecyclableObject> storageClass;
 
     Carrier header = new Carrier(null, null, null);
-
     int size = 0;
 
     public RecyclableArray(Factory<E> factory) {
@@ -19,11 +19,14 @@ public class RecyclableArray<E extends RecyclableObject> {
     }
 
     public RecyclableArray(Factory<E> factory, int count) {
+
         for (int i = 0; i < count; i++) {
             header = new Carrier(factory.newItem(), null, header);
             header.next.previous = header;
             size++;
         }
+
+        this.storageClass = header.element.getClass();
     }
 
     public void recycle(E object){
@@ -35,7 +38,7 @@ public class RecyclableArray<E extends RecyclableObject> {
     }
 
     public E take(){
-        if (size == 0) throw new NoSuchElementException();
+        if (size == 0) throw new NoSuchElementException(storageClass.getCanonicalName());
         header = header.next;
         size--;
         return header.previous.element;
