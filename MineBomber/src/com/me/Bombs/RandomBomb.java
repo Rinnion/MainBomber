@@ -16,8 +16,16 @@ import com.me.minebomber.MemoryManager;
  */
 public final class RandomBomb extends AbstractBomb {
 
+
+    private static AnimatedSprite animatedSprite=null;
+    static
+    {
+        if(animatedSprite==null)
+            animatedSprite=AnimatedSprite.Factory.CreateBomb("bomb");
+    }
+
     public RandomBomb update(IPlayer player, Vector2 pos, int jumps, int radius) {
-        update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("bomb"));
+        update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), animatedSprite);
 
         RandomCircleExplosion randomExplosion = MemoryManager.take(RandomCircleExplosion.class).update();
         behavior = MemoryManager.take(JumpBehavior.class).update(jumps, radius, randomExplosion);

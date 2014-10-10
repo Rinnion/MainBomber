@@ -84,6 +84,7 @@ public class AnimatedSprite extends Sprite {
             }
             Animation animSprite = new Animation(FRAME_DURATION, region);
 
+
             return new AnimatedSprite(region.get(0).getTexture(), WIDTH, HEIGHT, animSprite);
         }
 

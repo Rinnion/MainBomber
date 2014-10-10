@@ -15,14 +15,22 @@ import com.me.minebomber.MemoryManager;
  */
 public class DestBomb extends AbstractBomb {
 
+    private static AnimatedSprite animatedSprite=null;
+    static
+    {
+        if(animatedSprite==null)
+            animatedSprite=AnimatedSprite.Factory.CreateBomb("dst_bomb");
+    }
+
     public DestBomb update(IPlayer player, Vector2 pos) {
-        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dst_bomb"));
+        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH),animatedSprite );
 
         behavior = MemoryManager.take(CircleExplosion.class).update(100, 200, 20);
         activator = MemoryManager.take(DestinationActivator.class).update(this);
 
         return this;
     }
+
 
     @Override
     public boolean activate(long time) {

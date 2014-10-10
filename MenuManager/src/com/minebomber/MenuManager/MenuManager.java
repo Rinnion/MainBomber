@@ -2,6 +2,8 @@ package com.minebomber.MenuManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.menuengine.JsonMenu;
@@ -21,6 +23,8 @@ public class MenuManager {
     private static MainMenu playMenu;
     private static OrthographicCamera camera;
 
+    private static AnimatedSprite animatedSprite;
+
     private static void changeStage(Stage newStage)
     {
         stage=newStage;
@@ -32,13 +36,15 @@ public class MenuManager {
     {
         if(playMenu.name.equals(menuName))
         {
-            playMenu.applyShowActions();
+
             changeStage(playMenu.getStage());
+            playMenu.applyShowActions();
         }
         if(mainMenu.name.equals(menuName))
         {
-            mainMenu.applyShowActions();
+
             changeStage(mainMenu.getStage());
+            mainMenu.applyShowActions();
         }
 
     }
@@ -58,15 +64,15 @@ public class MenuManager {
         jsonMenu=jsonMenu.createMenu();
 
         mainMenu=new MainMenu(jsonMenu.menu.get(MainMenu.MENU_NAME) ,mSkin);
-        mainMenu.applyShowActions();
+
         playMenu=new MainMenu(jsonMenu.menu.get("play") ,mSkin);
-        playMenu.applyShowActions();
+
 
 
         changeStage(mainMenu.getStage());
-
-
-
+        animatedSprite=AnimatedSprite.Factory.CreateSnowmanSprite("");
+        animatedSprite.setSize(animatedSprite.getWidth()*0.6f,animatedSprite.getHeight()*0.4f);
+        //animatedSprite.setPosition(0,Gdx.graphics.getHeight()-animatedSprite.getHeight());
     }
 
     public static void applyCamera()
@@ -83,7 +89,25 @@ public class MenuManager {
     public static void Draw()
     {
         stage.act();
+
         stage.draw();
+        Batch batch=stage.getBatch();
+        batch.enableBlending();
+        batch.begin();
+
+        animatedSprite.setPosition(0,0);
+        animatedSprite.draw(batch);
+        for(int i=0;i<10;i++) {
+
+            animatedSprite.setPosition(i*animatedSprite.getWidth(),20);
+            animatedSprite.DrawSprite(batch);
+
+            animatedSprite.setPosition(i*animatedSprite.getWidth()-10,0);
+
+            animatedSprite.DrawSprite(batch);
+
+        }
+        batch.end();
     }
 
 }

@@ -13,8 +13,8 @@ public class Main {
 		//cfg.useGL20 = true;
          // cfg.useGL30=true;
 
-		cfg.width = 1280;
-		cfg.height = 800;
+		cfg.width = 800;
+		cfg.height = 600;
         cfg.vSyncEnabled=true;
          //cfg.samples=8;
 		
