@@ -52,7 +52,7 @@ public class MemoryManager {
         RegisterClass(ActivateBombAction.class, 100);
         RegisterClass(PutBombAction.class, 100);
 
-        RegisterClass(RandomBomb.class,100);
+        RegisterClass(RandomBomb.class, 100);
         RegisterClass(DestBomb.class, 100);
         RegisterClass(Dynamite.class, 100);
         RegisterClass(FastFilledBomb.class, 100);
@@ -68,12 +68,10 @@ public class MemoryManager {
 
         RegisterClass(CircleExplosion.class, 100);
         RegisterClass(RandomCircleExplosion.class, 100);
-        RegisterClass(FastTeramorf.class, 100);
+        RegisterClass(FastTeramorf.class, 10);
         RegisterClass(JumpBehavior.class, 100);
-        RegisterClass(PunchTera.class, 100);
-        RegisterClass(Teramorf.class, 100);
-
-
+        RegisterClass(PunchTera.class, 10);
+        RegisterClass(Teramorf.class, 10);
 
     }
 
@@ -87,5 +85,4 @@ public class MemoryManager {
         RecyclableArray ra = hm.get(aClass);
         ra.recycle(object);
     }
-
 }
