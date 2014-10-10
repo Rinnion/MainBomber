@@ -1,7 +1,7 @@
 package com.me.Bombs;
 
-import com.me.Bombs.Activator.IActivator;
-import com.me.Bombs.Behavior.IBehavior;
+import com.me.Bombs.Activator.RecyclableActivator;
+import com.me.Bombs.Behavior.RecyclableBehavior;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.minebomber.AbstractGameObject;
@@ -10,14 +10,13 @@ import com.me.minebomber.AbstractGameObject;
  * Created by tretyakov on 09.04.2014.
  */
 public abstract class AbstractBomb extends AbstractGameObject {
-    public IBehavior behavior = null;
-    public IActivator activator = null;
+    public RecyclableBehavior behavior = null;
+    public RecyclableActivator activator = null;
 
     public long ActivationTime = Long.MAX_VALUE;
 
-    public AbstractBomb(IPlayer player, Vector2I pos, AnimatedSprite animatedSprite) {
-        //FIXME life from bomb
-        super(player, pos, 1, animatedSprite);
+    public void update(IPlayer player, Vector2I pos, AnimatedSprite animatedSprite) {
+        super.update(player, pos, 1, animatedSprite);
     }
 
     @Override
@@ -38,18 +37,24 @@ public abstract class AbstractBomb extends AbstractGameObject {
 
     @Override
     public boolean calculate(long time) {
-        behavior.detonate(this,time);
+        behavior.detonate(this, time);
         return true;
     }
 
-    public  boolean activate(long time)
-    {
+    public boolean activate(long time) {
         return false;
     }
 
-    public  abstract void detonate(long time);
+    public abstract void detonate(long time);
 
     public abstract void digdamage(long time);
+
+    @Override
+    public void recycle() {
+        behavior.recycle();
+        activator.recycle();
+        super.recycle();
+    }
 
     @Override
     public String toString() {

@@ -2,19 +2,22 @@ package com.me.controlers.actions;
 
 import com.me.Bombs.AbstractBomb;
 import com.me.Players.IPlayer;
+import com.me.Utility.RecyclableArray;
 import com.me.controlers.ActionController;
 import com.me.controlers.GameObjectController;
+import com.me.controlers.RecyclableAction;
 import com.me.logger.Log;
 
 /**
  * Created by tretyakov on 25.09.2014.
  */
-public class PutBombAction implements ActionController.IGameAction {
-    private final IPlayer owner;
-    private final long time;
-    private final AbstractBomb obj;
+public class PutBombAction extends RecyclableAction
+        implements ActionController.IGameAction {
+    private IPlayer owner;
+    private long time;
+    private AbstractBomb obj;
 
-    public PutBombAction(IPlayer owner, long time, AbstractBomb randomBomb) {
+    public void update(IPlayer owner, long time, AbstractBomb randomBomb) {
         this.owner = owner;
         this.time = time;
         this.obj = randomBomb;
@@ -25,5 +28,12 @@ public class PutBombAction implements ActionController.IGameAction {
         Log.i("PutBombAction: " + obj.toString());
         GameObjectController.Add(obj);
         obj.activator.Register(time);
+    }
+
+    public static class Factory implements RecyclableArray.Factory<PutBombAction> {
+        @Override
+        public PutBombAction newItem() {
+            return new PutBombAction();
+        }
     }
 }

@@ -6,11 +6,12 @@ import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.MaskController;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Particles.ParticleManager;
+import com.me.Utility.RecyclableArray;
 
 /**
  * Created by alekseev on 18.09.2014.
  */
-public class CircleExplosion implements IBehavior {
+public class CircleExplosion extends RecyclableBehavior implements IBehavior {
 
     public static final int MAX_DAMAGE = 1000;
     public static final int DEFAULT_DAMAGE = 1000;
@@ -24,7 +25,7 @@ public class CircleExplosion implements IBehavior {
 
     public Vector2IDamage[] ExplodeMask;
 
-    public CircleExplosion(int dmgMin, int dmgMax, float range) {
+    public CircleExplosion update(int dmgMin, int dmgMax, float range) {
 
         Vector2I[] vector2Is = MaskController.GetMask(range);
         ExplodeMask = new Vector2IDamage[vector2Is.length];
@@ -37,8 +38,8 @@ public class CircleExplosion implements IBehavior {
         this.dmgMin = dmgMin;
         this.range = range;
 
+        return this;
     }
-
 
     @Override
     public void detonate(AbstractBomb bomb, long time) {
@@ -49,5 +50,13 @@ public class CircleExplosion implements IBehavior {
     @Override
     public String toString() {
         return String.format("%s: [min: %s][max: %s][range: %s]", getClass().getSimpleName(), dmgMin, dmgMax, range);
+    }
+
+    public static class Factory implements RecyclableArray.Factory<CircleExplosion> {
+
+        @Override
+        public CircleExplosion newItem() {
+            return new CircleExplosion();
+        }
     }
 }

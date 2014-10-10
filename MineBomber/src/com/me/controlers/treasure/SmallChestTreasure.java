@@ -1,14 +1,24 @@
 package com.me.controlers.treasure;
 
-import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AnimatedSprite;
 import com.me.ObjectMaskHelper.Vector2I;
-import com.me.Players.IPlayer;
-import com.me.Players.PlayerController;
+import com.me.Utility.RecyclableArray;
 
 public class SmallChestTreasure extends ChestTreasure {
-    public SmallChestTreasure(Vector2I pos){
-        super(pos, 100, AnimatedSprite.TREASURE_BIG_CHEST);
+
+    public SmallChestTreasure update(Vector2I pos) {
+        super.update(pos, 100, AnimatedSprite.TREASURE_BIG_CHEST);
+
+        return this;
     }
+
+    public static class Factory implements RecyclableArray.Factory {
+
+        @Override
+        public Object newItem() {
+            return new SmallChestTreasure();
+        }
+    }
+
 }
 

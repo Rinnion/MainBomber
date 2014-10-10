@@ -1,0 +1,105 @@
+{
+class: com.menuengine.JsonMenu,
+menu: {
+	mainmenu: {
+		name: mainmenu,
+		elements: [
+			{
+				width: 40,
+				caption: "MINE BOMBER 2",
+				height: 20,
+				name: title,
+				type: 0,
+				padBottom: 50
+			},
+			{
+				width: 300,
+				caption: "Multi Player",
+				height: 50,
+				name: "play",
+				type: 1,
+				padBottom: 20
+			},
+			{
+				width: 300,
+				caption: "Settings",
+				height: 50,
+				name: "settings",
+				type: 1,
+				padBottom: 20
+			},
+			{
+				width: 300,
+				caption: "About",
+				height: 50,
+				name: "about",
+				type: 1,
+				padBottom: 20
+			},
+
+			{
+				width: 300,
+				caption: Exit,
+				height: 50,
+				name: exit,
+				type: 1,
+				padBottom: 20
+			}
+		]
+	},
+	play: {
+		name: play,
+		elements: [
+			{
+				width: 40,
+				caption: "MINE BOMBER 2",
+				height: 20,
+				name: title,
+				type: 0,
+				padBottom: 20
+			},
+			{
+				width: 40,
+				caption: "Select play mode",
+				height: 20,
+				name: caption,
+				type: 0,
+				padBottom: 20
+			},
+			{
+				width: 300,
+				caption: "2 players",
+				height: 50,
+				name: start.2,
+				type: 1,
+				padBottom: 20
+			},
+			{
+				width: 300,
+				caption: "3 players",
+				height: 50,
+				name: start.3,
+				type: 1,
+				padBottom: 20
+			},
+			{
+				width: 300,
+				caption: "4 players",
+				height: 50,
+				name: start.4,
+				type: 1,
+				padBottom: 20
+			},
+			{
+				width: 300,
+				caption: Back,
+				height: 50,
+				name: mainmenu,
+				type: 1,
+				padBottom: 20
+			}
+		],
+		prevName: mainmenu
+	}
+}
+}

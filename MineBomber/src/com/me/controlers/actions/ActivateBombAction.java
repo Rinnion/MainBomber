@@ -1,21 +1,19 @@
 package com.me.controlers.actions;
 
-import com.me.Bombs.AbstractBomb;
-import com.me.Bombs.DestBomb;
 import com.me.Players.IPlayer;
+import com.me.Utility.RecyclableArray;
 import com.me.controlers.ActionController;
-import com.me.controlers.GameObjectController;
-
-import java.util.ArrayList;
+import com.me.controlers.RecyclableAction;
 
 /**
  * Created by tretyakov on 25.09.2014.
  */
-public class ActivateBombAction implements ActionController.IGameAction {
-    private final IPlayer owner;
-    private final long time;
+public class ActivateBombAction extends RecyclableAction
+        implements ActionController.IGameAction {
+    private IPlayer owner;
+    private long time;
 
-    public ActivateBombAction(IPlayer owner, long time) {
+    public void update(IPlayer owner, long time) {
         this.owner = owner;
         this.time = time;
     }
@@ -23,6 +21,13 @@ public class ActivateBombAction implements ActionController.IGameAction {
     @Override
     public void Calculate(long time) {
         owner.activateBombs(time);
+    }
+
+    public static class Factory implements RecyclableArray.Factory<ActivateBombAction> {
+        @Override
+        public ActivateBombAction newItem() {
+            return new ActivateBombAction();
+        }
     }
 
 }

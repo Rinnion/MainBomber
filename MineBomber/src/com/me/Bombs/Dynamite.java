@@ -6,18 +6,21 @@ import com.me.Bombs.Behavior.CircleExplosion;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
+import com.me.Utility.RecyclableArray;
+import com.me.minebomber.MemoryManager;
 
 
 /**
  * Created by alekseev on 27.03.2014.
  */
 public class Dynamite extends AbstractBomb {
-    public Dynamite(IPlayer player, Vector2 pos, long activationTime)
-    {
-        super(player, new Vector2I((int)pos.x/MapManager.rowW, (int)pos.y/MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
+    public Dynamite update(IPlayer player, Vector2 pos, long activationTime) {
+        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
 
-        behavior =   new CircleExplosion(100,200,24);
-        activator = new TimeActivator(this, activationTime);
+        behavior = MemoryManager.take(CircleExplosion.class).update(100, 200, 24);
+        activator = MemoryManager.take(TimeActivator.class).update(this, activationTime);
+
+        return this;
     }
 
     @Override
@@ -34,6 +37,13 @@ public class Dynamite extends AbstractBomb {
 
     @Override
     public void detonate(long time) {
-        ActivationTime=time;
+        ActivationTime = time;
+    }
+
+    public static class Factory implements RecyclableArray.Factory {
+        @Override
+        public Object newItem() {
+            return new Dynamite();
+        }
     }
 }

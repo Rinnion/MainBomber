@@ -22,6 +22,7 @@ import com.me.controlers.TreasureController;
 import com.me.controlers.treasure.SmallChestTreasure;
 import com.me.minebomber.AbstractGameObject;
 import com.me.minebomber.DrawManager;
+import com.me.minebomber.MemoryManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +88,9 @@ public class MapManager {
             int x = (int) (Math.random() * ((double) MapManager.maxCel));
             int y = (int) (Math.random() * ((double) MapManager.maxRow));
 
-            TreasureController.Add(new SmallChestTreasure(new Vector2I(x, y)));
+            TreasureController.Add(
+                    MemoryManager.take(SmallChestTreasure.class).update(new Vector2I(x, y))
+            );
 
         }
     }
