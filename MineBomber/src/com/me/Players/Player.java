@@ -1,17 +1,10 @@
 package com.me.Players;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.*;
 import com.me.TextManager.TextManager;
-import com.me.assetloader.AssetLoader;
 import com.me.controlers.ActionController;
-import com.me.controlers.GameObjectController;
 import com.me.controlers.actions.ActivateBombAction;
 import com.me.controlers.actions.PutBombAction;
 import com.me.logger.Log;
@@ -91,7 +84,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
     public Player(String mName, IListenerRegistration registration, Vector2 position)
     {
         super(mName);
-        sprite = AnimatedSprite.Factory.CreatePlayer(Settings.PLAYER_SKIN);
+        sprite = AnimatedSprite.FactoryMethos.CreatePlayer(Settings.PLAYER_SKIN);
         sprite.setSize(9.5f,9.5f);
         sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f);
         sprite.setPosition( position.x - sprite.getOriginX(), position.y - sprite.getOriginY() );

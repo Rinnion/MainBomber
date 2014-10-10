@@ -16,7 +16,7 @@ import com.me.minebomber.MemoryManager;
 public class FastFilledBomb extends AbstractBomb {
 
     public FastFilledBomb update(IPlayer player, Vector2 pos) {
-        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
+        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.FactoryMethos.CreateBomb("dyn"));
 
         behavior = MemoryManager.take(FastTeramorf.class).update((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH, 82);
         activator = MemoryManager.take(TimeActivator.class).update(this, 3000);

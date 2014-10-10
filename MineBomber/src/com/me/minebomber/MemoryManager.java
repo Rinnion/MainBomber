@@ -73,6 +73,8 @@ public class MemoryManager {
         RegisterClass(PunchTera.class, 10);
         RegisterClass(Teramorf.class, 10);
 
+        RegisterClass(AnimatedSprite.class, 1000);
+
     }
 
     public static <T> T take(Class<T> cls){

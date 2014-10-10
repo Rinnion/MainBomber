@@ -19,7 +19,7 @@ public abstract class AbstractGameObject extends RecyclableObject {
     protected AnimatedSprite sprite;
 
     public AbstractGameObject() {
-
+        position=new Vector2I(0,0);
     }
 
     public int getIndex() {
@@ -36,7 +36,10 @@ public abstract class AbstractGameObject extends RecyclableObject {
 
     public void update(IPlayer player, Vector2I pos, int life, AnimatedSprite sprite) {
         this.owner = player;
-        position = new Vector2I(pos.x, pos.y);
+        position.x =pos.x;// = new Vector2I(pos.x, pos.y);
+        position.y=pos.y;
+
+
         index = pos.getMapIndex();
         this.life = life;
         this.sprite = sprite;

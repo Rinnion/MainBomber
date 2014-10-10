@@ -19,6 +19,12 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
     private int jumps;
     private int radius;
     private CircleExplosion explosion;
+    private Vector2 newPosition;
+
+    public JumpBehavior()
+    {
+        newPosition=new Vector2();
+    }
 
     public JumpBehavior update(int jumps, int radius) {
         this.jumps = jumps;
@@ -50,10 +56,12 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
         if (jumps == 1) return;
 
         PutBombAction take = MemoryManager.take(PutBombAction.class);
+        newPosition.set(2*newX,2*newY);
+
         take.update(bomb.getOwner(),
                 time,
                 MemoryManager.take(RandomBomb.class).update(bomb.getOwner(),
-                        new Vector2(2 * newX, 2 * newY),
+                        newPosition,
                         jumps - 1,
                         radius)
         );

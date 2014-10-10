@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>3.3.2</string>
         <key>fileName</key>
-        <string>E:/JAVA/MB2/graphic/bombs/bombsPack.tps</string>
+        <string>E:/JAVA/MB2/graphic/bombs/bomber/bomber.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>libgdx</string>
         <key>textureFileName</key>
-        <filename>bombPack.png</filename>
+        <filename>../../../../tiles/player/player.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -68,13 +68,13 @@
         <key>textureFormat</key>
         <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
-        <uint>1</uint>
+        <uint>2</uint>
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>1024</int>
+            <int>2048</int>
             <key>height</key>
-            <int>1024</int>
+            <int>2048</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -131,7 +131,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>bombPack.txt</filename>
+                <filename>../../../../tiles/player/player.txt</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -172,19 +172,12 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>dyn_001.png</filename>
-            <filename>dyn_002.png</filename>
-            <filename>dyn_003.png</filename>
-            <filename>dst_bomb_004.png</filename>
-            <filename>dst_bomb_001.png</filename>
-            <filename>dst_bomb_002.png</filename>
-            <filename>dst_bomb_003.png</filename>
-            <filename>X:/OBMEN_GCS/Alekseev/mega/bomb_1.png</filename>
-            <filename>X:/OBMEN_GCS/Alekseev/mega/bomb_2.png</filename>
-            <filename>../../../tiles/gold/box_001.png</filename>
-            <filename>../../../tiles/gold/box_002.png</filename>
-            <filename>../../../tiles/gold/box_003.png</filename>
-            <filename>../../../tiles/gold/box_004.png</filename>
+            <filename>../../../../tiles/player/brake/player_brake_001.png</filename>
+            <filename>../../../../tiles/player/brake/player_brake_002.png</filename>
+            <filename>../../../../tiles/player/go/player_go_004.png</filename>
+            <filename>../../../../tiles/player/go/player_go_001.png</filename>
+            <filename>../../../../tiles/player/go/player_go_002.png</filename>
+            <filename>../../../../tiles/player/go/player_go_003.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

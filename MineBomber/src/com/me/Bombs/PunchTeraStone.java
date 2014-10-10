@@ -16,7 +16,7 @@ import com.me.minebomber.MemoryManager;
 public class PunchTeraStone extends AbstractBomb {
 
     public PunchTeraStone update(IPlayer player, Vector2 pos) {
-        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
+        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.FactoryMethos.CreateBomb("dyn"));
 
         behavior = MemoryManager.take(PunchTera.class).update((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH, 0);
         activator = MemoryManager.take(TimeActivator.class).update(this, 3000);

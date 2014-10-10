@@ -65,7 +65,7 @@ public class RecyclableArray<E extends RecyclableObject> {
     /*
     public static boolean SmokeTest(){
         try {
-            RecyclableArray<PutBombAction> rl = new RecyclableArray<PutBombAction>(new PutBombAction.Factory(), 3);
+            RecyclableArray<PutBombAction> rl = new RecyclableArray<PutBombAction>(new PutBombAction.FactoryMethos(), 3);
 
 
 

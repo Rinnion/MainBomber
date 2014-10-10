@@ -8,13 +8,15 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
+import com.me.Utility.RecyclableArray;
+import com.me.Utility.RecyclableObject;
 import com.me.assetloader.AssetLoader;
 import com.me.minebomber.Settings;
 
 /**
 * Created by tretyakov on 14.04.2014.
 */
-public class AnimatedSprite extends Sprite {
+public class AnimatedSprite extends RecyclableObject {
 
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
@@ -24,44 +26,29 @@ public class AnimatedSprite extends Sprite {
     public static final String TREASURE_BIG_CHEST = "box";
 
     private com.badlogic.gdx.graphics.g2d.Animation animSprite;
+    private com.badlogic.gdx.graphics.g2d.Sprite sprite;
     private float elapsedTime;
 
-    public AnimatedSprite(Texture texture, int width, int height, Animation animSprite) {
-
-
-        super(texture, width, height);
-
+    public AnimatedSprite update(Sprite sprite, Animation animSprite) {
         this.animSprite = animSprite;
+        this.sprite = sprite;
+        return this;
     }
 
-    @Override
+    public AnimatedSprite() {
+        sprite = null;
+        animSprite = null;
+    }
+
+    public AnimatedSprite(Texture texture, int width, int height, Animation animation){
+        sprite = new Sprite(texture, width, height);
+        animSprite = animation;
+    }
+
     public void draw(Batch batch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
-
-        //Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
-        //batch.setBlendFunction(Gdx.gl.GL_SRC_COLOR, Gdx.gl.GL_DST_ALPHA);
-
-        setRegion(animSprite.getKeyFrame(elapsedTime, true));
-        //Texture texture=getTexture();
-        //
-        //  float alpha=0.5f;
-
-        super.draw(batch);
-    }
-
-    @Override
-    public void draw(Batch batch,float alpha) {
-        elapsedTime += Gdx.graphics.getDeltaTime();
-
-        //Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
-        //batch.setBlendFunction(Gdx.gl.GL_SRC_COLOR, Gdx.gl.GL_DST_ALPHA);
-
-        setRegion(animSprite.getKeyFrame(elapsedTime, true));
-        //Texture texture=getTexture();
-        //
-        //  float alpha=0.5f;
-
-        super.draw(batch,alpha);
+        sprite.setRegion(animSprite.getKeyFrame(elapsedTime, true));
+        sprite.draw(batch);
     }
 
     public void SetPlayMode(Animation.PlayMode mode)
@@ -69,11 +56,16 @@ public class AnimatedSprite extends Sprite {
         this.animSprite.setPlayMode(mode);
     }
 
-    public static class Factory{
+    public static class Factory implements RecyclableArray.Factory<AnimatedSprite> {
+
+        @Override
+        public AnimatedSprite newItem() {
+            return new AnimatedSprite();
+        }
+    }
+
+    public static class FactoryMethos {
         public static AnimatedSprite CreateBomb(String bombName) {
-
-
-
 
             TextureAtlas dynamiteTex = AssetLoader.GetAtlas(Settings.BOMB_DYNAMITE);
 
@@ -83,7 +75,6 @@ public class AnimatedSprite extends Sprite {
                 tmpRegion.flip(false,true);
             }
             Animation animSprite = new Animation(FRAME_DURATION, region);
-
 
             return new AnimatedSprite(region.get(0).getTexture(), WIDTH, HEIGHT, animSprite);
         }

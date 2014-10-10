@@ -6,8 +6,13 @@ import com.me.Map.MapManager;
  * Created by alekseev on 04.04.2014.
  */
 public class Vector2I {
-    public final int x;
-    public final int y;
+    public int x;
+    public int y;
+
+    public Vector2I()
+    {
+
+    }
 
     public Vector2I(int x, int y)
     {

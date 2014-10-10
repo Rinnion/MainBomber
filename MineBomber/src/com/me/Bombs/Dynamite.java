@@ -15,7 +15,7 @@ import com.me.minebomber.MemoryManager;
  */
 public class Dynamite extends AbstractBomb {
     public Dynamite update(IPlayer player, Vector2 pos, long activationTime) {
-        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
+        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.FactoryMethos.CreateBomb("dyn"));
 
         behavior = MemoryManager.take(CircleExplosion.class).update(100, 200, 24);
         activator = MemoryManager.take(TimeActivator.class).update(this, activationTime);

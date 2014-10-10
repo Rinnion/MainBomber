@@ -18,7 +18,7 @@ public class FilledBomb extends AbstractBomb {
     private int delay = 2000;
 
     public FilledBomb update(IPlayer player, Vector2 pos) {
-        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.Factory.CreateBomb("dyn"));
+        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), AnimatedSprite.FactoryMethos.CreateBomb("dyn"));
 
         behavior = MemoryManager.take(Teramorf.class).update((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH, 81);
         activator = MemoryManager.take(TimeActivator.class).update(this, 3000);
