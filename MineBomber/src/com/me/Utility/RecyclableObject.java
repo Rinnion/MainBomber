@@ -9,7 +9,8 @@ import com.me.minebomber.MemoryManager;
 public abstract class RecyclableObject implements IRecyclable {
 
     public RecyclableObject() {
-        Log.d(String.format("ctor " + getClass().getCanonicalName()));
+
+        //Log.d(String.format("ctor " + getClass().getCanonicalName()));
     }
 
     @Override

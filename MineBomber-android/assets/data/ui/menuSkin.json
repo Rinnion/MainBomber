@@ -1,0 +1,27 @@
+{
+
+    com.badlogic.gdx.graphics.Color: {
+            white: { r: 1, g: 1, b: 1, a: 1 },
+            red: { r: 1, g: 0, b: 0, a: 1 },
+            yellow: { r: 0.5, g: 0.5, b: 0, a: 1 }
+        },
+
+	"com.badlogic.gdx.graphics.g2d.BitmapFont": {
+		"font": { "file": "data/fonts/font.fnt" },
+	},
+	"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {			
+		"default": { "up": "blue_button2" , "down": "blue_button3", "font": font, "pressedOffsetY": -4 }
+	},
+	"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+		"default": { "font": font}
+	},
+	"com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle":{
+	   "default": { "up": "grey_box" , "down": "grey_box","checked":"blue_boxCheckmark", "font": font, "pressedOffsetY": -4 }
+	},
+	"com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle":{
+	    "default": {  background:"blue_selection","font": font, fontColor: white,cursor:"grey_boxCursor" }
+
+	}
+
+
+}
