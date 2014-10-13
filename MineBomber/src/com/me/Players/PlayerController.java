@@ -118,8 +118,10 @@ public class PlayerController {
 
         for(int i=0;i<players.size();i++) {
             player=players.get(i);
-            if(bomb!=null)
-            player.removebomb(bomb);
+            if(bomb!=null) {
+                //FIXME 13.10.2014 commented
+                //player.removebomb(bomb);
+            }
         }
     }
 
@@ -135,14 +137,14 @@ public class PlayerController {
     public static void addMoney(IPlayer who, long value){
 
         who.addMoney(value);
-        TextManager.Add("+" +value + "", Color.YELLOW,who.getX(),who.getY());
+        //TextManager.Add("+" +value + "", Color.YELLOW, who.getX(), who.getY());
 
     }
 
     public static void addRandomWeapon(IPlayer who)
     {
         int cb=who.getArsenal().AddRandom();
-        TextManager.Add("+" +cb + "", Color.GREEN ,who.getX(),who.getY());
+        //TextManager.Add("+" +cb + "", Color.GREEN ,who.getX(),who.getY());
     }
 
     public static void removeMoney(IPlayer who, long value){

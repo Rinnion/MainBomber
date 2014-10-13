@@ -137,10 +137,11 @@ public class ArsenalInfo {
         if(isVisible==false)
             return;
 
-        int x=(int)owner.getX();
-        int y=(int)owner.getY();
-        int h=(int)owner.getH();
-        int w=(int)owner.getW();
+        int x=(int)owner.X;
+        int y=(int)owner.Y;
+        //FIXME: magic constants :)
+        int h=32;
+        int w=32;
         x=(x+w/2)-pixmap.getWidth()/2;
 
 

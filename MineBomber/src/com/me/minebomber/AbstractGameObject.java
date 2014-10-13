@@ -2,6 +2,7 @@ package com.me.minebomber;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.me.Bombs.AnimatedSprite;
+import com.me.Bombs.AnimatedSpriteAnimator;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
@@ -16,7 +17,7 @@ public abstract class AbstractGameObject extends RecyclableObject {
     public boolean visible;
     protected IPlayer owner;
     protected int index;
-    protected AnimatedSprite sprite;
+    protected AnimatedSpriteAnimator sprite;
 
     public AbstractGameObject() {
         position=new Vector2I(0,0);
@@ -36,22 +37,26 @@ public abstract class AbstractGameObject extends RecyclableObject {
 
     public void update(IPlayer player, Vector2I pos, int life, AnimatedSprite sprite) {
         this.owner = player;
-        position.x =pos.x;// = new Vector2I(pos.x, pos.y);
-        position.y=pos.y;
+        position.x = pos.x;// = new Vector2I(pos.x, pos.y);
+        position.y = pos.y;
 
 
         index = pos.getMapIndex();
         this.life = life;
-        this.sprite = sprite;
+        this.sprite = MemoryManager.take(AnimatedSpriteAnimator.class).update(sprite);
         this.visible = true;
+    }
 
-        sprite.setPosition(
-                pos.x * MapManager.rowW - (sprite.getWidth() / 2),
-                pos.y * MapManager.rowH - (sprite.getHeight() / 2));
+    @Override
+    public void recycle() {
+        sprite.recycle();
+        super.recycle();
     }
 
     public void Render(Batch batch) {
-        if (visible) sprite.draw(batch);
+        if (visible) sprite.draw(batch,
+                position.x * MapManager.rowW,
+                position.y * MapManager.rowH);
     }
 
     public abstract void applyDamage(IPlayer who, int dmg, long time);

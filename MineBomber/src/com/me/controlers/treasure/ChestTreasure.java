@@ -1,6 +1,7 @@
 package com.me.controlers.treasure;
 
 import com.me.Bombs.AnimatedSprite;
+import com.me.Bombs.AnimatedSpriteAnimator;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
@@ -13,8 +14,8 @@ public abstract class ChestTreasure extends AbstractTreasure {
 
     private long value;
 
-    public ChestTreasure update(Vector2I pos, long value, String spriteName) {
-        super.update(null, pos, 1, AnimatedSprite.FactoryMethos.CreateTreasure(spriteName));
+    public ChestTreasure update(Vector2I pos, long value, AnimatedSprite animator) {
+        super.update(null, pos, 1, animator);
         this.value = value;
         return this;
     }
@@ -23,7 +24,6 @@ public abstract class ChestTreasure extends AbstractTreasure {
     protected boolean collect(IPlayer who, long time) {
         PlayerController.addMoney(who, value);
         PlayerController.addRandomWeapon(who);
-        MemoryManager.recycle(this);
         return true;
     }
 }

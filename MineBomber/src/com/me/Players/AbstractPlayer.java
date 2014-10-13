@@ -10,6 +10,7 @@ import com.me.Bombs.AbstractBomb;
 import com.me.Bombs.Activator.DestinationActivator;
 import com.me.Bombs.Activator.IActivator;
 import com.me.Bombs.AnimatedSprite;
+import com.me.Bombs.AnimatedSpriteAnimator;
 import com.me.Bombs.DestBomb;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.MaskController;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by tretyakov on 06.05.2014.
  */
-public class AbstractPlayer implements IPlayer {
+public abstract class AbstractPlayer implements IPlayer {
 
     Arsenal arsenal;
     ArsenalInfo arsenalInfo;
@@ -34,9 +35,7 @@ public class AbstractPlayer implements IPlayer {
     protected String mName;
     float radiusDig=4.5f;
     float radiusGo=1.7f ;
-
     public float radiusView=15;
-
     int digDmg=5;
     float playerSpd=0.040f;
     float playerSpeedPerFrame = 2f;
@@ -45,19 +44,18 @@ public class AbstractPlayer implements IPlayer {
     Vector2 v = new Vector2(0.7f,0.7f);
     boolean mDie=false;
 
-    public TextureAtlas textureAtlas;
-
-
-    public AnimatedSprite sprite;
-    //public Animation animationSprite;
+    public AnimatedSpriteAnimator sprite;
 
     private float newX;
     private float newY;
+
+    public float X;
+    public float Y;
+    public float oX;
+    public float oY;
     ShapeRenderer shapeRenderer;
 
     private static final boolean playerDebug=false;
-
-
 
     private static final int DEF_BOMB_COUNT=20;
     protected final ArrayList<AbstractBomb> bombList;
@@ -69,7 +67,7 @@ public class AbstractPlayer implements IPlayer {
         mask_go = MaskController.GetMask(radiusGo);
         mask_dmg = MaskController.GetMask(radiusDig);
         mask_view = MaskController.GetMask(radiusView);
-        bombList=new ArrayList<AbstractBomb>(DEF_BOMB_COUNT);
+        bombList=new ArrayList<>(DEF_BOMB_COUNT);
 
         if(playerDebug)
         shapeRenderer=new ShapeRenderer();
@@ -82,6 +80,7 @@ public class AbstractPlayer implements IPlayer {
         mLifeProgressBar.Draw();
         if(mDie) { return; }
 
+        /*
         if(playerDebug) {
             shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -105,30 +104,16 @@ public class AbstractPlayer implements IPlayer {
 
             shapeRenderer.end();
         }
+        */
 
         //TextureRegion region= animationSprite.getKeyFrame(Gdx.graphics.getDeltaTime());
         //region.flip(false,true);
 
         //sprite.setRegion(region);
 
-        sprite.draw(batch);
+        sprite.draw(batch, X, Y);
         if(arsenalInfo.isVisible)
         arsenalInfo.Render(batch);
-    }
-
-    @Override
-    public float GetDmgRadius() {
-        return radiusDig;
-    }
-
-    @Override
-    public float GetGoRadius() {
-        return radiusGo;
-    }
-
-    @Override
-    public int GetDigDmg() {
-        return digDmg;
     }
 
     @Override
@@ -142,16 +127,6 @@ public class AbstractPlayer implements IPlayer {
     }
 
     @Override
-    public String getName() {
-        return mName;
-    }
-
-    @Override
-    public boolean isVisible() {
-        return true;
-    }
-
-    @Override
     public LifeProgressBar GetLifeBar() {
         return mLifeProgressBar;
     }
@@ -159,7 +134,6 @@ public class AbstractPlayer implements IPlayer {
     @Override
     public void DealDamage(int dmg) {
 
-        //float dmg=bomb.GetProperty().dmgMin + (float)Math.random()*bomb.GetProperty().dmgMax;
         if(mDie)
             return;
 
@@ -171,15 +145,10 @@ public class AbstractPlayer implements IPlayer {
             curLife-=dmg;
         if(dmg!=0) {
 
-            TextManager.Add("-"+ dmg, Color.PINK, this.getX() ,this.getY());
+            TextManager.Add("-"+ dmg, Color.PINK, X, Y);
             mLifeProgressBar.DoItVisible();
         }
 
-    }
-
-    @Override
-    public void removebomb(AbstractBomb bomb) {
-        bombList.remove(bomb);
     }
 
     public static final int MAX_ACTIVATORS = 2500;
@@ -196,33 +165,6 @@ public class AbstractPlayer implements IPlayer {
     public void addActivator(IActivator activator) {
         activators.add(activator);
     }
-
-    @Override
-    public float getX() {
-        return sprite.getX();
-    }
-
-    @Override
-    public float getY() {
-        return sprite.getY();
-    }
-
-    @Override
-    public float getH() {
-
-        return sprite.getHeight();
-    }
-
-    @Override
-    public float getW() {
-        return sprite.getWidth() ;
-    }
-
-    @Override
-    public Vector2 GetOrigin() {
-        return new Vector2(sprite.getOriginX(),sprite.getOriginY());
-    }
-
 
     public Arsenal GetArsenal() {
         return arsenal;
@@ -244,15 +186,16 @@ public class AbstractPlayer implements IPlayer {
         float xStep = (playerSpeedPerFrame * v.x);
         float yStep = (playerSpeedPerFrame * v.y);
 
-        newX = (int) (sprite.getX() + sprite.getOriginX());
-        newY = (int) (sprite.getY() + sprite.getOriginY());
+        newX = X;
+        newY = Y;
 
         MapManager.beginRedrawViewMask(mask_view, newX / MapManager.rowW, newY / MapManager.rowH);
 
         if (MapManager.isEmptyField((newX + xStep) / MapManager.rowW, (newY + yStep) / MapManager.rowH, mask_go)) {
             newX += xStep;
             newY += yStep;
-            sprite.translate(xStep, yStep);
+            X += xStep;
+            Y += yStep;
             MapManager.collect(this, mask_go, newX / MapManager.rowW, newY / MapManager.rowH, time);
         }
 

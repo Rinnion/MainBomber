@@ -1,6 +1,7 @@
 package com.me.controlers.treasure;
 
 import com.me.Bombs.AnimatedSprite;
+import com.me.Bombs.AnimatedSpriteAnimator;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.minebomber.AbstractGameObject;

@@ -21,26 +21,18 @@ import com.me.minebomber.Settings;
  */
 public class DestBomb extends AbstractBomb {
 
-    private static Animation animatedSprite=null;
+    private static AnimatedSprite animatedSprite=null;
     private static Sprite sprite = null;
 
     static
     {
         if(animatedSprite==null) {
-            TextureAtlas dynamiteTex = AssetLoader.GetAtlas(Settings.BOMB_DYNAMITE);
-
-            Array<TextureAtlas.AtlasRegion> region = dynamiteTex.findRegions("dst_bomb");
-            for (TextureAtlas.AtlasRegion tmpRegion : region) {
-                tmpRegion.flip(false, true);
-            }
-            animatedSprite = new Animation(AnimatedSprite.FRAME_DURATION, region);
-            sprite = new Sprite(region.get(0).getTexture(), AnimatedSprite.WIDTH, AnimatedSprite.HEIGHT);
+            animatedSprite = AnimatedSprite.FactoryMethos.CreateBomb("dst_bomb");
         }
     }
 
     public DestBomb update(IPlayer player, Vector2 pos) {
-        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH),
-                MemoryManager.take(AnimatedSprite.class).update(sprite, animatedSprite));
+        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), animatedSprite);
 
         behavior = MemoryManager.take(CircleExplosion.class).update(100, 200, 20);
         activator = MemoryManager.take(DestinationActivator.class).update(this);

@@ -16,7 +16,7 @@ import com.me.minebomber.Settings;
 /**
 * Created by tretyakov on 14.04.2014.
 */
-public class AnimatedSprite extends RecyclableObject {
+public class AnimatedSprite  {
 
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
@@ -27,41 +27,28 @@ public class AnimatedSprite extends RecyclableObject {
 
     private com.badlogic.gdx.graphics.g2d.Animation animSprite;
     private com.badlogic.gdx.graphics.g2d.Sprite sprite;
-    private float elapsedTime;
-
-    public AnimatedSprite update(Sprite sprite, Animation animSprite) {
-        this.animSprite = animSprite;
-        this.sprite = sprite;
-        return this;
-    }
-
-    public AnimatedSprite() {
-        sprite = null;
-        animSprite = null;
-    }
+    private float oX;
+    private float oY;
 
     public AnimatedSprite(Texture texture, int width, int height, Animation animation){
         sprite = new Sprite(texture, width, height);
         animSprite = animation;
     }
 
-    public void draw(Batch batch) {
-        elapsedTime += Gdx.graphics.getDeltaTime();
+    public void draw(Batch batch, float elapsedTime) {
         sprite.setRegion(animSprite.getKeyFrame(elapsedTime, true));
         sprite.draw(batch);
     }
 
-    public void SetPlayMode(Animation.PlayMode mode)
-    {
-        this.animSprite.setPlayMode(mode);
+    public void draw(Batch batch, float x, float y, float elapsedTime) {
+        sprite.setRegion(animSprite.getKeyFrame(elapsedTime, true));
+        sprite.setPosition(x - oX, y - oY);
+        sprite.draw(batch);
     }
 
-    public static class Factory implements RecyclableArray.Factory<AnimatedSprite> {
-
-        @Override
-        public AnimatedSprite newItem() {
-            return new AnimatedSprite();
-        }
+    public void setOrigin(float X, float Y){
+        oX = X;
+        oY = Y;
     }
 
     public static class FactoryMethos {
@@ -76,7 +63,10 @@ public class AnimatedSprite extends RecyclableObject {
             }
             Animation animSprite = new Animation(FRAME_DURATION, region);
 
-            return new AnimatedSprite(region.get(0).getTexture(), WIDTH, HEIGHT, animSprite);
+            AnimatedSprite animatedSprite = new AnimatedSprite(region.get(0).getTexture(), WIDTH, HEIGHT, animSprite);
+            animatedSprite.setOrigin(4,4);
+
+            return animatedSprite;
         }
 
         public static AnimatedSprite CreateTreasure(String treasureName) {
@@ -90,7 +80,9 @@ public class AnimatedSprite extends RecyclableObject {
             }
             Animation animSprite = new Animation(FRAME_DURATION_T, region, Animation.PlayMode.LOOP_PINGPONG);
 
-            return new AnimatedSprite(region.get(0).getTexture(), WIDTH, HEIGHT, animSprite);
+            AnimatedSprite animatedSprite = new AnimatedSprite(region.get(0).getTexture(), WIDTH, HEIGHT, animSprite);
+            animatedSprite.setOrigin(4,4);
+            return animatedSprite;
         }
 
 
@@ -106,7 +98,9 @@ public class AnimatedSprite extends RecyclableObject {
             }
             Animation animSprite = new Animation(0.15f, region);
 
-            return new AnimatedSprite(region.get(0).getTexture(), 10, 10, animSprite);
+            AnimatedSprite animatedSprite = new AnimatedSprite(region.get(0).getTexture(), 10, 10, animSprite);
+            animatedSprite.setOrigin(6,6);
+            return animatedSprite;
         }
     }
 }

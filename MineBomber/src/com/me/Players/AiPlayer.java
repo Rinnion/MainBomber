@@ -69,34 +69,11 @@ public class AiPlayer implements IPlayer, IPlayerControls {
         mLifeProgressBar.DoItVisible();
     }
 
-    @Override
-    public void removebomb(AbstractBomb bomb) {
-
-    }
 
     @Override
     public void activateBombs(long time) {
 
     }
-
-    @Override
-    public float getH() {
-        return sprite.getHeight();
-    }
-
-
-
-    @Override
-    public float getW() {
-        return sprite.getWidth();
-    }
-
-    @Override
-    public Vector2 GetOrigin() {
-        return new Vector2(sprite.getOriginX(),sprite.getOriginY());
-    }
-
-
     @Override
     public void addMoney(long value) {
 
@@ -113,21 +90,6 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     }
 
     @Override
-    public float GetDmgRadius() {
-        return radiusDig;
-    }
-
-    @Override
-    public float GetGoRadius() {
-        return radiusGo;
-    }
-
-    @Override
-    public int GetDigDmg() {
-        return digDmg;
-    }
-
-    @Override
     public float GetMaxLife() {
         return maxLife;
     }
@@ -138,30 +100,8 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     }
 
     @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public boolean isVisible() {
-        return true;
-    }
-
-    @Override
     public LifeProgressBar GetLifeBar() {
         return mLifeProgressBar;
-    }
-
-
-
-    @Override
-    public float getX() {
-        return sprite.getX();
-    }
-
-    @Override
-    public float getY() {
-        return sprite.getY();
     }
 
     public void ChangeMoveDirection(Vector2 vec) {

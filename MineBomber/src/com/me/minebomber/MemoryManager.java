@@ -11,6 +11,7 @@ import com.me.controlers.actions.ActivateBombAction;
 import com.me.controlers.actions.PutBombAction;
 import com.me.controlers.treasure.BigChestTreasure;
 import com.me.controlers.treasure.SmallChestTreasure;
+import com.me.logger.Log;
 
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
@@ -73,12 +74,13 @@ public class MemoryManager {
         RegisterClass(PunchTera.class, 10);
         RegisterClass(Teramorf.class, 10);
 
-        RegisterClass(AnimatedSprite.class, 1000);
+        RegisterClass(AnimatedSpriteAnimator.class, 1000);
 
     }
 
     public static <T> T take(Class<T> cls){
         RecyclableArray<?> ra = hm.get(cls);
+        Log.d("take " + cls.getCanonicalName() + ". ra.length = " + (ra.getSize() - 1));
         return (T)ra.take();
     }
 
@@ -86,5 +88,7 @@ public class MemoryManager {
         Class<?> aClass = object.getClass();
         RecyclableArray ra = hm.get(aClass);
         ra.recycle(object);
+        Log.d("recycle " + object + ". ra.length = " + ra.getSize());
+
     }
 }

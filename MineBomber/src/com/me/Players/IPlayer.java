@@ -12,39 +12,12 @@ import com.me.controlers.treasure.AbstractTreasure;
  */
 public interface IPlayer {
 
-    float GetDmgRadius();
-    float GetGoRadius();
-    int GetDigDmg();
-
     float GetMaxLife();
     float GetLife();
-
-    String getName();
-
-
-    boolean isVisible();
-    //boolean isVisibleLife();
-
     LifeProgressBar GetLifeBar();
-
     void Render(Batch batch);
-
     void DealDamage(int dmg);
-
-    void removebomb(AbstractBomb bomb);
-
     void activateBombs(long time);
-
-    float getX();
-    float getY();
-    float getH();
-    float getW();
-
-
-    Vector2 GetOrigin();
-
-
-
 
     void addMoney(long value);
     Arsenal getArsenal();

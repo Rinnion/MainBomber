@@ -37,28 +37,6 @@ public class LifeProgressBar implements ILifeProgressBar {
         setDefaultColor();
     }
 
-
-
-    @Override
-    public float getX() {
-        return player.getX();
-    }
-
-    @Override
-    public float getY() {
-        return player.getY();
-    }
-
-    @Override
-    public float getW() {
-        return player.getW();
-    }
-
-    @Override
-    public float getH() {
-        return player.getH();
-    }
-
     @Override
     public Color colorBack() {
         return mColorProgressBack;

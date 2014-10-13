@@ -217,9 +217,9 @@ public class MapManager {
 
                 array.clear();
 
-                for (IPlayer bm : players) {
-                    float sx = bm.getX();
-                    float sy = bm.getY();
+                for (AbstractPlayer bm : players) {
+                    float sx = bm.X;
+                    float sy = bm.Y;
 
                     float mapX = mapInfo.mX;
                     float mapW = mapX + rowW;

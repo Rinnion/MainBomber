@@ -42,11 +42,11 @@ public class ShapeProgressBar {
             if(!bar.visibleLifeBar())
                 continue;
             //shapeRenderer.setColor(Color.RED );
-            shapeRenderer.setColor(bar.colorBack());
-            shapeRenderer.rect(player.getX(),player.getY()-4,player.getW(),2);
-            shapeRenderer.setColor(bar.colorFront());
+            //shapeRenderer.setColor(bar.colorBack());
+            //shapeRenderer.rect(player.getX(),player.getY()-4,player.getW(),2);
+            //shapeRenderer.setColor(bar.colorFront());
 
-            shapeRenderer.rect(player.getX(),player.getY()-4,(player.getW()/player.GetMaxLife())*player.GetLife() ,2);
+            //shapeRenderer.rect(player.getX(),player.getY()-4,(player.getW()/player.GetMaxLife())*player.GetLife() ,2);
         }
 
         shapeRenderer.end();
