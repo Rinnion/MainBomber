@@ -2,16 +2,15 @@ package com.me.Players;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.*;
+import com.me.Bombs.AbstractBomb;
 import com.me.Bombs.AnimatedSprite;
+import com.me.Bombs.AnimatedSpriteAnimator;
 import com.me.TextManager.TextManager;
 import com.me.controlers.ActionController;
 import com.me.controlers.actions.ActivateBombAction;
 import com.me.controlers.actions.PutBombAction;
-import com.me.logger.Log;
 import com.me.minebomber.MemoryManager;
 import com.me.minebomber.Settings;
-import com.minebomber.MenuManager.*;
 
 import java.util.Calendar;
 
@@ -20,6 +19,17 @@ import java.util.Calendar;
  */
 public class Player extends AbstractPlayer implements IPlayerControls {
 
+    public Player(String mName, IListenerRegistration registration, Vector2 position) {
+        super(mName);
+        AnimatedSprite animatedSprite = AnimatedSprite.FactoryMethos.CreatePlayer(Settings.PLAYER_SKIN);
+
+        X = position.x;
+        Y = position.y;
+
+        sprite = MemoryManager.take(AnimatedSpriteAnimator.class).update(animatedSprite);
+        registration.setListener(this);
+    }
+
     public void ChangeMoveDirection(Vector2 vec) {
         v=vec;
     }
@@ -27,14 +37,13 @@ public class Player extends AbstractPlayer implements IPlayerControls {
     public void PlaceBomb() {
         if(mDie) return;
 
-        AbstractBomb bomb = arsenal.PutBomb(this,new Vector2(X, Y));
+        AbstractBomb bomb = arsenal.PutBomb(this, new Vector2(X, Y));
 
         arsenalInfo.DoItVisible();
 
         if (bomb != null) {
             bombList.add(bomb);
-            PutBombAction take = MemoryManager.take(PutBombAction.class);
-            take.update(this, Calendar.getInstance().getTime().getTime(), bomb);
+            PutBombAction take = MemoryManager.take(PutBombAction.class).update(this, Calendar.getInstance().getTime().getTime(), bomb);
             ActionController.Add(take);
         }
 
@@ -43,8 +52,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
     public void DetonateBomb() {
         if(mDie) return;
         long time=Calendar.getInstance().getTimeInMillis();
-        ActivateBombAction take = MemoryManager.take(ActivateBombAction.class);
-        take.update(this, time);
+        ActivateBombAction take = MemoryManager.take(ActivateBombAction.class).update(this, time);
         ActionController.Add(take);
     }
 
@@ -57,7 +65,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
     @Override
     public void onDoubleSwipe(Vector2 v) {
         arsenal.addIndex();
-        TextManager.Add("CurBomb: " + arsenal.sindex, Color.GRAY, X, Y );
+        TextManager.Add("CurBomb: " + arsenal.sindex, Color.GRAY, X, Y);
         arsenalInfo.DoItVisible();
         //Log.d(String.format("%s: onDoubleSwipe(%s)", this.getName(), v.toString()));
     }
@@ -82,18 +90,6 @@ public class Player extends AbstractPlayer implements IPlayerControls {
     @Override
     public void onDoublePan(Vector2 v) {
         //Log.d(String.format("%s: onDoublePan(%s)", this.getName(), v.toString()));
-    }
-
-    public Player(String mName, IListenerRegistration registration, Vector2 position)
-    {
-        super(mName);
-        AnimatedSprite animatedSprite = AnimatedSprite.FactoryMethos.CreatePlayer(Settings.PLAYER_SKIN);
-
-        X = position.x;
-        Y = position.y;
-
-        sprite = MemoryManager.take(AnimatedSpriteAnimator.class).update(animatedSprite);
-        registration.setListener(this);
     }
 
 

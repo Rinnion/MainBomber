@@ -34,6 +34,10 @@ public class PunchTera extends RecyclableBehavior implements IBehavior {
     int iterationCount = 20;
     boolean cur = true;
 
+    public PunchTera(RecyclableArray array) {
+        super(array);
+    }
+
     public PunchTera update(int cx, int cy, int tileid) {
         this.cx = cx;
         this.cy = cy;
@@ -102,11 +106,4 @@ public class PunchTera extends RecyclableBehavior implements IBehavior {
         }
     }
 
-    public static class Factory implements RecyclableArray.Factory<PunchTera> {
-
-        @Override
-        public PunchTera newItem() {
-            return new PunchTera();
-        }
-    }
 }

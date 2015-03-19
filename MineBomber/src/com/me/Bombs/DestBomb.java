@@ -1,19 +1,14 @@
 package com.me.Bombs;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.me.Bombs.Activator.DestinationActivator;
 import com.me.Bombs.Behavior.CircleExplosion;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
-import com.me.assetloader.AssetLoader;
 import com.me.minebomber.MemoryManager;
-import com.me.minebomber.Settings;
 
 
 /**
@@ -29,6 +24,10 @@ public class DestBomb extends AbstractBomb {
         if(animatedSprite==null) {
             animatedSprite = AnimatedSprite.FactoryMethos.CreateBomb("dst_bomb");
         }
+    }
+
+    public DestBomb(RecyclableArray array) {
+        super(array);
     }
 
     public DestBomb update(IPlayer player, Vector2 pos) {
@@ -64,11 +63,4 @@ public class DestBomb extends AbstractBomb {
         activate(time);
     }
 
-    public static class Factory implements RecyclableArray.Factory {
-
-        @Override
-        public Object newItem() {
-            return new DestBomb();
-        }
-    }
 }

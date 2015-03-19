@@ -34,6 +34,10 @@ public class FastTeramorf extends RecyclableBehavior implements IBehavior {
     int iterationCount = 40;
     boolean cur = true;
 
+    public FastTeramorf(RecyclableArray array) {
+        super(array);
+    }
+
     public FastTeramorf update(int cx, int cy, int tileid) {
         this.cx = cx;
         this.cy = cy;
@@ -113,20 +117,6 @@ public class FastTeramorf extends RecyclableBehavior implements IBehavior {
             xycount = txycount;
             iteration++;
         }
-
-
-        //if(fieldObjects[i].size()<2)
-
-
     }
-
-    public static class Factory implements RecyclableArray.Factory<FastTeramorf> {
-
-        @Override
-        public FastTeramorf newItem() {
-            return new FastTeramorf();
-        }
-    }
-
 
 }

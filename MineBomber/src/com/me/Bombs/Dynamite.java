@@ -16,6 +16,10 @@ import com.me.minebomber.MemoryManager;
 public class Dynamite extends AbstractBomb {
     AnimatedSprite animatedSprite = AnimatedSprite.FactoryMethos.CreateBomb("dyn");
 
+    public Dynamite(RecyclableArray array) {
+        super(array);
+    }
+
     public Dynamite update(IPlayer player, Vector2 pos, long activationTime) {
         super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), animatedSprite);
 
@@ -42,10 +46,4 @@ public class Dynamite extends AbstractBomb {
         ActivationTime = time;
     }
 
-    public static class Factory implements RecyclableArray.Factory {
-        @Override
-        public Object newItem() {
-            return new Dynamite();
-        }
-    }
 }

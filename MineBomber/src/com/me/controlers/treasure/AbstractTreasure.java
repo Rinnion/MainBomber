@@ -1,17 +1,18 @@
 package com.me.controlers.treasure;
 
 import com.me.Bombs.AnimatedSprite;
-import com.me.Bombs.AnimatedSpriteAnimator;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
+import com.me.Utility.RecyclableArray;
 import com.me.minebomber.AbstractGameObject;
 
-/**
- * Created by tretyakov on 12.05.2014.
- */
 public abstract class AbstractTreasure extends AbstractGameObject {
 
     boolean collected = false;
+
+    public AbstractTreasure(RecyclableArray array) {
+        super(array);
+    }
 
     public void update(IPlayer player, Vector2I pos, int life, AnimatedSprite sprite) {
         super.update(player, pos, life, sprite);
