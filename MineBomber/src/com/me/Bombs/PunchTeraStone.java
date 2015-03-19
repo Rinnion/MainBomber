@@ -21,6 +21,10 @@ public class PunchTeraStone extends AbstractBomb {
         animatedSprite = AnimatedSprite.FactoryMethos.CreateBomb("dyn");
     }
 
+    public PunchTeraStone(RecyclableArray array) {
+        super(array);
+    }
+
     public PunchTeraStone update(IPlayer player, Vector2 pos) {
         super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH),animatedSprite);
 
@@ -49,11 +53,4 @@ public class PunchTeraStone extends AbstractBomb {
         ActivationTime = time;
     }
 
-    public static class Factory implements RecyclableArray.Factory {
-
-        @Override
-        public Object newItem() {
-            return new PunchTeraStone();
-        }
-    }
 }

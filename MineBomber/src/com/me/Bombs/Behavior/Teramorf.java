@@ -33,6 +33,10 @@ public class Teramorf extends RecyclableBehavior implements IBehavior {
     int xycount;
     boolean cur = true;
 
+    public Teramorf(RecyclableArray array) {
+        super(array);
+    }
+
     public Teramorf update(int cx, int cy, int tileid) {
         this.cx = cx;
         this.cy = cy;
@@ -108,14 +112,4 @@ public class Teramorf extends RecyclableBehavior implements IBehavior {
 
 
     }
-
-    public static class Factory implements RecyclableArray.Factory<Teramorf> {
-
-        @Override
-        public Teramorf newItem() {
-            return new Teramorf();
-        }
-    }
-
-
 }

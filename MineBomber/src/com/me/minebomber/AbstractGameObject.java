@@ -6,6 +6,7 @@ import com.me.Bombs.AnimatedSpriteAnimator;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
+import com.me.Utility.RecyclableArray;
 import com.me.Utility.RecyclableObject;
 
 /**
@@ -19,7 +20,8 @@ public abstract class AbstractGameObject extends RecyclableObject {
     protected int index;
     protected AnimatedSpriteAnimator sprite;
 
-    public AbstractGameObject() {
+    public AbstractGameObject(RecyclableArray array) {
+        super(array);
         position=new Vector2I(0,0);
     }
 

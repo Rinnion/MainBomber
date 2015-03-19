@@ -25,6 +25,10 @@ public class CircleExplosion extends RecyclableBehavior implements IBehavior {
 
     public Vector2IDamage[] ExplodeMask;
 
+    public CircleExplosion(RecyclableArray array) {
+        super(array);
+    }
+
     public CircleExplosion update(int dmgMin, int dmgMax, float range) {
 
         Vector2I[] vector2Is = MaskController.GetMask(range);
@@ -52,11 +56,4 @@ public class CircleExplosion extends RecyclableBehavior implements IBehavior {
         return String.format("%s: [min: %s][max: %s][range: %s]", getClass().getSimpleName(), dmgMin, dmgMax, range);
     }
 
-    public static class Factory implements RecyclableArray.Factory<CircleExplosion> {
-
-        @Override
-        public CircleExplosion newItem() {
-            return new CircleExplosion();
-        }
-    }
 }

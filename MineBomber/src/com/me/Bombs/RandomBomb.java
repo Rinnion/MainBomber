@@ -1,6 +1,5 @@
 package com.me.Bombs;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.Activator.RandomTimeActivator;
 import com.me.Bombs.Behavior.JumpBehavior;
@@ -16,7 +15,6 @@ import com.me.minebomber.MemoryManager;
  */
 public final class RandomBomb extends AbstractBomb {
 
-
     private static AnimatedSprite animatedSprite=null;
     private Vector2I mapPosition;
     private Vector2 pos;
@@ -28,8 +26,9 @@ public final class RandomBomb extends AbstractBomb {
         if(animatedSprite==null)
             animatedSprite= AnimatedSprite.FactoryMethos.CreateBomb("bomb");
     }
-    public RandomBomb()
-    {
+
+    public RandomBomb(RecyclableArray array) {
+        super(array);
         mapPosition=new Vector2I();
         pos=new Vector2();
     }
@@ -63,14 +62,6 @@ public final class RandomBomb extends AbstractBomb {
     @Override
     public void detonate(long time) {
         ActivationTime = time;
-    }
-
-    public static class Factory implements RecyclableArray.Factory {
-
-        @Override
-        public Object newItem() {
-            return new RandomBomb();
-        }
     }
 
 }

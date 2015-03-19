@@ -1,18 +1,18 @@
 package com.me.controlers.treasure;
 
 import com.me.Bombs.AnimatedSprite;
-import com.me.Bombs.AnimatedSpriteAnimator;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
-import com.me.minebomber.MemoryManager;
+import com.me.Utility.RecyclableArray;
 
-/**
- * Created by tretyakov on 12.05.2014.
- */
 public abstract class ChestTreasure extends AbstractTreasure {
 
     private long value;
+
+    public ChestTreasure(RecyclableArray array) {
+        super(array);
+    }
 
     public ChestTreasure update(Vector2I pos, long value, AnimatedSprite animator) {
         super.update(null, pos, 1, animator);

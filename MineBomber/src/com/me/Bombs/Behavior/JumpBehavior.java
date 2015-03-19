@@ -21,8 +21,8 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
     private CircleExplosion explosion;
     private Vector2 newPosition;
 
-    public JumpBehavior()
-    {
+    public JumpBehavior(RecyclableArray array) {
+        super(array);
         newPosition=new Vector2();
     }
 
@@ -55,16 +55,14 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
 
         if (jumps == 1) return;
 
-        PutBombAction take = MemoryManager.take(PutBombAction.class);
         newPosition.set(2*newX,2*newY);
 
-        take.update(bomb.getOwner(),
+        PutBombAction take = MemoryManager.take(PutBombAction.class).update(bomb.getOwner(),
                 time,
                 MemoryManager.take(RandomBomb.class).update(bomb.getOwner(),
                         newPosition,
                         jumps - 1,
-                        radius)
-        );
+                        radius));
 
         ActionController.Add(take);
     }
@@ -72,13 +70,5 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
     @Override
     public String toString() {
         return String.format("%s: [j: %s][r: %s][e: %s]", getClass().getSimpleName(), jumps, radius, explosion);
-    }
-
-    public static class Factory implements RecyclableArray.Factory<JumpBehavior> {
-
-        @Override
-        public JumpBehavior newItem() {
-            return new JumpBehavior();
-        }
     }
 }

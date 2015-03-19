@@ -15,8 +15,12 @@ import com.me.minebomber.MemoryManager;
  */
 public class FilledBomb extends AbstractBomb {
 
-    private int delay = 2000;
     private static final AnimatedSprite animatedSprite = AnimatedSprite.FactoryMethos.CreateBomb("dyn");
+    private int delay = 2000;
+
+    public FilledBomb(RecyclableArray array) {
+        super(array);
+    }
 
     public FilledBomb update(IPlayer player, Vector2 pos) {
         super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), animatedSprite);
@@ -47,11 +51,4 @@ public class FilledBomb extends AbstractBomb {
         ActivationTime = time;
     }
 
-    public static class Factory implements RecyclableArray.Factory {
-
-        @Override
-        public Object newItem() {
-            return new FilledBomb();
-        }
-    }
 }

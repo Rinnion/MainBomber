@@ -2,10 +2,11 @@ package com.me.Bombs.Behavior;
 
 import com.me.Utility.RecyclableArray;
 
-/**
- * Created by alekseev on 18.09.2014.
- */
 public class RandomCircleExplosion extends CircleExplosion {
+
+    public RandomCircleExplosion(RecyclableArray array) {
+        super(array);
+    }
 
     private static int getMinDamage() {
         return MIN_DAMAGE;
@@ -22,14 +23,6 @@ public class RandomCircleExplosion extends CircleExplosion {
     public RandomCircleExplosion update() {
         super.update(getMinDamage(), getMaxDamage(), getRange());
         return this;
-    }
-
-    public static class Factory implements RecyclableArray.Factory<RandomCircleExplosion> {
-
-        @Override
-        public RandomCircleExplosion newItem() {
-            return new RandomCircleExplosion();
-        }
     }
 
 }

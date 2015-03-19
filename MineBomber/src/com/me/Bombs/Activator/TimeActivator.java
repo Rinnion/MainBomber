@@ -5,9 +5,6 @@ import com.me.Utility.RecyclableArray;
 
 import java.util.Calendar;
 
-/**
- * Created by tretyakov on 26.09.2014.
- */
 public class TimeActivator extends RecyclableActivator implements IActivator {
     public static final long DEFAULT_TIME = 3000;
     public static final long CASUAL_MIN_TIME = 500;
@@ -18,8 +15,14 @@ public class TimeActivator extends RecyclableActivator implements IActivator {
     private AbstractBomb bomb;
     private long time;
 
+    public TimeActivator(RecyclableArray array) {
+        super(array);
+    }
+
     public TimeActivator update(AbstractBomb bomb, long time) {
         this.bomb = bomb;
+        if (this.time < MIN_TIME) this.time = MIN_TIME;
+        if (this.time > MAX_TIME) this.time = MAX_TIME;
         this.time = time;
         return this;
     }
@@ -39,11 +42,4 @@ public class TimeActivator extends RecyclableActivator implements IActivator {
         return (String.format("%s: [time: %s]", getClass().getSimpleName(), time));
     }
 
-    public static class Factory implements RecyclableArray.Factory<TimeActivator> {
-
-        @Override
-        public TimeActivator newItem() {
-            return new TimeActivator();
-        }
-    }
 }
