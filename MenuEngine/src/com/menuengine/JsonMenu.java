@@ -38,34 +38,55 @@ public class JsonMenu {
 
         public static Actor createElement(MenuElement menuElement,Skin skin, MenuCallback menuCallback)
         {
-            Actor retObj=null;
+            Object retObj=null;
 
            switch (menuElement.type)
            {
                case MenuList.EN_TYPE_CAPTION:
                    Label label=new Label(menuElement.caption,skin);
+
+
+                   menuElement.SetControlObject(label);
                    retObj=label;
+
+
+
                    break;
 
                case MenuList.EN_TYPE_BUTTON:
-                   TextButton  textButton=new TextButton(menuElement.caption,skin);
-                   textButton.addListener(new ButtonListener(menuElement,menuCallback));
+                    TextButton  textButton=new TextButton(menuElement.caption,skin);
+                    textButton.addListener(new ButtonListener(menuElement,menuCallback));
+
+                    menuElement.SetControlObject(textButton);
                     retObj=textButton;
-                    break;
+                   break;
                case MenuList.EN_TYPE_TEXTBOX:
                    TextField textField=new TextField(menuElement.caption,skin);
+
                    textField.addListener(new TextListener(menuElement));
+
+                   menuElement.SetControlObject(textField);
                    retObj=textField;
                     break;
                case MenuList.EN_TYPE_CHECK:
 
-                   final CheckBox  checkBox=new CheckBox(menuElement.caption,skin);
+                   CheckBox  checkBox=new CheckBox(menuElement.caption,skin);
+
                    checkBox.addListener(new CheckBoxListener(menuElement,checkBox,menuCallback));
+                   menuElement.SetControlObject(checkBox);
                    retObj=checkBox;
+                   break;
+               case MenuList.EN_TYPE_LIST:
+                    GdxList tmpList=new GdxList(skin);
+                    menuElement.SetControlObject(tmpList);
+                    retObj=tmpList.getActor();
                    break;
            }
 
-            return retObj;
+            //retObj.setName(menuElement.name);
+
+
+            return (Actor)retObj;
         }
 
 

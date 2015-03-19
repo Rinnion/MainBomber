@@ -15,7 +15,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="module" module-name="MenuManager" />
-    <orderEntry type="library" name="gdx" level="project" />
+    <orderEntry type="library" name="gdx" level="application" />
   </component>
 </module>
 

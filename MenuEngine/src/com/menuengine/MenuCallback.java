@@ -8,4 +8,5 @@ import com.menuengine.MenuElement;
 public interface MenuCallback {
     public void checked(MenuElement element,boolean value);
     public void buttonDown(MenuElement element);
+
 }

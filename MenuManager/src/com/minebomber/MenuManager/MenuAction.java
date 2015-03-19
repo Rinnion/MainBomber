@@ -6,4 +6,5 @@ package com.minebomber.MenuManager;
 public interface MenuAction {
 
     public void buttonDown(String action);
+    public void listSelected(String action,Object value);
 }
