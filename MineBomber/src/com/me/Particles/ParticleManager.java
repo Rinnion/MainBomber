@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.me.logger.Log;
 import com.me.minebomber.Settings;
 import sun.nio.ch.ThreadPool;
 
@@ -63,24 +64,21 @@ public  class ParticleManager {
 
     static  public void Fire(float x,float y,float rad,IParticleCallback callback)
     {
-
-        synchronized (syncObject)
+        Log.d("synchronized (syncObject) ParticleManager.Fire");
+        boolean found=false;
+        for(int i=0;i<pCount;i++)
         {
-            boolean found=false;
-            for(int i=0;i<pCount;i++)
+            if(pFire[i].isFree)
             {
-                if(pFire[i].isFree)
-                {
-                    changeSize(i,rad);
-                    pFire[i].Start(x,y,callback);
+                changeSize(i,rad);
+                pFire[i].Start(x,y,callback);
 
-                    found=true;
-                    break;
-                }
+                found=true;
+                break;
             }
-            if((!found)&&(callback!=null))
-                callback.AnimationEnd();
         }
+        if((!found)&&(callback!=null))
+            callback.AnimationEnd();
     }
 
 

@@ -16,7 +16,7 @@ public class ActionController {
     private static final String MOD_SRC = "ActionController.";
 
     public static void Calculate(long time) {
-            Log.d("synchronized (actionsBuffer) ActionController.Calculate");
+<<<<<<< HEAD
         for (IGameAction action : actionsBuffer) {
             action.Calculate(time);
             ((IRecyclable) action).recycle();
@@ -25,15 +25,27 @@ public class ActionController {
         synchronized (actionsQuery) {
             for (IGameAction action : actionsQuery) {
                 actionsBuffer.add(action);
+=======
+        synchronized (actionsBuffer) {
+            Log.d("synchronized (actionsBuffer) ActionController.Calculate");
+            for (IGameAction action : actionsBuffer) {
+                action.Calculate(time);
+                ((IRecyclable) action).recycle();
+>>>>>>> 3c59af94c71e0cf31fad180afb1513b864a7405d
             }
             actionsQuery.clear();
         }
     }
 
     public static void Add(IGameAction action) {
+<<<<<<< HEAD
         synchronized (actionsQuery) {
-            Log.d("synchronized (actionsBuffer) ActionController.Add");
             actionsQuery.add(action);
+=======
+        synchronized (actionsBuffer) {
+            Log.d("synchronized (actionsBuffer) ActionController.Add");
+            actionsBuffer.add(action);
+>>>>>>> 3c59af94c71e0cf31fad180afb1513b864a7405d
         }
     }
 

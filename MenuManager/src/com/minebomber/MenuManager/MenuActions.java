@@ -35,11 +35,41 @@ public class MenuActions implements MenuCallback {
             return;
         }
 
+        if(element.name.equals("cmdJoin"))
+        {
+            MenuManager.changeMenu(element.name);
+            //return;
+        }
+
         if(element.name.equals("exit"))
         {
             Gdx.app.exit();
             return;
         }
+
+        if(element.name.equals("cmdBack"))
+        {
+              MenuManager.changeMenu(MenuManager.getPrevMenuName());
+            return;
+
+        }
+
+
+        if(element.name.equals("cmdHotSeat"))
+        {
+            MenuManager.changeMenu(element.name);
+            return;
+
+        }
+
+        if(element.name.equals("cmdBtConnect"))
+        {
+            if(callback!=null)
+                callback.listSelected(element.name,MenuManager.GetTag());
+
+            return;
+        }
+
 
         if(callback!=null)
             callback.buttonDown(element.name);

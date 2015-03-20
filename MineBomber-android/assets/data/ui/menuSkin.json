@@ -21,7 +21,15 @@
 	"com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle":{
 	    "default": {  background:"blue_selection","font": font, fontColor: white,cursor:"grey_boxCursor" }
 
-	}
+	} ,
+    com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
+        default: { fontColorUnselected: white, selection: blue_selection, fontColorSelected: yellow, font: font }
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+        default: { vScroll: blue_selection, hScrollKnob: blue_circle, hScroll: blue_selection, vScrollKnob: blue_circle }
+    }
+
+
 
 
 }

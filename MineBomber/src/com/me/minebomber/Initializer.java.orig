@@ -40,7 +40,11 @@ public class Initializer {
         timer.scheduleAtFixedRate(new TimerTask() {
                                       @Override
                                       public void run() {
+<<<<<<< HEAD
+=======
                                           Log.d("logic in");
+                                          //try {
+>>>>>>> 3c59af94c71e0cf31fad180afb1513b864a7405d
                                           sheduleDtStart = Calendar.getInstance().getTimeInMillis();
                                           GameObjectController.calculate(sheduleDtStart);
 
@@ -56,7 +60,17 @@ public class Initializer {
                                           long diff = sheduleDtMap - sheduleDtStart;
                                           if (diff > 20)
                                               Log.w(String.format("########## LOGIC TIME > 20 (%s) !!! ##########", diff));
+<<<<<<< HEAD
+=======
                                           Log.d("logic out");
+                                          // }
+                                          //catch (Exception _ex)
+                                          //{
+                                          //   Log.e("Stack: " + _ex.getStackTrace() + "Message: " + _ex.getMessage() );
+
+
+                                          //}
+>>>>>>> 3c59af94c71e0cf31fad180afb1513b864a7405d
                                       }
                                   }, 0, 50
         );

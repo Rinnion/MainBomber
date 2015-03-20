@@ -100,6 +100,11 @@ public class MineBomber implements ApplicationListener {
                 }
 
             }
+
+            @Override
+            public void listSelected(String action, Object value) {
+
+            }
         });
 
         MenuManager.Initialize();

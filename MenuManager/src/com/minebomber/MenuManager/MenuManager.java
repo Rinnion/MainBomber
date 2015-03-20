@@ -3,10 +3,14 @@ package com.minebomber.MenuManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.menuengine.JsonMenu;
+import com.menuengine.MenuElement;
+import com.menuengine.MenuList;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 /**
@@ -19,11 +23,17 @@ public class MenuManager {
 
     private static JsonMenu jsonMenu;
 
-    private static MainMenu mainMenu;
-    private static MainMenu playMenu;
+    private static IMenu mainMenu;
+    private static IMenu playMenu;
+    private static IMenu btMenu;
+    private static IMenu hotSeat;
+
+
     private static OrthographicCamera camera;
 
     private static AnimatedSprite animatedSprite;
+
+    private static IMenu menu;
 
     private static void changeStage(Stage newStage)
     {
@@ -32,22 +42,91 @@ public class MenuManager {
         Gdx.input.setInputProcessor(stage);
     }
 
+    public static String GetTag()
+    {
+        return menu.GetTag();
+    }
+
+    public static void SetText(String name,String text)
+    {
+        menu.SetText(name,text);
+    }
+
+    public static String getPrevMenuName()
+    {
+          return jsonMenu.menu.get(menu.getName()).prevName;
+    }
+
+
     public static void changeMenu(String menuName)
     {
-        if(playMenu.name.equals(menuName))
+        if(hotSeat.getName().equals(menuName))
         {
+
+
+            changeStage(hotSeat.getStage());
+            hotSeat.applyShowActions();
+            menu=hotSeat;
+        }
+
+
+        if(playMenu.getName().equals(menuName))
+        {
+
 
             changeStage(playMenu.getStage());
             playMenu.applyShowActions();
+            menu=playMenu;
         }
-        if(mainMenu.name.equals(menuName))
+        if(mainMenu.getName().equals(menuName))
         {
 
             changeStage(mainMenu.getStage());
             mainMenu.applyShowActions();
+            menu=mainMenu;
+        }
+
+        if(btMenu.getName().equals(menuName))
+        {
+            changeStage(btMenu.getStage());
+            btMenu.applyShowActions();
+            menu=btMenu;
         }
 
     }
+
+    private static Map<String,MenuElement> getElementNameList(String menuName)
+    {
+        MenuList menuList= jsonMenu.menu.get(menuName);
+
+        Map<String,MenuElement> retMap=new LinkedHashMap<String, MenuElement>();
+
+        for(MenuElement tmpElement: menuList.elements)
+        {
+            retMap.put(tmpElement.name,tmpElement);
+
+        }
+
+        return  retMap;
+    }
+
+
+    public static void ClearList()
+    {
+        ((BtNetworkList)btMenu).ClearList();
+    }
+
+    public static void AddTotList(String item)
+
+    {
+        ((BtNetworkList)btMenu).AddItemToList(item);
+
+
+    }
+
+
+
+
 
     public static void Initialize()
     {
@@ -63,10 +142,13 @@ public class MenuManager {
         setCamera(new MenuCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
         jsonMenu=jsonMenu.createMenu();
 
-        mainMenu=new MainMenu(jsonMenu.menu.get(MainMenu.MENU_NAME) ,mSkin);
+        mainMenu=new MainMenu("mainmenu",getElementNameList("mainmenu") ,mSkin);
 
-        playMenu=new MainMenu(jsonMenu.menu.get("play") ,mSkin);
+        playMenu=new MainMenu("play",getElementNameList("play") ,mSkin);
 
+        btMenu=new BtNetworkList("cmdJoin",getElementNameList("cmdJoin"),mSkin);
+
+        hotSeat=new MainMenu("cmdHotSeat",getElementNameList("cmdHotSeat") ,mSkin);
 
 
         changeStage(mainMenu.getStage());
@@ -88,7 +170,9 @@ public class MenuManager {
 
     public static void Draw()
     {
-        stage.act();
+        //btMenu.UpdateList(new String[]{"hello"});
+        stage.act(Gdx.graphics.getDeltaTime());
+
 
         stage.draw();
         Batch batch=stage.getBatch();

@@ -27,6 +27,7 @@ public class MenuList {
         public static final int EN_TYPE_BUTTON=1;
         public static final int EN_TYPE_CHECK=2;
         public static final int EN_TYPE_TEXTBOX=3;
+    public static final int EN_TYPE_LIST=4;
 
 
 
