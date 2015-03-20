@@ -8,10 +8,12 @@ menu: {
 				width: 40,
 				caption: "MINE BOMBER 2",
 				height: 20,
-				name: title,
+				name: "title",
 				type: 0,
 				padBottom: 50
 			},
+
+
 			{
 				width: 300,
 				caption: "Multi Player",
@@ -60,46 +62,158 @@ menu: {
 			},
 			{
 				width: 40,
-				caption: "Select play mode",
+				caption: "Multi player",
 				height: 20,
-				name: caption,
+				name: "caption",
 				type: 0,
 				padBottom: 20
 			},
 			{
+            				width: 300,
+            				caption: "Hot seat",
+            				height: 50,
+            				name: "cmdHotSeat",
+            				type: 1,
+            				padBottom: 20
+            },
+			{
 				width: 300,
-				caption: "2 players",
+				caption: "Join",
 				height: 50,
-				name: start.2,
+				name: "cmdJoin",
 				type: 1,
 				padBottom: 20
 			},
 			{
 				width: 300,
-				caption: "3 players",
+				caption: "Host",
 				height: 50,
-				name: start.3,
-				type: 1,
-				padBottom: 20
-			},
-			{
-				width: 300,
-				caption: "4 players",
-				height: 50,
-				name: start.4,
-				type: 1,
-				padBottom: 20
-			},
-			{
-				width: 300,
-				caption: Back,
-				height: 50,
-				name: mainmenu,
+				name: cmdHost,
 				type: 1,
 				padBottom: 20
 			}
+			,
+            			{
+            				width: 300,
+            				caption: "Back",
+            				height: 50,
+            				name: cmdBack,
+            				type: 1,
+            				padBottom: 20
+            			}
+
 		],
 		prevName: mainmenu
-	}
+	},
+	cmdJoin: {
+    		name: cmdJoin,
+    		prevName: play,
+    		elements: [
+    			{
+    				width: 40,
+    				caption: "Bluetooth List",
+    				height: 20,
+    				name: title,
+    				type: 0,
+    				padBottom: 20,
+    				newline: 1
+    			},
+
+                {
+                    				width: 40,
+                    				caption: "",
+                    				height: 20,
+                    				name: "status",
+                    				type: 0,
+                    				padBottom: 20,
+                    				newline: 1
+                },
+    			{
+                    width: 40,
+                    caption: "STATUS",
+                    height: 20,
+                    name: "btDevicesInfo",
+                    type: 4,
+                    padBottom: 20,
+                    newline: 1
+
+                },
+                {
+                    				width: 300,
+                    				caption: "Connect",
+                    				height: 50,
+                    				name: cmdBtConnect,
+                    				type: 1,
+                    				padBottom: 20,
+                    				newline: 0
+                    			},
+    			{
+    				width: 300,
+    				caption: "Back",
+    				height: 50,
+    				name: cmdBack,
+    				type: 1,
+    				padBottom: 20,
+    				newline: 1
+    			}
+    		]
+    	},
+
+    	cmdHotSeat: {
+            		name: cmdHotSeat,
+            		prevName: play,
+            		elements: [
+            			{
+            				width: 40,
+            				caption: "HOT SEAT",
+            				height: 20,
+            				name: title,
+            				type: 0,
+            				padBottom: 20,
+            				newline: 1
+            			},
+
+                        {
+                            				width: 300,
+                            				caption: "TWO PLAYER",
+                            				height: 50,
+                            				name: "start.2",
+                            				type: 1,
+                            				padBottom: 20,
+                            				newline: 1
+                        },
+            			{
+                            				width: 300,
+                            				caption: "THREE PLAYER",
+                            				height: 50,
+                            				name: "start.3",
+                            				type: 1,
+                            				padBottom: 20,
+                            				newline: 1
+                        },
+                        {
+                            				width: 300,
+                            				caption: "FOUR PLAYER",
+                            				height: 50,
+                            				name: "start.4",
+                            				type: 1,
+                            				padBottom: 20,
+                            				newline: 1
+
+                            			},
+            			{
+            				width: 300,
+            				caption: "Back",
+            				height: 50,
+            				name: cmdBack,
+            				type: 1,
+            				padBottom: 20,
+            				newline: 1
+            			}
+            		]
+            	}
+
+
+
 }
 }

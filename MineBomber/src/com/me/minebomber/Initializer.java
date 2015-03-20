@@ -46,6 +46,7 @@ public class Initializer {
         timer.scheduleAtFixedRate(new TimerTask() {
                                       @Override
                                       public void run() {
+                                          Log.d("logic in");
                                           //try {
                                           sheduleDtStart = Calendar.getInstance().getTimeInMillis();
                                           //BombController.Calculate(sheduleDtStart);
@@ -61,6 +62,7 @@ public class Initializer {
                                           long diff = sheduleDtMap - sheduleDtStart;
                                           if (diff > 20)
                                               Log.w(String.format("########## LOGIC TIME > 20 (%s) !!! ##########", diff));
+                                          Log.d("logic out");
                                           // }
                                           //catch (Exception _ex)
                                           //{

@@ -54,6 +54,14 @@ public class MenuActions implements MenuCallback {
 
         }
 
+
+        if(element.name.equals("cmdHotSeat"))
+        {
+            MenuManager.changeMenu(element.name);
+            return;
+
+        }
+
         if(element.name.equals("cmdBtConnect"))
         {
             if(callback!=null)

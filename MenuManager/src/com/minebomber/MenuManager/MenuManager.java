@@ -26,6 +26,8 @@ public class MenuManager {
     private static IMenu mainMenu;
     private static IMenu playMenu;
     private static IMenu btMenu;
+    private static IMenu hotSeat;
+
 
     private static OrthographicCamera camera;
 
@@ -58,7 +60,14 @@ public class MenuManager {
 
     public static void changeMenu(String menuName)
     {
+        if(hotSeat.getName().equals(menuName))
+        {
 
+
+            changeStage(hotSeat.getStage());
+            hotSeat.applyShowActions();
+            menu=hotSeat;
+        }
 
 
         if(playMenu.getName().equals(menuName))
@@ -138,6 +147,8 @@ public class MenuManager {
         playMenu=new MainMenu("play",getElementNameList("play") ,mSkin);
 
         btMenu=new BtNetworkList("cmdJoin",getElementNameList("cmdJoin"),mSkin);
+
+        hotSeat=new MainMenu("cmdHotSeat",getElementNameList("cmdHotSeat") ,mSkin);
 
 
         changeStage(mainMenu.getStage());

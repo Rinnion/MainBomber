@@ -1,6 +1,7 @@
 package com.me.controlers;
 
 import com.me.Utility.IRecyclable;
+import com.me.logger.Log;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ public class ActionController {
 
     public static void Calculate(long time) {
         synchronized (actionsBuffer) {
+            Log.d("synchronized (actionsBuffer) ActionController.Calculate");
             for (IGameAction action : actionsBuffer) {
                 action.Calculate(time);
                 ((IRecyclable) action).recycle();
@@ -25,6 +27,7 @@ public class ActionController {
 
     public static void Add(IGameAction action) {
         synchronized (actionsBuffer) {
+            Log.d("synchronized (actionsBuffer) ActionController.Add");
             actionsBuffer.add(action);
         }
     }
