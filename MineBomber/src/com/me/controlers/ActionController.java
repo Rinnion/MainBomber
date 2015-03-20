@@ -11,21 +11,26 @@ public class ActionController {
 
     public static final int DEF_MAX_ACTIONS_BUFFER = 10000;
     private static final ArrayList<IGameAction> actionsBuffer = new ArrayList<IGameAction>(DEF_MAX_ACTIONS_BUFFER);
+    private static final ArrayList<IGameAction> actionsQuery = new ArrayList<IGameAction>(DEF_MAX_ACTIONS_BUFFER);
     private static final String MOD_SRC = "ActionController.";
 
     public static void Calculate(long time) {
-        synchronized (actionsBuffer) {
-            for (IGameAction action : actionsBuffer) {
-                action.Calculate(time);
-                ((IRecyclable) action).recycle();
+        for (IGameAction action : actionsBuffer) {
+            action.Calculate(time);
+            ((IRecyclable) action).recycle();
+        }
+        actionsBuffer.clear();
+        synchronized (actionsQuery) {
+            for (IGameAction action : actionsQuery) {
+                actionsBuffer.add(action);
             }
-            actionsBuffer.clear();
+            actionsQuery.clear();
         }
     }
 
     public static void Add(IGameAction action) {
-        synchronized (actionsBuffer) {
-            actionsBuffer.add(action);
+        synchronized (actionsQuery) {
+            actionsQuery.add(action);
         }
     }
 

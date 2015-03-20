@@ -24,55 +24,42 @@ import java.util.TimerTask;
 
 public class Initializer {
 
-    private static boolean isInitialized=false;
-
     public static final int STAGE_MENU=0;
     public static final int STAGE_GAME=1;
-
     public static int stage=STAGE_MENU;
-
     public static long sheduleDtStart;
     public static long sheduleDtBomb;
     public static long sheduleDtPlayer;
     public static long sheduleDtMap;
-
+    private static boolean isInitialized = false;
     private static Timer timer;
 
-    private static void startgametimer()
-    {
+    private static void startgametimer() {
         timer = new Timer("logic timer");
-
 
         timer.scheduleAtFixedRate(new TimerTask() {
                                       @Override
                                       public void run() {
-                                          //try {
                                           sheduleDtStart = Calendar.getInstance().getTimeInMillis();
-                                          //BombController.Calculate(sheduleDtStart);
                                           GameObjectController.calculate(sheduleDtStart);
 
                                           sheduleDtBomb = Calendar.getInstance().getTimeInMillis();
                                           PlayerController.Calculate(sheduleDtStart);
+
                                           sheduleDtPlayer = Calendar.getInstance().getTimeInMillis();
                                           MapManager.Calculate(sheduleDtStart);
+
                                           sheduleDtMap = Calendar.getInstance().getTimeInMillis();
                                           ActionController.Calculate(sheduleDtStart);
 
                                           long diff = sheduleDtMap - sheduleDtStart;
                                           if (diff > 20)
                                               Log.w(String.format("########## LOGIC TIME > 20 (%s) !!! ##########", diff));
-                                          // }
-                                          //catch (Exception _ex)
-                                          //{
-                                          //   Log.e("Stack: " + _ex.getStackTrace() + "Message: " + _ex.getMessage() );
-
-
-                                          //}
                                       }
                                   }, 0, 50
         );
 
-        stage=STAGE_GAME;
+        stage = STAGE_GAME;
     }
 
     public static  void Initialize()
