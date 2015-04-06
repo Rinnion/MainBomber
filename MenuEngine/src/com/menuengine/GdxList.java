@@ -2,15 +2,11 @@ package com.menuengine;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Logger;
 
 /**
  * Created by alekseev on 29.12.2014.
@@ -72,7 +68,7 @@ public class GdxList {
      {
        //list.getItems().clear();
          arrayList.clear();
-         list.clearItems();
+         //list.clearItems();
      }
 
      public void UpdateList(String [] item)
@@ -82,7 +78,7 @@ public class GdxList {
          //arrayList.ac
 
          //arrayList.addAll(item);
-         list.clearItems();
+         //list.clearItems();
          Gdx.app.log("UpdateList","cleared");
          list.setItems(item);
              //list.getItems().add("hello");

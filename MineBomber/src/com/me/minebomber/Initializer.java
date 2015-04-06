@@ -55,7 +55,7 @@ public class Initializer {
 
                                           long diff = sheduleDtMap - sheduleDtStart;
                                           if (diff > 20)
-                                              Log.w(String.format("########## LOGIC TIME > 20 (%s) !!! ##########", diff));
+                                              Log.i(String.format("########## LOGIC TIME > 20 (%s) !!! ##########", diff));
                                           Log.d("logic out");
                                       }
                                   }, 0, 50

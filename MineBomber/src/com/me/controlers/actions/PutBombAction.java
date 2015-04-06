@@ -6,7 +6,8 @@ import com.me.Utility.RecyclableArray;
 import com.me.Utility.RecyclableObject;
 import com.me.controlers.ActionController;
 import com.me.controlers.GameObjectController;
-import com.me.logger.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by tretyakov on 25.09.2014.
@@ -14,6 +15,9 @@ import com.me.logger.Log;
  */
 public class PutBombAction extends RecyclableObject
         implements ActionController.IGameAction {
+
+    Logger logger = LoggerFactory.getLogger(PutBombAction.class);
+
     private IPlayer owner;
     private long time;
     private AbstractBomb obj;
@@ -24,7 +28,8 @@ public class PutBombAction extends RecyclableObject
 
     @Override
     public void Calculate(long time) {
-        Log.i("PutBombAction: " + obj.toString());
+        //Log.i("PutBombAction: " + obj.toString());
+        logger.debug("PutBombAction: {}", obj.toString());
         GameObjectController.Add(obj);
         obj.activator.Register(time);
     }

@@ -12,7 +12,6 @@ import com.menuengine.JsonMenu;
 import com.menuengine.MenuElement;
 import com.menuengine.MenuList;
 
-
 import java.util.Map;
 
 
@@ -21,11 +20,11 @@ import java.util.Map;
  */
 public class MainMenu implements IMenu {
 
+    public final String name;
     private Skin skin;
     private Map<String,MenuElement> elements;
     private Stage stage;
     private Table table;
-    public final String name;
 
 
     public MainMenu(String menuName,Map<String,MenuElement> list,Skin skin)
@@ -58,8 +57,6 @@ public class MainMenu implements IMenu {
                 Actions.alpha(0),
                 Actions.fadeIn(1, Interpolation.exp5)
         ));
-
-
     }
 
     @Override
@@ -77,45 +74,20 @@ public class MainMenu implements IMenu {
         return null;
     }
 
-    private void initialize()
-    {
+    private void initialize() {
 
 
-        for(MenuElement tmpElement:elements.values() )
-        {
-            Actor tmpActor= JsonMenu.createElement(tmpElement, skin, MenuActions.Actions);
-
-
-
-
-
-            if(tmpElement.type==MenuList.EN_TYPE_CAPTION) {
+        for (MenuElement tmpElement : elements.values()) {
+            Actor tmpActor = JsonMenu.createElement(tmpElement, skin, MenuActions.Actions);
+            if (tmpElement.type == MenuList.EN_TYPE_CAPTION) {
                 table.add(tmpActor).padBottom(tmpElement.padBottom).row();
 
-            }
-            else
-               table.add(tmpActor).size(tmpElement.width,tmpElement.height).padBottom(tmpElement.padBottom).row();
-
-
-
+            } else
+                table.add(tmpActor).size(tmpElement.width, tmpElement.height).padBottom(tmpElement.padBottom).row();
         }
 
-
-
-
         table.invalidateHierarchy();
-        table.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight() );
-
-
-
+        table.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(table);
-
-
-
-
-
-
     }
-
-
 }
