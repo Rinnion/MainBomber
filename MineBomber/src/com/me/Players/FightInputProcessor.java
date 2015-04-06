@@ -4,20 +4,27 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.me.logger.Log;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 
 public class FightInputProcessor implements InputProcessor, IListenerRegistration {
+
     public static final int DELTA_TAP = 150;
     public static final int DELTA_SWIPE_DISTANCE = 15;
     public static final int DELTA_DOUBLE_TAP = 150;
     private static final int DELTA_PAN_DISTANCE = 15; //px
-
+    static Logger logger = LoggerFactory.getLogger(FightInputProcessor.class);
+    PointerInfo[] pi = new PointerInfo[]{new PointerInfo(), new PointerInfo()};
     private IPlayerControls mListener;
     private boolean mDoublePress;
     private Rectangle mArea;
+
+    public FightInputProcessor(Rectangle area) {
+        mArea = area;
+        mListener = null;
+    }
 
     @Override
     public void setListener(IPlayerControls listener) {
@@ -30,32 +37,10 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
         this.mListener = null;
     }
 
-
-    class PointerInfo{
-        public int downX;
-        public int downY;
-        public int upX;
-        public int upY;
-        public int index;
-        public long downTime;
-        public long upTime;
-        public boolean onScreen;
-        public int curX;
-        public int curY;
-    }
-
-    PointerInfo[] pi = new PointerInfo[]{new PointerInfo(), new PointerInfo()};
-
-    public FightInputProcessor(Rectangle area)
-    {
-        mArea = area;
-        mListener= null;
-    }
-
     @Override
     public boolean keyDown(int keycode) {
 
-        Vector2 v=new Vector2();
+        Vector2 v = new Vector2();
         switch (keycode) {
 
             case Input.Keys.SPACE:
@@ -65,25 +50,25 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
                 mListener.onDoubleTap();
                 return true;
             case Input.Keys.UP:
-                v.y=-1;
+                v.y = -1;
                 break;
             case Input.Keys.DOWN:
-                v.y=1;
+                v.y = 1;
                 break;
 
 
             case Input.Keys.LEFT:
-                v.x=-1;
+                v.x = -1;
                 break;
             case Input.Keys.RIGHT:
-                v.x=1;
+                v.x = 1;
                 break;
         }
-        if((v.x!=0)||(v.y!=0))
-        {
+        if ((v.x != 0) || (v.y != 0)) {
             mListener.onPan(v);
             return true;
-        }return false;
+        }
+        return false;
     }
 
     @Override
@@ -98,8 +83,8 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Log.d(mArea.toString());
-        Log.d(screenX + ", " + screenY);
+        logger.debug(mArea.toString());
+        logger.debug(screenX + ", " + screenY);
 
         //check if this authorized controller
         if (!mArea.contains(screenX, screenY)) return false;
@@ -245,7 +230,7 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
         int dx = pointerInfo.curX - screenX;
         int dy = pointerInfo.curY - screenY;
         if (dx*dx + dy*dy < DELTA_PAN_DISTANCE) return false;
-        pointerInfo.curX = screenX;        
+        pointerInfo.curX = screenX;
         pointerInfo.curY = screenY;
         return true;
     }
@@ -258,5 +243,18 @@ public class FightInputProcessor implements InputProcessor, IListenerRegistratio
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    class PointerInfo {
+        public int downX;
+        public int downY;
+        public int upX;
+        public int upY;
+        public int index;
+        public long downTime;
+        public long upTime;
+        public boolean onScreen;
+        public int curX;
+        public int curY;
     }
 }

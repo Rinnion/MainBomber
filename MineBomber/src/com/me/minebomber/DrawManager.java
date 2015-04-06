@@ -3,7 +3,8 @@ package com.me.minebomber;
 
 import com.me.Map.MapManager;
 import com.me.Utility.IntArray;
-import com.me.logger.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -11,10 +12,8 @@ import com.me.logger.Log;
  */
 public class DrawManager {
 
-    //public static ArrayList<Integer> refreshFields=new ArrayList<Integer>(200);
-
     public final static int FIELDS_COUNT = 20000;
-
+    static Logger logger = LoggerFactory.getLogger(DrawManager.class);
     private static int[] refreshFields=new int[FIELDS_COUNT];
 
     private static Object syncObject=new Object();
@@ -22,7 +21,7 @@ public class DrawManager {
     public static void Append(int index)
     {
         synchronized (syncObject) {
-            Log.d("synchronized (syncObject) DrawManager.Append");
+            logger.trace("synchronized (syncObject) DrawManager.Append");
             refreshFields[objCount]=index;
             objCount++;
             //Log.d("count" + objCount);
@@ -33,7 +32,7 @@ public class DrawManager {
     {
 
         synchronized (syncObject) {
-            Log.d("synchronized (syncObject) DrawManager.AddArray");
+            logger.trace("synchronized (syncObject) DrawManager.AddArray");
             //refreshFields[objCount]=index;
             final int []arrayI=items.getFullArray();
             final int count=items.size();
@@ -53,7 +52,7 @@ public class DrawManager {
     public static void RedrawAll()
     {
         synchronized (syncObject) {
-            Log.d("synchronized (syncObject) DrawManager.RedrawAll");
+            logger.trace("synchronized (syncObject) DrawManager.RedrawAll");
             MapManager.BindForeground();
             for(int i=0;i<objCount;i++)
             {
@@ -62,7 +61,4 @@ public class DrawManager {
             objCount=0;
         }
     }
-
-
-
 }

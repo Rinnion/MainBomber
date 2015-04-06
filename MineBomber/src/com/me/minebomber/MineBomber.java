@@ -13,18 +13,25 @@ import com.me.Players.PlayerController;
 import com.me.TextManager.IText;
 import com.me.TextManager.TextManager;
 import com.me.controlers.GameObjectController;
-import com.me.logger.Log;
 import com.minebomber.MenuManager.MenuAction;
 import com.minebomber.MenuManager.MenuActions;
-
 import com.minebomber.MenuManager.MenuManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 
 
 public class MineBomber implements ApplicationListener {
+
     public static IText textZoom;
     public static long BeginDrawTime;
+    static Logger logger = LoggerFactory.getLogger(MineBomber.class);
+    static float scrW;
+    static float scrH;
+    static boolean fullScreen = true;
+    private static OrthographicCamera camera;
+    private static Rectangle viewPort;
     //private Texture texture;
     //private Sprite sprite;
     //private Sprite sprite2;
@@ -33,13 +40,7 @@ public class MineBomber implements ApplicationListener {
     float mX;
     float mY;
     FPSLogger loger;
-    static float scrW;
-    static float scrH;
-    static boolean fullScreen=true;
-    private static OrthographicCamera camera;
     private SpriteBatch batch;
-    private static Rectangle viewPort;
-
 
     public static void startgame()
     {
@@ -70,7 +71,7 @@ public class MineBomber implements ApplicationListener {
     @Override
 	public void create() {
 
-        Log.d("create");
+        logger.debug("create");
 
 
 

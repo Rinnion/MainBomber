@@ -2,14 +2,16 @@ package com.me.TextManager;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.me.logger.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by alekseev on 15.04.2014.
  */
 public class TextManager {
 
-   private static final int PoolSize=200;
+    private static final int PoolSize = 200;
+    static Logger logger = LoggerFactory.getLogger(TextManager.class);
    private static int curSize=0;
 
    private static TextPool []pool;
@@ -34,7 +36,7 @@ public class TextManager {
     {
         synchronized (objSync)
         {
-            Log.d("synchronized (objSync) TextManager.getFree");
+            logger.debug("synchronized (objSync) TextManager.getFree");
             for(int i=0;i<PoolSize;i++)
             {
                if(pool[i].isFree)
@@ -57,7 +59,7 @@ public class TextManager {
     {
         synchronized (objSync)
         {
-            Log.d("synchronized (objSync) TextManager.free");
+            logger.debug("synchronized (objSync) TextManager.free");
             item.isFree=true;
             curSize--;
         }
@@ -69,7 +71,7 @@ public class TextManager {
          TextPool textPool=getFree();
          if(textPool==null)
          {
-             Log.e("Error TextManager can't get free TextOut");
+             logger.error("Error TextManager can't get free TextOut");
              return;
          }
 
@@ -86,7 +88,7 @@ public class TextManager {
         int actual=0;
         synchronized (objSync)
         {
-            Log.d("synchronized (objSync) TextManager.Draw");
+            logger.debug("synchronized (objSync) TextManager.Draw");
             int size=curSize;
 
             for(int i=0;i<PoolSize;i++)

@@ -2,12 +2,10 @@ package com.me.TilesManager;
 
 
 import com.badlogic.gdx.Gdx;
-
 import com.badlogic.gdx.files.FileHandle;
-import com.me.logger.Log;
 import com.me.minebomber.Settings;
-
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -16,11 +14,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-
 import javax.xml.xpath.XPathFactory;
-
-import java.io.FileInputStream;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +22,9 @@ import java.util.List;
  * Created by alekseev on 09.09.2014.
  */
 public class TilesLoader {
+
+    static Logger logger = LoggerFactory.getLogger(TilesLoader.class);
+
     static Document xmlDocument;
     static XPath xPath;
     static NodeList nodeList;
@@ -60,7 +57,7 @@ public class TilesLoader {
        }
        catch (Exception _ex)
        {
-           Log.e(_ex.getMessage());
+           logger.error(_ex.getMessage());
            throw new NullPointerException("getTiles()->cannot get tile Index: " + index + " Group: " + tileGroup.id);
        }
 
@@ -126,13 +123,13 @@ public class TilesLoader {
 
             nodeList =(NodeList)xPath.compile("/tiles/group").evaluate(xmlDocument, XPathConstants.NODESET );
 
-            Log.d("XPath evaluate complete.");
+            logger.debug("XPath evaluate complete.");
 
             Tiles.Initialize();
-            Log.d("Tiles texture success loaded.");
+            logger.debug("Tiles texture success loaded.");
             parseXML();
 
-            Log.d("Tiles success loaded");
+            logger.debug("Tiles success loaded");
         }
         catch (Exception _ex )
         {

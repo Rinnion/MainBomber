@@ -5,8 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.me.Map.MapInfo;
 import com.me.Map.MapManager;
 import com.me.Players.PlayerController;
-import com.me.logger.Log;
 import com.me.minebomber.AbstractGameObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
@@ -19,7 +20,7 @@ public class GameObjectController {
     public static final int DEF_MAX_OBJECT = 10000;
     private static final ArrayList<AbstractGameObject> objects = new ArrayList<AbstractGameObject>(DEF_MAX_OBJECT);
     private static final ArrayList<AbstractGameObject> bombToRemove = new ArrayList<AbstractGameObject>(DEF_MAX_OBJECT);
-    private static final String MOD_SRC = "GameObjectController.";
+    static Logger logger = LoggerFactory.getLogger(GameObjectController.class);
 
     public static void Render(SpriteBatch batch) {
 
@@ -32,10 +33,8 @@ public class GameObjectController {
                 int index = obj.getIndex();
                 if (mapInfos[index].view) obj.Render(batch);
             }
-        } catch (ConcurrentModificationException _ex) {
-            Log.d(MOD_SRC + "Render() -> ConcurrentModificationException");
-        } catch (IndexOutOfBoundsException _ex) {
-            Log.d(MOD_SRC + "Render() -> IndexOutOfBoundsException");
+        } catch (ConcurrentModificationException | IndexOutOfBoundsException _ex) {
+            logger.debug("exception:", _ex);
         }
     }
 

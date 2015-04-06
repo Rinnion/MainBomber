@@ -1,13 +1,5 @@
 package com.me.TilesManager;
 
-import com.me.logger.Log;
-
-import java.util.List;
-import java.util.Random;
-
-
-
-
 /**
  * Created by alekseev on 09.09.2014.
  */

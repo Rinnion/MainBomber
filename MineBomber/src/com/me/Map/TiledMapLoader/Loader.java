@@ -1,41 +1,38 @@
 package com.me.Map.TiledMapLoader;
 
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.maps.MapLayers;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.me.Map.IMap;
-import com.me.Map.MapInfo;
 import com.me.Map.MapProperty;
 import com.me.TilesManager.Tile;
-import com.me.TilesManager.TileGroup;
 import com.me.TilesManager.Tiles;
-import com.me.logger.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by alekseev on 10.09.2014.
  */
 public class Loader implements IMap {
 
-    private TiledMap tiledMap;
-
-
     private static FrameBuffer foreGroundBuffer;
+    private final String LAYER_foreGround = "foreground";
+    Logger logger = LoggerFactory.getLogger(Loader.class);
+    private TiledMap tiledMap;
     private Texture mTextureForeGround;
     private Sprite  mSpriteForeground;
-
-    private final String  LAYER_foreGround="foreground";
-
-
-
     private MapProperty mapProperty;
+
+    public Loader(String filename) {
+        tiledMap = new TmxMapLoader().load(filename); //"data/tiles.tmx"
+
+        loadMapProperty();
+        loadMap();
+    }
 
     private void loadMapProperty()
     {
@@ -77,8 +74,7 @@ public class Loader implements IMap {
                 }
                 catch (Exception _ex)
                 {
-                    Log.e(_ex.getMessage());
-
+                    logger.error(_ex.getMessage());
                 }
 
                 tileInfo= Tiles.GetTile(id);
@@ -87,17 +83,6 @@ public class Loader implements IMap {
 
 
     }
-
-
-    public Loader(String filename)
-    {
-        tiledMap=new TmxMapLoader().load(filename); //"data/tiles.tmx"
-
-        loadMapProperty();
-        loadMap();
-    }
-
-
 
     @Override
     public void Initialize() {

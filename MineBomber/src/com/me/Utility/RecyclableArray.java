@@ -1,13 +1,16 @@
 package com.me.Utility;
 
 
-import com.me.logger.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 public class RecyclableArray<E extends RecyclableObject> {
+
+    static Logger logger = LoggerFactory.getLogger(RecyclableArray.class);
 
     private static int MAX_LENGTH = 1000;
     private final int mCount;
@@ -38,7 +41,7 @@ public class RecyclableArray<E extends RecyclableObject> {
         if (!object.getClass().equals(mClass)) throw new IllegalArgumentException("Wrong class type");
         if (mCountFree < mCount) {
             mFreeStack[mCountFree++] = object;
-            Log.d("recycle " + mClass.getCanonicalName() + ". ra.length = " + mCountFree);
+            logger.debug("recycle " + mClass.getCanonicalName() + ". ra.length = " + mCountFree);
         }
     }
 
@@ -47,13 +50,13 @@ public class RecyclableArray<E extends RecyclableObject> {
         if (mCountFree == 0) {
             try {
                 result = ctor.newInstance(this);
-                Log.d("instantiate new " + mClass.getCanonicalName() + ". ra.length = " + mCountFree);
+                logger.debug("instantiate new " + mClass.getCanonicalName() + ". ra.length = " + mCountFree);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 throw new IllegalArgumentException(String.format("Couldn't instantiate '%s'", mClass), e);
             }
         } else {
             result = mFreeStack[--mCountFree];
-            Log.d("take " + mClass.getCanonicalName() + ". ra.length = " + mCountFree);
+            logger.debug("take " + mClass.getCanonicalName() + ". ra.length = " + mCountFree);
         }
         return result;
     }

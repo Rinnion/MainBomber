@@ -10,7 +10,8 @@ import com.me.TextManager.TextOut;
 import com.me.TilesManager.TilesLoader;
 import com.me.controlers.ActionController;
 import com.me.controlers.GameObjectController;
-import com.me.logger.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.Timer;
@@ -31,16 +32,18 @@ public class Initializer {
     public static long sheduleDtBomb;
     public static long sheduleDtPlayer;
     public static long sheduleDtMap;
+    static Logger logger = LoggerFactory.getLogger(Initializer.class);
     private static boolean isInitialized = false;
-    private static Timer timer;
+    private static long logicFrame = 0;
 
     private static void startgametimer() {
-        timer = new Timer("logic timer");
+        Timer timer = new Timer("logic timer");
 
         timer.scheduleAtFixedRate(new TimerTask() {
                                       @Override
                                       public void run() {
-                                          Log.d("logic in");
+                                          logger.trace("logic in");
+                                          logger.info("Logic frame: {}", logicFrame);
                                           sheduleDtStart = Calendar.getInstance().getTimeInMillis();
                                           GameObjectController.calculate(sheduleDtStart);
 
@@ -55,8 +58,10 @@ public class Initializer {
 
                                           long diff = sheduleDtMap - sheduleDtStart;
                                           if (diff > 20)
-                                              Log.i(String.format("########## LOGIC TIME > 20 (%s) !!! ##########", diff));
-                                          Log.d("logic out");
+                                              logger.warn("########## LOGIC TIME > {} ({}) !!! ##########", 20, diff);
+                                          if (diff > 50)
+                                              logger.error("########## LOGIC TIME > {} ({}) !!! ##########", 50, diff);
+                                          logger.trace("logic out");
                                       }
                                   }, 0, 50
         );
@@ -67,35 +72,35 @@ public class Initializer {
     public static  void Initialize()
     {
         if(!isInitialized) {
+            logicFrame = 0;
+
             stage=STAGE_GAME;
-            Log.Initialize("MineBomber");
-            Log.i("MineBomber Initialize");
-            Log.d("Prepare textures and assets files");
+            logger.info("MineBomber");
+            logger.debug("Prepare textures and assets files");
             PrepareAssetsFiles.Prepare();
-            Log.d("Initialize tiles from XML");
+            logger.debug("Initialize tiles from XML");
             TilesLoader.Initialize();
 
-            Log.d("Initialize TextManager");
+            logger.debug("Initialize TextManager");
             TextManager.Initialize();
             MineBomber.textZoom = new TextOut();
             TextFont.Initialize();
 
-            Log.d("Initialize PixmapHelper");
+            logger.debug("Initialize PixmapHelper");
             PixmapHelper.Initialize();
 
-            Log.d("Initialize Memory");
+            logger.debug("Initialize Memory");
             MemoryManager.Initialize();
-            Log.d("Initialize MapManager");
+            logger.debug("Initialize MapManager");
             MapManager.Initialize();
 
-            Log.d("Initialize ParticleManager");
+            logger.debug("Initialize ParticleManager");
             ParticleManager.Initialize();
-            Log.d("Initialize Players");
+            logger.debug("Initialize Players");
             PlayerController.Initialize();
         }
         startgametimer();
         System.gc();
-
     }
 
 }
