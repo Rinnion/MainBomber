@@ -32,5 +32,6 @@
     <orderEntry type="library" name="gdx" level="project" />
     <orderEntry type="library" name="gdx-backend-android" level="project" />
     <orderEntry type="library" name="slf4j-android-1.7.12" level="project" />
+    <orderEntry type="library" name="slf4j-android-1.7.12-sources" level="project" />
   </component>
 </module>

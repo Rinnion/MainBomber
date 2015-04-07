@@ -2,7 +2,6 @@ package com.me.Bombs;
 
 import com.me.Bombs.Activator.RecyclableActivator;
 import com.me.Bombs.Behavior.RecyclableBehavior;
-import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
 import com.me.minebomber.AbstractGameObject;
@@ -21,8 +20,8 @@ public abstract class AbstractBomb extends AbstractGameObject {
         super(array);
     }
 
-    public void update(IPlayer player, Vector2I pos, AnimatedSprite animatedSprite) {
-        super.update(player, pos, 1, animatedSprite);
+    public void update(IPlayer player, int x, int y, AnimatedSprite animatedSprite) {
+        super.update(player, x, y, 1, animatedSprite);
     }
 
     @Override

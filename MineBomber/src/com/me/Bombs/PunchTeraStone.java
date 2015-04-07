@@ -1,10 +1,7 @@
 package com.me.Bombs;
 
-import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.Activator.TimeActivator;
 import com.me.Bombs.Behavior.PunchTera;
-import com.me.Map.MapManager;
-import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
 import com.me.minebomber.MemoryManager;
@@ -25,10 +22,10 @@ public class PunchTeraStone extends AbstractBomb {
         super(array);
     }
 
-    public PunchTeraStone update(IPlayer player, Vector2 pos) {
-        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH),animatedSprite);
+    public PunchTeraStone update(IPlayer player, int x, int y) {
+        super.update(player, x, y, animatedSprite);
 
-        behavior = MemoryManager.take(PunchTera.class).update((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH, 0);
+        behavior = MemoryManager.take(PunchTera.class).update(x, y, 0);
         activator = MemoryManager.take(TimeActivator.class).update(this, 3000);
 
         return this;

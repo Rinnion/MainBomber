@@ -1,6 +1,5 @@
 package com.me.Bombs.Behavior;
 
-import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.AbstractBomb;
 import com.me.Bombs.RandomBomb;
 import com.me.Map.MapManager;
@@ -19,11 +18,9 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
     private int jumps;
     private int radius;
     private CircleExplosion explosion;
-    private Vector2 newPosition;
 
     public JumpBehavior(RecyclableArray array) {
         super(array);
-        newPosition=new Vector2();
     }
 
     public JumpBehavior update(int jumps, int radius) {
@@ -55,12 +52,10 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
 
         if (jumps == 1) return;
 
-        newPosition.set(2*newX,2*newY);
-
         PutBombAction take = MemoryManager.take(PutBombAction.class).update(bomb.getOwner(),
                 time,
                 MemoryManager.take(RandomBomb.class).update(bomb.getOwner(),
-                        newPosition,
+                        newX, newY,
                         jumps - 1,
                         radius));
 

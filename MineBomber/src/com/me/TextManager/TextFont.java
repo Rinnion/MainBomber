@@ -23,7 +23,7 @@ public class TextFont {
     public static void Draw(Batch batch,String text,FontInfo font, float x,float y)
     {   synchronized (bitmapFont)
         {
-            logger.debug("synchronized (bitmapFont) TextFont.Draw");
+            logger.trace("synchronized (bitmapFont) TextFont.Draw");
             bitmapFont.scale(font.scale);
             bitmapFont.setScale(font.scaleXY);
             bitmapFont.setColor(font.color);

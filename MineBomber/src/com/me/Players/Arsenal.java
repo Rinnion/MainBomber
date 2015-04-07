@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.*;
 import com.me.Bombs.Activator.TimeActivator;
 import com.me.Bombs.Behavior.JumpBehavior;
+import com.me.Map.MapManager;
 import com.me.minebomber.MemoryManager;
 
 import java.util.HashMap;
@@ -103,24 +104,26 @@ public class Arsenal {
             return bomb;
 
         count--;
+        int x = (int) pos.x / MapManager.rowW;
+        int y = (int) pos.y / MapManager.rowH;
         switch (type) {
             case BombType.DYNAMITE:
-                bomb = MemoryManager.take(Dynamite.class).update(player, pos, TimeActivator.DEFAULT_TIME);
+                bomb = MemoryManager.take(Dynamite.class).update(player, x, y, TimeActivator.DEFAULT_TIME);
                 break;
             case BombType.DESTANATION:
-                bomb = MemoryManager.take(DestBomb.class).update(player, pos);
+                bomb = MemoryManager.take(DestBomb.class).update(player, x, y);
                 break;
             case BombType.RANDOM:
-                bomb = MemoryManager.take(RandomBomb.class).update(player, pos, JumpBehavior.DEFAULT_JUMPS, JumpBehavior.DEFAULT_RADIUS);
+                bomb = MemoryManager.take(RandomBomb.class).update(player, x, y, JumpBehavior.DEFAULT_JUMPS, JumpBehavior.DEFAULT_RADIUS);
                 break;
             case BombType.PUNCH_TERA:
-                bomb = MemoryManager.take(PunchTeraStone.class).update(player, pos);
+                bomb = MemoryManager.take(PunchTeraStone.class).update(player, x, y);
                 break;
             case BombType.FAST_FILLED:
-                bomb = MemoryManager.take(FastFilledBomb.class).update(player, pos);
+                bomb = MemoryManager.take(FastFilledBomb.class).update(player, x, y);
                 break;
             case BombType.FILLED:
-                bomb = MemoryManager.take(FilledBomb.class).update(player, pos);
+                bomb = MemoryManager.take(FilledBomb.class).update(player, x, y);
                 break;
 
         }

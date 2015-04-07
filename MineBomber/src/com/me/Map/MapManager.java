@@ -89,7 +89,7 @@ public class MapManager {
             int y = (int) (Math.random() * ((double) MapManager.maxRow));
 
             TreasureController.Add(
-                    MemoryManager.take(SmallChestTreasure.class).update(new Vector2I(x, y))
+                    MemoryManager.take(SmallChestTreasure.class).update(x, y)
             );
 
         }

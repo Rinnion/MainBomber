@@ -1,7 +1,6 @@
 package com.me.controlers.treasure;
 
 import com.me.Bombs.AnimatedSprite;
-import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
 import com.me.minebomber.AbstractGameObject;
@@ -14,12 +13,12 @@ public abstract class AbstractTreasure extends AbstractGameObject {
         super(array);
     }
 
-    public void update(IPlayer player, Vector2I pos, int life, AnimatedSprite sprite) {
-        super.update(player, pos, life, sprite);
+    public void update(IPlayer player, int x, int y, int life, AnimatedSprite sprite) {
+        super.update(player, x, y, life, sprite);
     }
 
-    public void update(Vector2I pos, int life, AnimatedSprite sprite) {
-        super.update(pos, life, sprite);
+    public void update(int x, int y, int life, AnimatedSprite sprite) {
+        super.update(x, y, life, sprite);
     }
 
     @Override

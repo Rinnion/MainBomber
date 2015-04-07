@@ -36,7 +36,7 @@ public class TextManager {
     {
         synchronized (objSync)
         {
-            logger.debug("synchronized (objSync) TextManager.getFree");
+            logger.trace("synchronized (objSync) TextManager.getFree");
             for(int i=0;i<PoolSize;i++)
             {
                if(pool[i].isFree)
@@ -59,7 +59,7 @@ public class TextManager {
     {
         synchronized (objSync)
         {
-            logger.debug("synchronized (objSync) TextManager.free");
+            logger.trace("synchronized (objSync) TextManager.free");
             item.isFree=true;
             curSize--;
         }
@@ -88,7 +88,7 @@ public class TextManager {
         int actual=0;
         synchronized (objSync)
         {
-            logger.debug("synchronized (objSync) TextManager.Draw");
+            logger.trace("synchronized (objSync) TextManager.Draw");
             int size=curSize;
 
             for(int i=0;i<PoolSize;i++)

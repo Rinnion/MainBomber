@@ -28,8 +28,7 @@ public class PutBombAction extends RecyclableObject
 
     @Override
     public void Calculate(long time) {
-        //Log.i("PutBombAction: " + obj.toString());
-        logger.debug("PutBombAction: {}", obj.toString());
+        logger.trace("PutBombAction: {}", obj.toString());
         GameObjectController.Add(obj);
         obj.activator.Register(time);
     }

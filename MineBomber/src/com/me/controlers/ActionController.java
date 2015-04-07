@@ -18,14 +18,15 @@ public class ActionController {
     static Logger logger = LoggerFactory.getLogger(ActionController.class);
 
     public static void Calculate(long time) {
-        logger.debug("synchronized (actionsBuffer) ActionController.Calculate");
         for (IGameAction action : actionsBuffer) {
             action.Calculate(time);
             ((IRecyclable) action).recycle();
         }
         actionsBuffer.clear();
         synchronized (actionsQuery) {
+            logger.trace("synchronized (actionsBuffer) ActionController.Calculate");
             for (IGameAction action : actionsQuery) {
+                logger.debug("new action {}", action.toString());
                 actionsBuffer.add(action);
             }
             actionsQuery.clear();
@@ -34,7 +35,7 @@ public class ActionController {
 
     public static void Add(IGameAction action) {
         synchronized (actionsQuery) {
-            logger.debug("synchronized (actionsBuffer) ActionController.Add");
+            logger.trace("synchronized (actionsBuffer) ActionController.Add");
             actionsQuery.add(action);
         }
     }

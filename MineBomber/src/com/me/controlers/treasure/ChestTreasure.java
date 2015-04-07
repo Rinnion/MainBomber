@@ -1,7 +1,6 @@
 package com.me.controlers.treasure;
 
 import com.me.Bombs.AnimatedSprite;
-import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
 import com.me.Utility.RecyclableArray;
@@ -14,8 +13,8 @@ public abstract class ChestTreasure extends AbstractTreasure {
         super(array);
     }
 
-    public ChestTreasure update(Vector2I pos, long value, AnimatedSprite animator) {
-        super.update(null, pos, 1, animator);
+    public ChestTreasure update(int x, int y, long value, AnimatedSprite animator) {
+        super.update(null, x, y, 1, animator);
         this.value = value;
         return this;
     }

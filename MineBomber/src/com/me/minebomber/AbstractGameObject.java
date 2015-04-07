@@ -33,17 +33,15 @@ public abstract class AbstractGameObject extends RecyclableObject {
         return owner;
     }
 
-    public void update(Vector2I pos, int life, AnimatedSprite sprite) {
-        update(null, pos, life, sprite);
+    public void update(int x, int y, int life, AnimatedSprite sprite) {
+        update(null, x, y, life, sprite);
     }
 
-    public void update(IPlayer player, Vector2I pos, int life, AnimatedSprite sprite) {
+    public void update(IPlayer player, int x, int y, int life, AnimatedSprite sprite) {
         this.owner = player;
-        position.x = pos.x;// = new Vector2I(pos.x, pos.y);
-        position.y = pos.y;
-
-
-        index = pos.getMapIndex();
+        position.x = x;
+        position.y = y;
+        index = position.getMapIndex();
         this.life = life;
         this.sprite = MemoryManager.take(AnimatedSpriteAnimator.class).update(sprite);
         this.visible = true;

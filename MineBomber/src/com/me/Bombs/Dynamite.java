@@ -1,10 +1,7 @@
 package com.me.Bombs;
 
-import com.badlogic.gdx.math.Vector2;
 import com.me.Bombs.Activator.TimeActivator;
 import com.me.Bombs.Behavior.CircleExplosion;
-import com.me.Map.MapManager;
-import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
 import com.me.minebomber.MemoryManager;
@@ -20,8 +17,8 @@ public class Dynamite extends AbstractBomb {
         super(array);
     }
 
-    public Dynamite update(IPlayer player, Vector2 pos, long activationTime) {
-        super.update(player, new Vector2I((int) pos.x / MapManager.rowW, (int) pos.y / MapManager.rowH), animatedSprite);
+    public Dynamite update(IPlayer player, int x, int y, long activationTime) {
+        super.update(player, x, y, animatedSprite);
 
         behavior = MemoryManager.take(CircleExplosion.class).update(100, 200, 24);
         activator = MemoryManager.take(TimeActivator.class).update(this, activationTime);

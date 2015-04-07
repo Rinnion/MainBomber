@@ -43,7 +43,7 @@ public class Initializer {
                                       @Override
                                       public void run() {
                                           logger.trace("logic in");
-                                          logger.info("Logic frame: {}", logicFrame);
+                                          logger.info("Logic frame: {}", logicFrame++);
                                           sheduleDtStart = Calendar.getInstance().getTimeInMillis();
                                           GameObjectController.calculate(sheduleDtStart);
 

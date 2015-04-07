@@ -12,11 +12,15 @@ public class SmallChestTreasure extends ChestTreasure {
         super(array);
     }
 
+    @Deprecated
     public SmallChestTreasure update(Vector2I pos) {
-        super.update(pos, 100, animatedSprite);
-        return this;
+        return update(pos.x, pos.y);
     }
 
+    public SmallChestTreasure update(int x, int y) {
+        super.update(x, y, 100, animatedSprite);
+        return this;
+    }
 
 }
 
