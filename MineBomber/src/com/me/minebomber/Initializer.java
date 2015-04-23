@@ -21,13 +21,9 @@ import java.util.TimerTask;
  * Created by alekseev on 24.03.2014.
  */
 
-
-
 public class Initializer {
-
-    public static final int STAGE_MENU=0;
     public static final int STAGE_GAME=1;
-    public static int stage=STAGE_MENU;
+
     public static long sheduleDtStart;
     public static long sheduleDtBomb;
     public static long sheduleDtPlayer;
@@ -65,8 +61,6 @@ public class Initializer {
                                       }
                                   }, 0, 50
         );
-
-        stage = STAGE_GAME;
     }
 
     public static  void Initialize()
@@ -74,7 +68,6 @@ public class Initializer {
         if(!isInitialized) {
             logicFrame = 0;
 
-            stage=STAGE_GAME;
             logger.info("MineBomber");
             logger.debug("Prepare textures and assets files");
             PrepareAssetsFiles.Prepare();

@@ -59,20 +59,15 @@ public class MenuActions implements MenuCallback {
         {
             MenuManager.changeMenu(element.name);
             return;
-
         }
 
         if(element.name.equals("cmdBtConnect"))
         {
-            if(callback!=null)
-                callback.listSelected(element.name,MenuManager.GetTag());
-
+            if (callback != null) callback.listSelected(element.name, MenuManager.GetTag());
             return;
         }
 
-
-        if(callback!=null)
-            callback.buttonDown(element.name);
+        if (callback != null) callback.buttonDown(element.name);
 
     }
 }

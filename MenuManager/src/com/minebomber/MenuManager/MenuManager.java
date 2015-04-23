@@ -130,14 +130,12 @@ public class MenuManager {
 
     public static void Initialize()
     {
-
         Assets.queueLoading();
         //Assets.update();
         Assets.manager.finishLoading();
         Assets.setMenuSkin();
 
         mSkin=Assets.menuSkin;
-
 
         setCamera(new MenuCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
         jsonMenu=jsonMenu.createMenu();
@@ -149,7 +147,6 @@ public class MenuManager {
         btMenu=new BtNetworkList("cmdJoin",getElementNameList("cmdJoin"),mSkin);
 
         hotSeat=new MainMenu("cmdHotSeat",getElementNameList("cmdHotSeat") ,mSkin);
-
 
         changeStage(mainMenu.getStage());
         animatedSprite=AnimatedSprite.Factory.CreateSnowmanSprite("");

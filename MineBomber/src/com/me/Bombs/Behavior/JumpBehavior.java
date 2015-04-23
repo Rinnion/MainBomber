@@ -1,11 +1,8 @@
 package com.me.Bombs.Behavior;
 
 import com.me.Bombs.AbstractBomb;
-import com.me.Bombs.RandomBomb;
 import com.me.Map.MapManager;
 import com.me.Utility.RecyclableArray;
-import com.me.controlers.ActionController;
-import com.me.controlers.actions.PutBombAction;
 import com.me.minebomber.MemoryManager;
 
 /**
@@ -52,6 +49,10 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
 
         if (jumps == 1) return;
 
+        // FIXME Should move bomb to any place
+        // bomb.update();
+
+        /*
         PutBombAction take = MemoryManager.take(PutBombAction.class).update(bomb.getOwner(),
                 time,
                 MemoryManager.take(RandomBomb.class).update(bomb.getOwner(),
@@ -60,6 +61,7 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
                         radius));
 
         ActionController.Add(take);
+        */
     }
 
     @Override
