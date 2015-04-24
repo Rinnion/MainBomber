@@ -150,6 +150,7 @@ public class MenuManager {
         playMenu = null;
         mainMenu = null;
         jsonMenu = null;
+        mSkin.dispose();
         mSkin = null;
         Assets.queueUnloading();
     }

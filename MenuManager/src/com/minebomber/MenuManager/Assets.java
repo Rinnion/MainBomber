@@ -19,6 +19,10 @@ public class Assets {
 	public static void queueUnloading() {
 		manager.unload("data/ui/menuSkin.pack");
 		manager.unload("data/img/snow_texture.txt");
+		menuSkin.dispose();
+		menuTexture.dispose();
+		menuSkin = null;
+		menuTexture = null;
 	}
 
 	/** Initiate menu Skin **/

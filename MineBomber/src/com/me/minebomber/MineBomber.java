@@ -26,16 +26,16 @@ import java.util.TimerTask;
 
 public class MineBomber implements ApplicationListener {
 
-    public static final FSM<MineBomberState> fsm;
-    public static IText textZoom;
-    public static long BeginDrawTime;
+    static final FSM<MineBomberState> fsm;
     static Logger logger = LoggerFactory.getLogger(MineBomber.class);
+    static IText textZoom;
+    static long BeginDrawTime;
     static float scrW;
     static float scrH;
     static boolean fullScreen = true;
-    private static OrthographicCamera camera;
-    private static Rectangle viewPort;
-    private static SpriteBatch batch;
+    static OrthographicCamera camera;
+    static Rectangle viewPort;
+    static SpriteBatch batch;
     FPSLogger fpsLogger;
 
     public MineBomber(){
@@ -53,14 +53,13 @@ public class MineBomber implements ApplicationListener {
 
         fpsLogger = new FPSLogger();
         batch = new SpriteBatch();
-
         viewPort = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
     }
 
     @Override
     public void dispose() {
         batch.dispose();
-
     }
 
     @Override
@@ -222,8 +221,7 @@ public class MineBomber implements ApplicationListener {
 
             long dtEnd = Calendar.getInstance().getTimeInMillis();
             long dtResMap = Initializer.sheduleDtMap - Initializer.sheduleDtStart;
-            if (dtResMap < 0)
-                dtResMap = 0;
+            if (dtResMap < 0) dtResMap = 0;
             textZoom.SetText(Long.toString(dtEnd - dtStart) + " " + Long.toString(Initializer.sheduleDtBomb - Initializer.sheduleDtStart) + " " + Long.toString(Initializer.sheduleDtPlayer - Initializer.sheduleDtStart) + " " + Long.toString(dtResMap));
 
             PlayerController.AfterBatch(camera.combined);
