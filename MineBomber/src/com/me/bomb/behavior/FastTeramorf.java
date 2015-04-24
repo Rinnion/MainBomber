@@ -82,7 +82,7 @@ public class FastTeramorf extends RecyclableBehavior implements IBehavior {
 
 
                 mapInfo[index].SetInfo(tile, tile.group.life, false);
-                DrawManager.Append(index);
+                DrawManager.redrawArray2.push(index);
 
                 tx[txycount] = cx[i] + 1;
                 ty[txycount] = cy[i];

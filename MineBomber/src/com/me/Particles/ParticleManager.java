@@ -50,7 +50,6 @@ public  class ParticleManager {
 
     static public void Fire(float x, float y, float rad, IParticleCallback callback)
     {
-        logger.debug("synchronized (syncObject) ParticleManager.Fire");
         boolean found = false;
         for (int i = 0; i < pCount; i++) {
             if (pFire[i].isFree) {
@@ -69,8 +68,6 @@ public  class ParticleManager {
     {
 
         for (ParticleEmitter tmpEmmite : pFire[index].pEffect.getEmitters()) {
-            //tmpEmmite.getScale().setLow(0,10);   //setL (10,200);
-            //tmpEmmite.getScale().setHigh(10,10);
             tmpEmmite.getVelocity().setLow(velocity, velocity);
             tmpEmmite.getVelocity().setHigh(velocity, velocity);
 

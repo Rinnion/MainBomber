@@ -66,7 +66,7 @@ public class Teramorf extends RecyclableBehavior implements IBehavior {
             if (mapInfo[index].mTile.group.id != 0) continue;
 
             mapInfo[index].SetInfo(tile, tile.group.life, false);
-            DrawManager.Append(index);
+            DrawManager.redrawArray2.push(index);
 
             tx[txycount] = cx[i] + 1;
             ty[txycount] = cy[i];

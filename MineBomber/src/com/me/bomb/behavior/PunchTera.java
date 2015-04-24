@@ -72,7 +72,7 @@ public class PunchTera extends RecyclableBehavior implements IBehavior {
 
                 if (mapInfo[index].mTile.group.id != 4) continue;
                 mapInfo[index].SetInfo(tile, tile.group.life, false);
-                DrawManager.Append(index);
+                DrawManager.redrawArray2.push(index);
 
                 tx[txycount] = cx[i] + 1;
                 ty[txycount] = cy[i];

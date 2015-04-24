@@ -16,7 +16,6 @@ import com.me.TilesManager.Tile;
 import com.me.TilesManager.TileGroup;
 import com.me.TilesManager.Tiles;
 import com.me.Utility.IntArray;
-import com.me.Utility.MyArray;
 import com.me.bomb.Vector2IDamage;
 import com.me.controlers.TreasureController;
 import com.me.controlers.treasure.SmallChestTreasure;
@@ -38,7 +37,6 @@ import java.util.List;
 public class MapManager {
 
     public static final int FIELD_CAPACITY = 16;
-    private static final IntArray redrawArray = new IntArray(DrawManager.FIELDS_COUNT);
     public static MapProperty mapProperty;
     public static int maxCel;
     public static int maxRow;
@@ -151,20 +149,14 @@ public class MapManager {
 
         boolean redraw = false;
 
-
-        MyArray<AbstractGameObject> array = new MyArray<AbstractGameObject>(20);
-
         for (int index = 0; index < count; index++) {
             redraw = false;
             int i = indexArray[index];
             MapInfo mapInfo = mapInfos[i];
-            if (!mapInfo.view)
-                redraw = true;
+            if (!mapInfo.view) redraw = true;
 
             if (fieldDamages[i] == 0 && fieldDigDamages[i] == 0) {
-
-                if (redraw)
-                    redrawArray.add(i);
+                if (redraw) DrawManager.redrawArray2.push(i);
                 continue;
             }
 
@@ -215,8 +207,6 @@ public class MapManager {
                     ago.applyDamage(null, fieldDamages[i], time);
                 }
 
-                array.clear();
-
                 for (AbstractPlayer bm : players) {
                     float sx = bm.X;
                     float sy = bm.Y;
@@ -231,6 +221,7 @@ public class MapManager {
 
                     if ((sx > mapX) && (sx < mapW) && (sy > mapY) && (sy < mapH)) {
                         bm.DealDamage(fieldDamages[i]);
+                        //TODO add floating damage message
                         //TextManager.Add(fieldDamage[i] + "", Color.RED, bm.getX(), bm.getY());
                     }
                 }
@@ -240,16 +231,10 @@ public class MapManager {
 
             fieldDamages[i] = 0;
             fieldDigDamages[i] = 0;
-            if (redraw)
-                redrawArray.add(i);
-            //DrawManager.Append(i);
-
+            if (redraw) DrawManager.redrawArray2.push(i);
         }
-        //if(redraw)
-        DrawManager.AddArray(redrawArray);
-        redrawArray.clear();
-        applyIndexDamage.clear();
 
+        applyIndexDamage.clear();
     }
 
     public static void Render(SpriteBatch batch)
@@ -257,13 +242,6 @@ public class MapManager {
         RedrawMap();
 
         mSpriteForeground.draw(batch);
-
-        //batch.enableBlending();
-
-        //batch.disableBlending();
-
-
-
     }
 
     static private void updateMapInfo(boolean flipX, boolean flipY) {
