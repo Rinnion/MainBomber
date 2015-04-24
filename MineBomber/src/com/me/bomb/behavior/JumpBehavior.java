@@ -3,6 +3,7 @@ package com.me.bomb.behavior;
 import com.me.Map.MapManager;
 import com.me.Utility.RecyclableArray;
 import com.me.bomb.AbstractBomb;
+import com.me.bomb.activator.RandomTimeActivator;
 import com.me.minebomber.MemoryManager;
 
 /**
@@ -53,6 +54,8 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
 
         bomb.position.x = newX;
         bomb.position.y = newY;
+        bomb.setActivator(MemoryManager.take(RandomTimeActivator.class).update(bomb));
+        bomb.activator.Calculate(time);
         explosion.update();
 
         //Do not remove bomb from field

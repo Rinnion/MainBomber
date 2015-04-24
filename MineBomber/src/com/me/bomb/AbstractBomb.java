@@ -2,6 +2,7 @@ package com.me.bomb;
 
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.activator.RandomTimeActivator;
 import com.me.bomb.activator.RecyclableActivator;
 import com.me.bomb.behavior.RecyclableBehavior;
 import com.me.minebomber.AbstractGameObject;
@@ -69,5 +70,10 @@ public abstract class AbstractBomb extends AbstractGameObject {
         String a = String.valueOf(activator);
         String b = String.valueOf(behavior);
         return String.format("%s: [a: %s] [b: %s]", t, a, b);
+    }
+
+    public void setActivator(RandomTimeActivator update) {
+        activator.recycle();
+        activator = update;
     }
 }
