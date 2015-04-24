@@ -22,8 +22,6 @@ import java.util.TimerTask;
  */
 
 public class Initializer {
-    public static final int STAGE_GAME=1;
-
     public static long sheduleDtStart;
     public static long sheduleDtBomb;
     public static long sheduleDtPlayer;
@@ -31,9 +29,10 @@ public class Initializer {
     static Logger logger = LoggerFactory.getLogger(Initializer.class);
     private static boolean isInitialized = false;
     private static long logicFrame = 0;
+    private static Timer timer;
 
     private static void startgametimer() {
-        Timer timer = new Timer("logic timer");
+        timer = new Timer("logic timer");
 
         timer.scheduleAtFixedRate(new TimerTask() {
                                       @Override
@@ -63,7 +62,17 @@ public class Initializer {
         );
     }
 
-    public static  void Initialize()
+    public static void Done() {
+        if (timer != null) {
+            timer.purge();
+            timer.cancel();
+            timer = null;
+        }
+
+
+    }
+
+    public static void Initialize()
     {
         if(!isInitialized) {
             logicFrame = 0;

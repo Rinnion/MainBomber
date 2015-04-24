@@ -124,34 +124,34 @@ public class MenuManager {
 
     }
 
-
-
-
-
     public static void Initialize()
     {
+        //FIXME: load data
         Assets.queueLoading();
-        //Assets.update();
         Assets.manager.finishLoading();
         Assets.setMenuSkin();
-
         mSkin=Assets.menuSkin;
-
         setCamera(new MenuCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
         jsonMenu=jsonMenu.createMenu();
-
         mainMenu=new MainMenu("mainmenu",getElementNameList("mainmenu") ,mSkin);
-
         playMenu=new MainMenu("play",getElementNameList("play") ,mSkin);
-
         btMenu=new BtNetworkList("cmdJoin",getElementNameList("cmdJoin"),mSkin);
-
         hotSeat=new MainMenu("cmdHotSeat",getElementNameList("cmdHotSeat") ,mSkin);
-
         changeStage(mainMenu.getStage());
         animatedSprite=AnimatedSprite.Factory.CreateSnowmanSprite("");
         animatedSprite.setSize(animatedSprite.getWidth()*0.6f,animatedSprite.getHeight()*0.4f);
-        //animatedSprite.setPosition(0,Gdx.graphics.getHeight()-animatedSprite.getHeight());
+    }
+
+    public static void Done() {
+        //FIXME: correctly unload loaded data
+        animatedSprite = null;
+        hotSeat = null;
+        btMenu = null;
+        playMenu = null;
+        mainMenu = null;
+        jsonMenu = null;
+        mSkin = null;
+        Assets.queueUnloading();
     }
 
     public static void applyCamera()

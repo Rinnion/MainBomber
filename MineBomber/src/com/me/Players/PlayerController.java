@@ -7,8 +7,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Graphics.ShapeProgressBar;
-import com.me.bomb.AbstractBomb;
-import com.me.minebomber.AbstractGameObject;
+import com.me.minebomber.MineBomber;
 
 import java.util.ArrayList;
 
@@ -96,33 +95,24 @@ public class PlayerController {
 
     public static void Calculate(long time){
         AbstractPlayer player;
+        //TODO think about place for winning controller
+        int alive = players.size();
         for(int i=0;i<players.size();i++) {
             player=players.get(i);
+            if (player.isDead()) alive--;
             player.calculate(time);
         }
-    }
-
-    public static void RemoveObject(AbstractGameObject object)
-    {
-        AbstractPlayer player;
-        AbstractBomb bomb=(object instanceof AbstractBomb ? (AbstractBomb)object : null);
-
-        for(int i=0;i<players.size();i++) {
-            player=players.get(i);
-            if(bomb!=null) {
-                //FIXME 13.10.2014 commented
-                //player.removebomb(bomb);
+        if (alive == 1) Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                MineBomber.getFSM().doIt(MineBomber.Inputs.close);
             }
-        }
+        });
     }
 
     public static  void AfterBatch(Matrix4 projectionMatrix)
     {
-
         shapeProgressBar.Draw(players, projectionMatrix);
-
-
-
     }
 
     public static void addMoney(IPlayer who, long value){

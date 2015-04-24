@@ -12,11 +12,15 @@ public class Assets {
     public static TextureAtlas menuTexture;
 
 	public static void queueLoading() {
-
         manager.load("data/ui/menuSkin.pack", TextureAtlas.class);
         manager.load("data/img/snow_texture.txt", TextureAtlas.class);
 	}
-	
+
+	public static void queueUnloading() {
+		manager.unload("data/ui/menuSkin.pack");
+		manager.unload("data/img/snow_texture.txt");
+	}
+
 	/** Initiate menu Skin **/
 	public static void setMenuSkin() {
 		if (menuSkin == null)
@@ -26,11 +30,9 @@ public class Assets {
 
             if(menuTexture==null)
                 menuTexture=manager.get("data/img/snow_texture.txt",TextureAtlas.class);
-
 	}
 
 	public static boolean update() {
 		return manager.update();
 	}
-
 }

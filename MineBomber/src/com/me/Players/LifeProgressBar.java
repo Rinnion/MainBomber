@@ -9,32 +9,27 @@ import com.me.Utility.DelayTimer;
  */
 public class LifeProgressBar implements ILifeProgressBar {
 
+    float mAddIndex = 0.1f;
     private IPlayer player;
-
     private Color mColorProgressBack;
     private Color mColorProgressFront;
-    float mAddIndex=0.1f;
-    private boolean mVisible=true;
+    private boolean mVisible = true;
 
-    private DelayTimer mFlashTimer =new DelayTimer(100);
-    private DelayTimer mVisibleTimer=new DelayTimer(2000,false);
+    private DelayTimer mFlashTimer = new DelayTimer(100);
+    private DelayTimer mVisibleTimer = new DelayTimer(2000, false);
 
-    private boolean mBeginDisableVisible=false;
+    private boolean mBeginDisableVisible = false;
 
 
-    private void setDefaultColor()
-    {
-
-        mColorProgressBack =new Color(Color.RED);
-        mColorProgressFront =new Color(Color.GREEN);
+    public LifeProgressBar(IPlayer player) {
+        this.player = player;
+        setDefaultColor();
     }
 
+    private void setDefaultColor() {
 
-
-    public LifeProgressBar(IPlayer player)
-    {
-       this.player=player;
-        setDefaultColor();
+        mColorProgressBack = new Color(Color.RED);
+        mColorProgressFront = new Color(Color.GREEN);
     }
 
     @Override
@@ -53,58 +48,51 @@ public class LifeProgressBar implements ILifeProgressBar {
     }
 
 
-
-
     @Override
     public void Draw() {
-        if(!mVisible)
+        if (!mVisible)
             return;
 
-        if(mBeginDisableVisible)
-        {
-            if(mVisibleTimer.CheckTimeOut())
-                mBeginDisableVisible=false;
+        if (mBeginDisableVisible) {
+            if (mVisibleTimer.CheckTimeOut())
+                mBeginDisableVisible = false;
 
             return;
         }
 
 
+        if (mFlashTimer.CheckTimeOut()) {
 
-         if(mFlashTimer.CheckTimeOut())
-         {
+            if (mColorProgressBack.a + mAddIndex <= 0) {
+                //if(mVisibleTimer.CheckTimeOut())
+                mVisible = false;
 
-             if(mColorProgressBack.a+mAddIndex<=0)
-             {
-                 //if(mVisibleTimer.CheckTimeOut())
-                 mVisible=false;
+                return;
+            }
 
-                 return;
-             }
+            if (mColorProgressBack.a + mAddIndex >= 1) {
+                //mVisible=false;
+                mAddIndex = -0.1f;
+                mBeginDisableVisible = true;
+                mVisibleTimer.Restart();
+                return;
+            }
 
-             if(mColorProgressBack.a+mAddIndex>=1)
-             {
-                 //mVisible=false;
-                 mAddIndex=-0.1f;
-                 mBeginDisableVisible=true;
-                 mVisibleTimer.Restart();
-                 return;
-             }
-
-             mColorProgressBack.a+=mAddIndex;
-             mColorProgressFront.a+=mAddIndex;
+            mColorProgressBack.a += mAddIndex;
+            mColorProgressFront.a += mAddIndex;
 
 
-             mFlashTimer.Reset();
-         }
+            mFlashTimer.Reset();
+        }
     }
 
     @Override
     public void DoItVisible() {
-        mAddIndex=0.1f;
-        mBeginDisableVisible=false;
+        mAddIndex = 0.1f;
+        mBeginDisableVisible = false;
         mFlashTimer.Reset();
 
-        mVisible=true;
+        mVisible = true;
 
 
     }

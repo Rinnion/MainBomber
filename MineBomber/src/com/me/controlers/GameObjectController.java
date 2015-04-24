@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Map.MapInfo;
 import com.me.Map.MapManager;
-import com.me.Players.PlayerController;
 import com.me.minebomber.AbstractGameObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +58,6 @@ public class GameObjectController {
         }
 
         for (AbstractGameObject obj : bombToRemove) {
-            PlayerController.RemoveObject(obj);
             objects.remove(obj);
             MapManager.fieldObjects[obj.getIndex()].remove(obj);
             obj.recycle();

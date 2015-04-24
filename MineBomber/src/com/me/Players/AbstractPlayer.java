@@ -125,9 +125,7 @@ public abstract class AbstractPlayer implements IPlayer {
 
     @Override
     public void DealDamage(int dmg) {
-
-        if(mDie)
-            return;
+        if (mDie) return;
 
         if(curLife-dmg<0) {
             curLife = 0;
@@ -136,11 +134,9 @@ public abstract class AbstractPlayer implements IPlayer {
         else
             curLife-=dmg;
         if(dmg!=0) {
-
-            TextManager.Add("-"+ dmg, Color.PINK, X, Y);
+            TextManager.Add("-" + dmg, Color.PINK, X, Y);
             mLifeProgressBar.DoItVisible();
         }
-
     }
 
     @Override
@@ -153,10 +149,6 @@ public abstract class AbstractPlayer implements IPlayer {
     @Override
     public void addActivator(DestinationActivator activator) {
         activators.add(activator);
-    }
-
-    public Arsenal GetArsenal() {
-        return arsenal;
     }
 
     @Override
@@ -192,5 +184,10 @@ public abstract class AbstractPlayer implements IPlayer {
 
 
 
+    }
+
+    @Override
+    public boolean isDead() {
+        return mDie;
     }
 }

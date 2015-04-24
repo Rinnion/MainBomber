@@ -26,6 +26,7 @@ import java.util.TimerTask;
 
 public class MineBomber implements ApplicationListener {
 
+    public static final FSM<MineBomberState> fsm;
     public static IText textZoom;
     public static long BeginDrawTime;
     static Logger logger = LoggerFactory.getLogger(MineBomber.class);
@@ -34,72 +35,20 @@ public class MineBomber implements ApplicationListener {
     static boolean fullScreen = true;
     private static OrthographicCamera camera;
     private static Rectangle viewPort;
-    private final FSM<MineBomberState> fsm;
-    Input inputClose = new InputImpl("close");
-    Input inputStart = new InputImpl("start");
+    private static SpriteBatch batch;
     FPSLogger fpsLogger;
-    private SpriteBatch batch;
+
     public MineBomber(){
 
-        Action skip = new Action() {
-            @Override
-            public void doIt(final FSM fsm, Input in) {
-                Timer timer = new Timer("skip");
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        Gdx.app.postRunnable(new Runnable() {
-                            @Override
-                            public void run() {
-                                fsm.doIt(inputClose);
-                            }
-                        });
-                    }
-                }, 2000);
-            }
-        };
-
-        MineBomberState stateLoad = new MineBomberState("load");
-        MineBomberState stateLogo = new MineBomberState("logo");
-        MineBomberState stateMenu = new MenuState();
-        MineBomberState stateGame = new GameState();
-        MineBomberState stateExit = new MineBomberState("exit");
-
-
-        StateEngine<MineBomberState> stateEngine = StateEngineFactory.create();
-        stateEngine.add(stateLoad, inputClose, skip, stateLogo);
-        stateEngine.add(stateLogo, inputClose, null, stateMenu);
-        stateEngine.add(stateMenu, inputStart, null, stateGame);
-        stateEngine.add(stateGame, inputClose, null, stateMenu);
-        stateEngine.add(stateMenu, inputClose, null, stateExit);
-        stateEngine.done();
-
-        fsm = stateEngine.makeFSM(stateLoad);
-        fsm.doIt(inputClose);
     }
 
-    public void startgame()
-    {
-        Initializer.Initialize();
-
-        scrW = MapManager.mapProperty.width;
-        scrH = MapManager.mapProperty.height;
-
-        camera = new OrthographicCamera(scrW, scrH);
-        camera.setToOrtho(true, scrW, scrH);
-
-        if (fullScreen == false)
-            viewPort = new Rectangle((int) ((Gdx.graphics.getWidth() - scrW) / 2f), (int) ((Gdx.graphics.getHeight() - scrH) / 2f), (int) scrW, (int) scrH);
-        else
-            viewPort = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        MapManager.Refresh(camera);
-
-        fsm.doIt(inputStart);
+    public static FSM getFSM() {
+        if (fsm == null) throw new IllegalStateException("not initialized");
+        return fsm;
     }
 
     @Override
-	public void create() {
+    public void create() {
         logger.info("Creating game...");
 
         fpsLogger = new FPSLogger();
@@ -108,8 +57,8 @@ public class MineBomber implements ApplicationListener {
         viewPort = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
-	@Override
-	public void dispose() {
+    @Override
+    public void dispose() {
         batch.dispose();
 
     }
@@ -134,7 +83,50 @@ public class MineBomber implements ApplicationListener {
     public void resume() {
     }
 
-    class MenuState extends MineBomberState {
+    public static class Inputs {
+        public static Input close = new InputImpl("close");
+        public static Input start = new InputImpl("start");
+    }
+
+    static {
+        Action skip = new Action() {
+            @Override
+            public void doIt(final FSM fsm, Input in) {
+                Timer timer = new Timer("skip");
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                fsm.doIt(Inputs.close);
+                            }
+                        });
+                    }
+                }, 2000);
+            }
+        };
+
+        MineBomberState stateLoad = new MineBomberState("load");
+        MineBomberState stateLogo = new MineBomberState("logo");
+        MineBomberState stateMenu = new MenuState();
+        MineBomberState stateGame = new GameState();
+        MineBomberState stateExit = new MineBomberState("exit");
+
+
+        StateEngine<MineBomberState> stateEngine = StateEngineFactory.create();
+        stateEngine.add(stateLoad, Inputs.close, skip, stateLogo);
+        stateEngine.add(stateLogo, Inputs.close, null, stateMenu);
+        stateEngine.add(stateMenu, Inputs.start, null, stateGame);
+        stateEngine.add(stateGame, Inputs.close, null, stateMenu);
+        stateEngine.add(stateMenu, Inputs.close, null, stateExit);
+        stateEngine.done();
+
+        fsm = stateEngine.makeFSM(stateLoad);
+        fsm.doIt(Inputs.close);
+    }
+
+    static class MenuState extends MineBomberState {
 
         public MenuState() {
             super("menu");
@@ -147,15 +139,15 @@ public class MineBomber implements ApplicationListener {
                 public void buttonDown(String action) {
                     if (action.equals("start.2")) {
                         PlayerController.hotSeatPlayers = 2;
-                        startgame();
+                        MineBomber.getFSM().doIt(Inputs.start);
                     }
                     if (action.equals("start.3")) {
                         PlayerController.hotSeatPlayers = 3;
-                        startgame();
+                        MineBomber.getFSM().doIt(Inputs.start);
                     }
                     if (action.equals("start.4")) {
                         PlayerController.hotSeatPlayers = 4;
-                        startgame();
+                        MineBomber.getFSM().doIt(Inputs.start);
                     }
                 }
 
@@ -168,15 +160,44 @@ public class MineBomber implements ApplicationListener {
         }
 
         @Override
+        public void postAction(FSM fsm) {
+            MenuActions.SetCallback(null);
+            MenuManager.Done();
+        }
+
+        @Override
         public void render() {
             MenuManager.Draw();
         }
     }
 
-    class GameState extends MineBomberState {
+    static class GameState extends MineBomberState {
 
         public GameState() {
             super("game");
+        }
+
+        @Override
+        public void preAction(FSM fsm) {
+            Initializer.Initialize();
+
+            scrW = MapManager.mapProperty.width;
+            scrH = MapManager.mapProperty.height;
+
+            camera = new OrthographicCamera(scrW, scrH);
+            camera.setToOrtho(true, scrW, scrH);
+
+            if (!fullScreen)
+                viewPort = new Rectangle((int) ((Gdx.graphics.getWidth() - scrW) / 2f), (int) ((Gdx.graphics.getHeight() - scrH) / 2f), (int) scrW, (int) scrH);
+            else
+                viewPort = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+            MapManager.Refresh(camera);
+        }
+
+        @Override
+        public void postAction(FSM fsm) {
+            Initializer.Done();
         }
 
         @Override

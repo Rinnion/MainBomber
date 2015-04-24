@@ -110,6 +110,11 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     }
 
     @Override
+    public boolean isDead() {
+        return mDie;
+    }
+
+    @Override
     public float GetMaxLife() {
         return maxLife;
     }

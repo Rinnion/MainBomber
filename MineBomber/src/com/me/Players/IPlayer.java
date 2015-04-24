@@ -19,4 +19,6 @@ public interface IPlayer {
     Arsenal getArsenal();
 
     void addActivator(DestinationActivator activator);
+
+    boolean isDead();
 }
