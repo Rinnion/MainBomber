@@ -5,9 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.AbstractBomb;
-import com.me.Bombs.Activator.IActivator;
 import com.me.Utility.DelayTimer;
+import com.me.bomb.activator.DestinationActivator;
 import com.me.minebomber.Settings;
 
 /**
@@ -20,12 +19,11 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     //    this.v = v;
     //}
 
+    public Texture mTexture;
     float radiusDig=4.5f;
     float radiusGo=1.7f;
     int digDmg=2;
     float playerSpd=40;
-      private int playerIndex=0;
-
     float maxLife=200;
     float curLife=200;
 
@@ -36,12 +34,35 @@ public class AiPlayer implements IPlayer, IPlayerControls {
      LifeProgressBar mLifeProgressBar;
 
      boolean mDie=false;
+    TextureRegion tRegion;
+    Sprite sprite;
+    private int playerIndex = 0;
+
+    public AiPlayer(int indexPlayer, Vector2 position) {
+        playerIndex = indexPlayer;
+        mTexture = new Texture(Settings.TEX_AI);
+        tRegion = new TextureRegion(mTexture);
+        InitRegion(PlayerDirection.DOWN);
+
+        sprite = new Sprite(tRegion);
+        sprite.flip(false, true);
+        sprite.setSize(25, 25);
+        sprite.setOrigin(sprite.getWidth() / 2f, sprite.getHeight() / 2f);
+
+        sprite.setPosition(-sprite.getOriginX() + (sprite.getWidth() / 2) + position.x, -sprite.getOriginY() + (sprite.getHeight() / 2) + position.y);
+        radiusDig = sprite.getWidth() / 4;
+        radiusGo = sprite.getWidth() / 6;
+        digDmg = 1;
+        playerSpd = 20f;
+        mLifeProgressBar = new LifeProgressBar(this);
+    }
+
     @Override
     public void Render(Batch batch) {
 
 
         mLifeProgressBar.Draw();
-        if(mDie) {
+        if (mDie) {
 
             return;
         }
@@ -60,20 +81,19 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     @Override
     public void DealDamage(int dmg) {
 
-        if(curLife-dmg<0) {
+        if (curLife - dmg < 0) {
             curLife = 0;
-            mDie=true;
-        }
-        else
-            curLife-=dmg;
+            mDie = true;
+        } else
+            curLife -= dmg;
         mLifeProgressBar.DoItVisible();
     }
-
 
     @Override
     public void activateBombs(long time) {
 
     }
+
     @Override
     public void addMoney(long value) {
 
@@ -85,7 +105,7 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     }
 
     @Override
-    public void addActivator(IActivator activator) {
+    public void addActivator(DestinationActivator activator) {
 
     }
 
@@ -105,12 +125,14 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     }
 
     public void ChangeMoveDirection(Vector2 vec) {
-        v=vec;
+        v = vec;
     }
 
-    public void PlaceBomb() {}
+    public void PlaceBomb() {
+    }
 
-    public void DetonateBomb() {}
+    public void DetonateBomb() {
+    }
 
     @Override
     public void onDoubleTap() {
@@ -141,22 +163,6 @@ public class AiPlayer implements IPlayer, IPlayerControls {
     public void onDoublePan(Vector2 v) {
 
     }
-
-    public static class PlayerDirection
-    {
-        final public static int RIGHT=1;
-        final public  static int LEFT=2;
-        final public  static int TOP=3;
-        final public static int DOWN=4;
-    }
-
-    public Texture mTexture;
-
-
-    TextureRegion tRegion;
-    Sprite sprite;
-
-
 
     private void handleInput() {
 
@@ -202,50 +208,33 @@ public class AiPlayer implements IPlayer, IPlayerControls {
 
     }
 
-
-
-
-    public AiPlayer(int indexPlayer, Vector2 position)
-    {
-        playerIndex=indexPlayer;
-        mTexture=new Texture(Settings.TEX_AI);
-        tRegion=new TextureRegion(mTexture);
-        InitRegion(PlayerDirection.DOWN );
-
-        sprite=new Sprite(tRegion);
-        sprite.flip(false,true);
-        sprite.setSize(25,25);
-        sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f);
-
-        sprite.setPosition(-sprite.getOriginX()+(sprite.getWidth()/2)+position.x,-sprite.getOriginY()+(sprite.getHeight()/2)+position.y);
-        radiusDig=sprite.getWidth()/4;
-        radiusGo=sprite.getWidth()/6;
-        digDmg=1;
-        playerSpd=20f;
-        mLifeProgressBar=new LifeProgressBar(this);
-    }
-
-    public  void  InitRegion(int i)
-    {
-        switch (i)
-        {
+    public void InitRegion(int i) {
+        switch (i) {
             case PlayerDirection.DOWN:
-                tRegion.setRegion(0,0,37,37);
-             break;
+                tRegion.setRegion(0, 0, 37, 37);
+                break;
             case PlayerDirection.TOP:
-                tRegion.setRegion(0,16,15,15);
-            break;
+                tRegion.setRegion(0, 16, 15, 15);
+                break;
 
             case PlayerDirection.LEFT:
-                tRegion.setRegion(0,16+15,15,15);
+                tRegion.setRegion(0, 16 + 15, 15, 15);
                 break;
             case PlayerDirection.RIGHT:
-                tRegion.setRegion(0,16+15+15,15,15);
-            break;
+                tRegion.setRegion(0, 16 + 15 + 15, 15, 15);
+                break;
 
         }
 
 
+    }
+
+    public static class PlayerDirection
+    {
+        final public static int RIGHT = 1;
+        final public static int LEFT = 2;
+        final public static int TOP = 3;
+        final public static int DOWN = 4;
     }
 
 

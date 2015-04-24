@@ -1,9 +1,9 @@
-package com.me.Bombs;
+package com.me.bomb;
 
-import com.me.Bombs.Activator.RecyclableActivator;
-import com.me.Bombs.Behavior.RecyclableBehavior;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.activator.RecyclableActivator;
+import com.me.bomb.behavior.RecyclableBehavior;
 import com.me.minebomber.AbstractGameObject;
 
 /**
@@ -37,22 +37,24 @@ public abstract class AbstractBomb extends AbstractGameObject {
 
     @Override
     public void applyDig(IPlayer who, long time) {
-
+        digdamage(time);
     }
 
     @Override
     public boolean calculate(long time) {
-        behavior.detonate(this, time);
-        return true;
+        //TODO algorithm for checking activation
+        //if active then detonate
+        if (ActivationTime > time) return false;
+        return behavior.detonate(this, time);
     }
 
-    public boolean activate(long time) {
-        return false;
+    public void detonate(long time) {
+        ActivationTime = time;
     }
 
-    public abstract void detonate(long time);
+    public void digdamage(long time) {
 
-    public abstract void digdamage(long time);
+    }
 
     @Override
     public void recycle() {

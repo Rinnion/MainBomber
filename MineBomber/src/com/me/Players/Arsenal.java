@@ -1,10 +1,10 @@
 package com.me.Players;
 
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.*;
-import com.me.Bombs.Activator.TimeActivator;
-import com.me.Bombs.Behavior.JumpBehavior;
 import com.me.Map.MapManager;
+import com.me.bomb.*;
+import com.me.bomb.activator.TimeActivator;
+import com.me.bomb.behavior.JumpBehavior;
 import com.me.minebomber.MemoryManager;
 
 import java.util.HashMap;

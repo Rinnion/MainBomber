@@ -1,4 +1,4 @@
-package com.me.Bombs.Behavior;
+package com.me.bomb.behavior;
 
 import com.me.Utility.RecyclableArray;
 

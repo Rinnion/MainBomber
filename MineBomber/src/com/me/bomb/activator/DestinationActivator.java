@@ -1,7 +1,7 @@
-package com.me.Bombs.Activator;
+package com.me.bomb.activator;
 
-import com.me.Bombs.DestBomb;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.DestBomb;
 
 public class DestinationActivator extends RecyclableActivator implements IActivator {
     private DestBomb bomb;
@@ -16,13 +16,13 @@ public class DestinationActivator extends RecyclableActivator implements IActiva
     }
 
     @Override
-    public void Register(long time) {
+    public void Calculate(long time) {
         bomb.getOwner().addActivator(this);
     }
 
-    @Override
-    public void Calculate(long time) {
-        bomb.activate(time);
+    public boolean Activate(long time) {
+        bomb.ActivationTime = time;
+        return true;
     }
 
     @Override

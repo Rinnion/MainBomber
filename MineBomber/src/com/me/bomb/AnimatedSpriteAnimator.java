@@ -1,4 +1,4 @@
-package com.me.Bombs;
+package com.me.bomb;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;

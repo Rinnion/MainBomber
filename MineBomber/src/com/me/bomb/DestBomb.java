@@ -1,10 +1,10 @@
-package com.me.Bombs;
+package com.me.bomb;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.me.Bombs.Activator.DestinationActivator;
-import com.me.Bombs.Behavior.CircleExplosion;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.activator.DestinationActivator;
+import com.me.bomb.behavior.CircleExplosion;
 import com.me.minebomber.MemoryManager;
 
 
@@ -35,28 +35,4 @@ public class DestBomb extends AbstractBomb {
 
         return this;
     }
-
-    @Override
-    public boolean activate(long time) {
-        ActivationTime = time;
-        return true;
-    }
-
-    @Override
-    public void digdamage(long time) {
-
-    }
-
-    @Override
-    public boolean calculate(long time) {
-        if (!(ActivationTime < time)) return false;
-        super.calculate(time);
-        return true;
-    }
-
-    @Override
-    public void detonate(long time) {
-        activate(time);
-    }
-
 }

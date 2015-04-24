@@ -1,7 +1,7 @@
-package com.me.Bombs.Activator;
+package com.me.bomb.activator;
 
-import com.me.Bombs.AbstractBomb;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.AbstractBomb;
 
 import java.util.Calendar;
 
@@ -28,13 +28,8 @@ public class TimeActivator extends RecyclableActivator implements IActivator {
     }
 
     @Override
-    public void Register(long time) {
-        bomb.ActivationTime = Calendar.getInstance().getTimeInMillis() + this.time;
-    }
-
-    @Override
     public void Calculate(long time) {
-        bomb.activate(time);
+        bomb.ActivationTime = Calendar.getInstance().getTimeInMillis() + this.time;
     }
 
     @Override

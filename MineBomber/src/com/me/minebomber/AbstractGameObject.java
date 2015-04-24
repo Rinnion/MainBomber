@@ -1,13 +1,13 @@
 package com.me.minebomber;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.me.Bombs.AnimatedSprite;
-import com.me.Bombs.AnimatedSpriteAnimator;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
 import com.me.Utility.RecyclableObject;
+import com.me.bomb.AnimatedSprite;
+import com.me.bomb.AnimatedSpriteAnimator;
 
 /**
  * Created by tretyakov on 16.04.2014.

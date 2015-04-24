@@ -1,8 +1,8 @@
-package com.me.Bombs.Behavior;
+package com.me.bomb.behavior;
 
-import com.me.Bombs.AbstractBomb;
 import com.me.Map.MapManager;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.AbstractBomb;
 import com.me.minebomber.MemoryManager;
 
 /**
@@ -14,7 +14,7 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
     public static final int DEFAULT_RADIUS = 10;
     private int jumps;
     private int radius;
-    private CircleExplosion explosion;
+    private RandomCircleExplosion explosion;
 
     public JumpBehavior(RecyclableArray array) {
         super(array);
@@ -34,8 +34,12 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
     }
 
     @Override
-    public void detonate(AbstractBomb bomb, long time) {
+    public boolean detonate(AbstractBomb bomb, long time) {
         explosion.detonate(bomb, time);
+
+        //Exit if this is the last jump
+        if (jumps == 1) return true;
+        jumps--;
 
         int dXInt = ((int) (Math.random() * radius * 2)) - radius;
         int dYInt = ((int) (Math.random() * radius * 2)) - radius;
@@ -47,21 +51,12 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
         if (newX > MapManager.maxCel - radius - 1) newX = MapManager.maxCel - radius - 1;
         if (newY > MapManager.maxCel - radius - 1) newY = MapManager.maxCel - radius - 1;
 
-        if (jumps == 1) return;
+        bomb.position.x = newX;
+        bomb.position.y = newY;
+        explosion.update();
 
-        // FIXME Should move bomb to any place
-        // bomb.update();
-
-        /*
-        PutBombAction take = MemoryManager.take(PutBombAction.class).update(bomb.getOwner(),
-                time,
-                MemoryManager.take(RandomBomb.class).update(bomb.getOwner(),
-                        newX, newY,
-                        jumps - 1,
-                        radius));
-
-        ActionController.Add(take);
-        */
+        //Do not remove bomb from field
+        return false;
     }
 
     @Override

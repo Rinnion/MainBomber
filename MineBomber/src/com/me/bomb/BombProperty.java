@@ -1,4 +1,4 @@
-package com.me.Bombs;
+package com.me.bomb;
 
 import com.me.Players.IPlayer;
 

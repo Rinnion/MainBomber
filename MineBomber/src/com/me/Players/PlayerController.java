@@ -2,23 +2,15 @@ package com.me.Players;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.AbstractBomb;
 import com.me.Graphics.ShapeProgressBar;
-import com.me.Map.MapManager;
-import com.me.ObjectMaskHelper.Vector2I;
-import com.me.TextManager.TextManager;
-import com.me.controlers.TreasureController;
-import com.me.controlers.treasure.SmallChestTreasure;
+import com.me.bomb.AbstractBomb;
 import com.me.minebomber.AbstractGameObject;
 
-
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by alekseev on 26.03.2014.
@@ -26,11 +18,10 @@ import java.util.Random;
 public class PlayerController {
 
     static public ArrayList<AbstractPlayer> players=new ArrayList<AbstractPlayer>();
-
+    public static int hotSeatPlayers = 0;
     static FightInputProcessor []inputProcessor;
-
     static ShapeProgressBar shapeProgressBar;
-    public static int hotSeatPlayers =0;
+
     public static void Initialize()
     {
         float h = Gdx.graphics.getHeight();

@@ -1,6 +1,6 @@
 package com.me.controlers.treasure;
 
-import com.me.Bombs.AnimatedSprite;
+import com.me.bomb.AnimatedSprite;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Utility.RecyclableArray;
 

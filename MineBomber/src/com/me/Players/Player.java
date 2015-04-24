@@ -2,10 +2,10 @@ package com.me.Players;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.AbstractBomb;
-import com.me.Bombs.AnimatedSprite;
-import com.me.Bombs.AnimatedSpriteAnimator;
 import com.me.TextManager.TextManager;
+import com.me.bomb.AbstractBomb;
+import com.me.bomb.AnimatedSprite;
+import com.me.bomb.AnimatedSpriteAnimator;
 import com.me.controlers.ActionController;
 import com.me.controlers.actions.ActivateBombAction;
 import com.me.controlers.actions.PutBombAction;

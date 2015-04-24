@@ -1,12 +1,12 @@
-package com.me.Bombs.Behavior;
+package com.me.bomb.behavior;
 
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.AbstractBomb;
 import com.me.Map.MapInfo;
 import com.me.Map.MapManager;
 import com.me.TilesManager.Tile;
 import com.me.TilesManager.Tiles;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.AbstractBomb;
 import com.me.minebomber.AbstractGameObject;
 import com.me.minebomber.DrawManager;
 
@@ -53,7 +53,7 @@ public class FastTeramorf extends RecyclableBehavior implements IBehavior {
     }
 
     @Override
-    public void detonate(AbstractBomb bomb, long time) {
+    public boolean detonate(AbstractBomb bomb, long time) {
 
         //MapManager.addDamageToField(ExplodeMask, bomb.position.x,bomb.position.y);
         //ParticleManager.Fire(bomb.position.x*MapManager.rowW ,bomb.position.y*MapManager.rowH,range*4);
@@ -117,6 +117,8 @@ public class FastTeramorf extends RecyclableBehavior implements IBehavior {
             xycount = txycount;
             iteration++;
         }
+
+        return true;
     }
 
 }

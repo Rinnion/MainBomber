@@ -1,21 +1,16 @@
 package com.me.Players;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.AbstractBomb;
-import com.me.Bombs.Activator.DestinationActivator;
-import com.me.Bombs.Activator.IActivator;
-import com.me.Bombs.AnimatedSprite;
-import com.me.Bombs.AnimatedSpriteAnimator;
-import com.me.Bombs.DestBomb;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.MaskController;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.TextManager.TextManager;
+import com.me.bomb.AbstractBomb;
+import com.me.bomb.AnimatedSpriteAnimator;
+import com.me.bomb.activator.DestinationActivator;
 
 import java.util.ArrayList;
 
@@ -24,18 +19,26 @@ import java.util.ArrayList;
  */
 public abstract class AbstractPlayer implements IPlayer {
 
-    Arsenal arsenal;
-    ArsenalInfo arsenalInfo;
-
+    public static final int MAX_ACTIVATORS = 2500;
+    private static final boolean playerDebug = false;
+    private static final int DEF_BOMB_COUNT = 20;
+    static ArrayList<DestinationActivator> activators = new ArrayList<>(MAX_ACTIVATORS);
+    public final Vector2I[] mask_view;
+    protected final ArrayList<AbstractBomb> bombList;
     private final Vector2I[] mask_go;
     private final Vector2I[] mask_dmg;
-    public final Vector2I[] mask_view;
-
+    public float radiusView = 15;
+    public AnimatedSpriteAnimator sprite;
+    public float X;
+    public float Y;
+    public float oX;
+    public float oY;
     protected LifeProgressBar mLifeProgressBar;
     protected String mName;
+    Arsenal arsenal;
+    ArsenalInfo arsenalInfo;
     float radiusDig=4.5f;
     float radiusGo=1.7f ;
-    public float radiusView=15;
     int digDmg=5;
     float playerSpd=0.040f;
     float playerSpeedPerFrame = 2f;
@@ -43,22 +46,9 @@ public abstract class AbstractPlayer implements IPlayer {
     float curLife=10000;
     Vector2 v = new Vector2(0.7f,0.7f);
     boolean mDie=false;
-
-    public AnimatedSpriteAnimator sprite;
-
+    ShapeRenderer shapeRenderer;
     private float newX;
     private float newY;
-
-    public float X;
-    public float Y;
-    public float oX;
-    public float oY;
-    ShapeRenderer shapeRenderer;
-
-    private static final boolean playerDebug=false;
-
-    private static final int DEF_BOMB_COUNT=20;
-    protected final ArrayList<AbstractBomb> bombList;
 
     public AbstractPlayer(String mName) {
         this.mName = mName;
@@ -78,7 +68,9 @@ public abstract class AbstractPlayer implements IPlayer {
     @Override
     public void Render(Batch batch) {
         mLifeProgressBar.Draw();
-        if(mDie) { return; }
+        if (mDie) {
+            return;
+        }
 
         /*
         if(playerDebug) {
@@ -112,8 +104,8 @@ public abstract class AbstractPlayer implements IPlayer {
         //sprite.setRegion(region);
 
         sprite.draw(batch, X, Y);
-        if(arsenalInfo.isVisible)
-        arsenalInfo.Render(batch);
+        if (arsenalInfo.isVisible)
+            arsenalInfo.Render(batch);
     }
 
     @Override
@@ -151,18 +143,15 @@ public abstract class AbstractPlayer implements IPlayer {
 
     }
 
-    public static final int MAX_ACTIVATORS = 2500;
-    static ArrayList<IActivator> activators = new ArrayList<IActivator>(MAX_ACTIVATORS);
-
     @Override
     public void activateBombs(long time) {
-        for (IActivator act: activators){
-            act.Calculate(time);
+        for (DestinationActivator act : activators) {
+            act.Activate(time);
         }
     }
 
     @Override
-    public void addActivator(IActivator activator) {
+    public void addActivator(DestinationActivator activator) {
         activators.add(activator);
     }
 

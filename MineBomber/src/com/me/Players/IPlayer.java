@@ -1,11 +1,7 @@
 package com.me.Players;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.AbstractBomb;
-import com.me.Bombs.Activator.DestinationActivator;
-import com.me.Bombs.Activator.IActivator;
-import com.me.controlers.treasure.AbstractTreasure;
+import com.me.bomb.activator.DestinationActivator;
 
 /**
  * Created by alekseev on 26.03.2014.
@@ -22,5 +18,5 @@ public interface IPlayer {
     void addMoney(long value);
     Arsenal getArsenal();
 
-    void addActivator(IActivator activator);
+    void addActivator(DestinationActivator activator);
 }

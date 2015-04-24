@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.me.Bombs.BombType;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Utility.DelayTimer;
 import com.me.assetloader.AssetLoader;
+import com.me.bomb.BombType;
 import com.me.minebomber.Settings;
 
 
@@ -25,64 +25,20 @@ public class ArsenalInfo {
     static TextureRegion textureRegion;
     static Sprite spriteRegion;
     static Sprite sprite;
-
-    AbstractPlayer owner;
-
-
-
-
-
-
     final int stepX=1;
     final int stepY=1;
     final Vector2I activBox=new Vector2I(20,20);
     final Vector2I deactivatedBox=new Vector2I(10,10);
-
     final Vector2I pixMapSize=new Vector2I(activBox.x+deactivatedBox.x*2,activBox.y );
-
-
+    public boolean isVisible = false;
+    AbstractPlayer owner;
     Vector2I leftBoxCenter;
     Vector2I centerBoxCenter;
     Vector2I rightBoxCenter;
-
     float alpha=1;
-
-
-
-
+    boolean beginDoitInvisible = false;
     private DelayTimer mFlashTimer =new DelayTimer(100);
     private DelayTimer mDisableTimeout=new DelayTimer(1000,false);
-
-    public boolean isVisible=false;
-
-    boolean beginDoitInvisible=false;
-
-
-    private void createPixmapPanel()
-    {
-
-        pixmap=new Pixmap(pixMapSize.x,pixMapSize.y, Pixmap.Format.RGBA8888);
-
-        pixmap.setColor(Color.rgba8888(0.158f,0.235f,0.255f,0.5f));
-        //pixmap.fill();
-
-        leftBoxCenter=new Vector2I(deactivatedBox.x/2,pixMapSize.y/2);
-        centerBoxCenter=new Vector2I(pixMapSize.x/2,pixMapSize.y/2);
-        rightBoxCenter=new Vector2I((pixMapSize.x-deactivatedBox.x/2) ,pixMapSize.y/2);
-
-        pixmap.fillRectangle(leftBoxCenter.x-deactivatedBox.x/2,leftBoxCenter.y-deactivatedBox.y/2 ,deactivatedBox.x,deactivatedBox.y);
-        pixmap.fillRectangle(rightBoxCenter.x-deactivatedBox.x/2,rightBoxCenter.y-deactivatedBox.y/2 ,deactivatedBox.x,deactivatedBox.y);
-        //pixmap.fillRectangle(pixMapSize.x- ,stepY,deactivatedBox.x,deactivatedBox.y);
-
-
-
-        pixmap.setColor(Color.rgba8888 (0.7f,0.7f,0.7f,1));
-        pixmap.fillRectangle(centerBoxCenter.x-activBox.x/2, centerBoxCenter.y-activBox.y/2 , activBox.x, activBox.y);
-
-        //pixmap.setColor(Color.rgba8888 (0.5f,0.5f,0.5f,1));
-        //pixmap.drawRectangle(pW-1,0,pW+1,pH);
-        //pixmap.drawRectangle(0,0,pixmap.getWidth(),pixmap.getHeight());
-    }
 
 
     public ArsenalInfo(AbstractPlayer owner)
@@ -119,6 +75,29 @@ public class ArsenalInfo {
 
     }
 
+    private void createPixmapPanel() {
+
+        pixmap = new Pixmap(pixMapSize.x, pixMapSize.y, Pixmap.Format.RGBA8888);
+
+        pixmap.setColor(Color.rgba8888(0.158f, 0.235f, 0.255f, 0.5f));
+        //pixmap.fill();
+
+        leftBoxCenter = new Vector2I(deactivatedBox.x / 2, pixMapSize.y / 2);
+        centerBoxCenter = new Vector2I(pixMapSize.x / 2, pixMapSize.y / 2);
+        rightBoxCenter = new Vector2I((pixMapSize.x - deactivatedBox.x / 2), pixMapSize.y / 2);
+
+        pixmap.fillRectangle(leftBoxCenter.x - deactivatedBox.x / 2, leftBoxCenter.y - deactivatedBox.y / 2, deactivatedBox.x, deactivatedBox.y);
+        pixmap.fillRectangle(rightBoxCenter.x - deactivatedBox.x / 2, rightBoxCenter.y - deactivatedBox.y / 2, deactivatedBox.x, deactivatedBox.y);
+        //pixmap.fillRectangle(pixMapSize.x- ,stepY,deactivatedBox.x,deactivatedBox.y);
+
+
+        pixmap.setColor(Color.rgba8888(0.7f, 0.7f, 0.7f, 1));
+        pixmap.fillRectangle(centerBoxCenter.x - activBox.x / 2, centerBoxCenter.y - activBox.y / 2, activBox.x, activBox.y);
+
+        //pixmap.setColor(Color.rgba8888 (0.5f,0.5f,0.5f,1));
+        //pixmap.drawRectangle(pW-1,0,pW+1,pH);
+        //pixmap.drawRectangle(0,0,pixmap.getWidth(),pixmap.getHeight());
+    }
 
     public void DoItVisible()
     {

@@ -33,11 +33,10 @@ public class DrawManager {
 
         synchronized (syncObject) {
             logger.trace("synchronized (syncObject) DrawManager.AddArray");
-            //refreshFields[objCount]=index;
             final int []arrayI=items.getFullArray();
             final int count=items.size();
 
-              System.arraycopy(arrayI,0, refreshFields,objCount,count);
+            System.arraycopy(arrayI, 0, refreshFields, objCount, count);
 
             objCount+=count ;
         }

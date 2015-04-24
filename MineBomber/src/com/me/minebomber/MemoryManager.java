@@ -1,12 +1,12 @@
 package com.me.minebomber;
 
-import com.me.Bombs.Activator.DestinationActivator;
-import com.me.Bombs.Activator.RandomTimeActivator;
-import com.me.Bombs.Activator.TimeActivator;
-import com.me.Bombs.*;
-import com.me.Bombs.Behavior.*;
 import com.me.Utility.RecyclableArray;
 import com.me.Utility.RecyclableObject;
+import com.me.bomb.*;
+import com.me.bomb.activator.DestinationActivator;
+import com.me.bomb.activator.RandomTimeActivator;
+import com.me.bomb.activator.TimeActivator;
+import com.me.bomb.behavior.*;
 import com.me.controlers.actions.ActivateBombAction;
 import com.me.controlers.actions.PutBombAction;
 import com.me.controlers.treasure.BigChestTreasure;

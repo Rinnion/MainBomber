@@ -1,7 +1,7 @@
-package com.me.Bombs.Activator;
+package com.me.bomb.activator;
 
-import com.me.Bombs.AbstractBomb;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.AbstractBomb;
 
 public class RandomTimeActivator extends TimeActivator {
 

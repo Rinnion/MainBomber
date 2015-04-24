@@ -1,4 +1,4 @@
-package com.me.Bombs.Activator;
+package com.me.bomb.activator;
 
 import com.me.Utility.RecyclableArray;
 import com.me.Utility.RecyclableObject;

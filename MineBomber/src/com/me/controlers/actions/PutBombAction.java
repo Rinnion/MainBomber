@@ -1,9 +1,9 @@
 package com.me.controlers.actions;
 
-import com.me.Bombs.AbstractBomb;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
 import com.me.Utility.RecyclableObject;
+import com.me.bomb.AbstractBomb;
 import com.me.controlers.ActionController;
 import com.me.controlers.GameObjectController;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class PutBombAction extends RecyclableObject
     public void Calculate(long time) {
         logger.trace("PutBombAction: {}", obj.toString());
         GameObjectController.Add(obj);
-        obj.activator.Register(time);
+        obj.activator.Calculate(time);
     }
 
     public PutBombAction update(IPlayer player, long time, AbstractBomb bomb) {

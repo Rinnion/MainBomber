@@ -1,9 +1,9 @@
-package com.me.Bombs;
+package com.me.bomb;
 
-import com.me.Bombs.Activator.RandomTimeActivator;
-import com.me.Bombs.Behavior.JumpBehavior;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.activator.RandomTimeActivator;
+import com.me.bomb.behavior.JumpBehavior;
 import com.me.minebomber.MemoryManager;
 
 
@@ -32,21 +32,4 @@ public final class RandomBomb extends AbstractBomb {
 
         return this;
     }
-
-    @Override
-    public void digdamage(long time) {
-    }
-
-    @Override
-    public boolean calculate(long time) {
-        if (time < ActivationTime) return false;
-        super.calculate(time);
-        return true;
-    }
-
-    @Override
-    public void detonate(long time) {
-        ActivationTime = time;
-    }
-
 }

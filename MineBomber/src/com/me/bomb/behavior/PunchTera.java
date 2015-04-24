@@ -1,12 +1,12 @@
-package com.me.Bombs.Behavior;
+package com.me.bomb.behavior;
 
 import com.badlogic.gdx.math.Vector2;
-import com.me.Bombs.AbstractBomb;
 import com.me.Map.MapInfo;
 import com.me.Map.MapManager;
 import com.me.TilesManager.Tile;
 import com.me.TilesManager.Tiles;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.AbstractBomb;
 import com.me.minebomber.AbstractGameObject;
 import com.me.minebomber.DrawManager;
 
@@ -54,7 +54,7 @@ public class PunchTera extends RecyclableBehavior implements IBehavior {
     }
 
     @Override
-    public void detonate(AbstractBomb bomb, long time) {
+    public boolean detonate(AbstractBomb bomb, long time) {
         MapInfo[] mapInfo = MapManager.mapInfo;
         ArrayList<AbstractGameObject>[] fieldObjects = MapManager.fieldObjects;
         int iteration = 0;
@@ -104,6 +104,8 @@ public class PunchTera extends RecyclableBehavior implements IBehavior {
             xycount = txycount;
             iteration++;
         }
+
+        return true;
     }
 
 }

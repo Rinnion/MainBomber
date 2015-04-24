@@ -1,13 +1,7 @@
 package com.me.Graphics;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
-import com.me.Bombs.AbstractBomb;
-import com.me.Bombs.Behavior.CircleExplosion;
-
-import java.util.ArrayList;
 
 /**
  * Created by alekseev on 15.09.2014.

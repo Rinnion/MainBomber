@@ -62,7 +62,7 @@ public class MineBomber implements ApplicationListener {
         MineBomberState stateLoad = new MineBomberState("load");
         MineBomberState stateLogo = new MineBomberState("logo");
         MineBomberState stateMenu = new MenuState();
-        MineBomberState stateGame = new MineBomberState("game");
+        MineBomberState stateGame = new GameState();
         MineBomberState stateExit = new MineBomberState("exit");
 
 
@@ -78,7 +78,7 @@ public class MineBomber implements ApplicationListener {
         fsm.doIt(inputClose);
     }
 
-    public static void startgame()
+    public void startgame()
     {
         Initializer.Initialize();
 
@@ -94,6 +94,8 @@ public class MineBomber implements ApplicationListener {
             viewPort = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         MapManager.Refresh(camera);
+
+        fsm.doIt(inputStart);
     }
 
     @Override
@@ -135,7 +137,7 @@ public class MineBomber implements ApplicationListener {
     class MenuState extends MineBomberState {
 
         public MenuState() {
-            super("name");
+            super("menu");
         }
 
         @Override
@@ -171,15 +173,12 @@ public class MineBomber implements ApplicationListener {
         }
     }
 
-    class LogoRenderer implements IRenderer {
+    class GameState extends MineBomberState {
 
-        @Override
-        public void render() {
-            //FIXME DrawSomething
+        public GameState() {
+            super("game");
         }
-    }
 
-    class GameRenderer implements IRenderer {
         @Override
         public void render() {
             camera.update();

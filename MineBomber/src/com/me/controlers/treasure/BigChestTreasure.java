@@ -1,7 +1,7 @@
 package com.me.controlers.treasure;
 
-import com.me.Bombs.AnimatedSprite;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.AnimatedSprite;
 
 public class BigChestTreasure extends ChestTreasure {
 

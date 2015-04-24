@@ -1,8 +1,8 @@
 package com.me.controlers.treasure;
 
-import com.me.Bombs.AnimatedSprite;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.AnimatedSprite;
 import com.me.minebomber.AbstractGameObject;
 
 public abstract class AbstractTreasure extends AbstractGameObject {

@@ -1,9 +1,9 @@
 package com.me.controlers.treasure;
 
-import com.me.Bombs.AnimatedSprite;
 import com.me.Players.IPlayer;
 import com.me.Players.PlayerController;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.AnimatedSprite;
 
 public abstract class ChestTreasure extends AbstractTreasure {
 

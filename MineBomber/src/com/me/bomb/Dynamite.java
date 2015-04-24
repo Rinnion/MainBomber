@@ -1,9 +1,9 @@
-package com.me.Bombs;
+package com.me.bomb;
 
-import com.me.Bombs.Activator.TimeActivator;
-import com.me.Bombs.Behavior.CircleExplosion;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.activator.TimeActivator;
+import com.me.bomb.behavior.CircleExplosion;
 import com.me.minebomber.MemoryManager;
 
 
@@ -24,23 +24,6 @@ public class Dynamite extends AbstractBomb {
         activator = MemoryManager.take(TimeActivator.class).update(this, activationTime);
 
         return this;
-    }
-
-    @Override
-    public void digdamage(long time) {
-
-    }
-
-    @Override
-    public boolean calculate(long time) {
-        if (time < ActivationTime) return false;
-        super.calculate(time);
-        return true;
-    }
-
-    @Override
-    public void detonate(long time) {
-        ActivationTime = time;
     }
 
 }

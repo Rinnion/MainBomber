@@ -1,4 +1,4 @@
-package com.me.Bombs;
+package com.me.bomb;
 
 /**
  * Created by alekseev on 31.03.2014.

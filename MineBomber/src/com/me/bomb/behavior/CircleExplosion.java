@@ -1,12 +1,12 @@
-package com.me.Bombs.Behavior;
+package com.me.bomb.behavior;
 
-import com.me.Bombs.AbstractBomb;
-import com.me.Bombs.Vector2IDamage;
 import com.me.Map.MapManager;
 import com.me.ObjectMaskHelper.MaskController;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Particles.ParticleManager;
 import com.me.Utility.RecyclableArray;
+import com.me.bomb.AbstractBomb;
+import com.me.bomb.Vector2IDamage;
 
 /**
  * Created by alekseev on 18.09.2014.
@@ -46,9 +46,10 @@ public class CircleExplosion extends RecyclableBehavior implements IBehavior {
     }
 
     @Override
-    public void detonate(AbstractBomb bomb, long time) {
+    public boolean detonate(AbstractBomb bomb, long time) {
         MapManager.addDamageToField(ExplodeMask, bomb.position.x, bomb.position.y);
         ParticleManager.Fire(bomb.position.x * MapManager.rowW, bomb.position.y * MapManager.rowH, range * 4);
+        return true;
     }
 
     @Override

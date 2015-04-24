@@ -1,15 +1,11 @@
-package com.me.Bombs;
+package com.me.bomb;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
-import com.me.Utility.RecyclableArray;
-import com.me.Utility.RecyclableObject;
 import com.me.assetloader.AssetLoader;
 import com.me.minebomber.Settings;
 
