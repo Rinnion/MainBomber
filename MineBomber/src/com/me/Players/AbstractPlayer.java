@@ -42,8 +42,8 @@ public abstract class AbstractPlayer implements IPlayer {
     int digDmg=5;
     float playerSpd=0.040f;
     float playerSpeedPerFrame = 2f;
-    float maxLife=10000;
-    float curLife=10000;
+    float maxLife = 1000;
+    float curLife = 1000;
     Vector2 v = new Vector2(0.7f,0.7f);
     boolean mDie=false;
     ShapeRenderer shapeRenderer;
@@ -68,6 +68,7 @@ public abstract class AbstractPlayer implements IPlayer {
     @Override
     public void Render(Batch batch) {
         mLifeProgressBar.Draw();
+
         if (mDie) {
             return;
         }

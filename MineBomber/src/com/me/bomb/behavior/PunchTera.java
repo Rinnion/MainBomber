@@ -8,7 +8,6 @@ import com.me.TilesManager.Tiles;
 import com.me.Utility.RecyclableArray;
 import com.me.bomb.AbstractBomb;
 import com.me.minebomber.AbstractGameObject;
-import com.me.minebomber.DrawManager;
 
 import java.util.ArrayList;
 
@@ -70,9 +69,9 @@ public class PunchTera extends RecyclableBehavior implements IBehavior {
             for (int i = 0; i < xycount; i++) {
                 index = cy[i] * MapManager.maxCel + cx[i];
 
-                if (mapInfo[index].mTile.group.id != 4) continue;
-                mapInfo[index].SetInfo(tile, tile.group.life, false);
-                DrawManager.redrawArray2.push(index);
+                if (mapInfo[index].tile.group.id != 4) continue;
+                mapInfo[index].SetInfo(tile, tile.group.life);
+                MapManager.redrawArray2.push(index);
 
                 tx[txycount] = cx[i] + 1;
                 ty[txycount] = cy[i];

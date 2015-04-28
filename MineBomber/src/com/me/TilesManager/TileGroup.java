@@ -46,6 +46,6 @@ public class TileGroup {
 
         return tileList[rndId];
     }
-   //public Tile GetRadomTile(){return tileList[GetRandomTileId()];}
+    //public tile GetRadomTile(){return tileList[GetRandomTileId()];}
 
 }

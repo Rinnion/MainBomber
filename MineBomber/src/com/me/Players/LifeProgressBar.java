@@ -56,22 +56,17 @@ public class LifeProgressBar implements ILifeProgressBar {
         if (mBeginDisableVisible) {
             if (mVisibleTimer.CheckTimeOut())
                 mBeginDisableVisible = false;
-
             return;
         }
-
 
         if (mFlashTimer.CheckTimeOut()) {
 
             if (mColorProgressBack.a + mAddIndex <= 0) {
-                //if(mVisibleTimer.CheckTimeOut())
                 mVisible = false;
-
                 return;
             }
 
             if (mColorProgressBack.a + mAddIndex >= 1) {
-                //mVisible=false;
                 mAddIndex = -0.1f;
                 mBeginDisableVisible = true;
                 mVisibleTimer.Restart();
@@ -80,7 +75,6 @@ public class LifeProgressBar implements ILifeProgressBar {
 
             mColorProgressBack.a += mAddIndex;
             mColorProgressFront.a += mAddIndex;
-
 
             mFlashTimer.Reset();
         }

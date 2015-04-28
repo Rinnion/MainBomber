@@ -20,7 +20,6 @@ public class MineBomberApplication implements ApplicationListener {
     static final FSM<MineBomberState> fsm;
     static Logger logger = LoggerFactory.getLogger(MineBomberApplication.class);
 
-
     static boolean fullScreen = true;
     static Rectangle viewPort;
 
@@ -29,7 +28,7 @@ public class MineBomberApplication implements ApplicationListener {
     }
 
     public static FSM getFSM() {
-        if (fsm == null) throw new IllegalStateException("not initialized");
+        if (fsm == null) throw new IllegalStateException("Not initialized");
         return fsm;
     }
 
@@ -120,15 +119,15 @@ public class MineBomberApplication implements ApplicationListener {
                 public void buttonDown(String action) {
                     if (action.equals("start.2")) {
                         PlayerController.hotSeatPlayers = 2;
-                        MineBomberApplication.getFSM().doIt(Inputs.start);
+                        MineBomber.startGame();
                     }
                     if (action.equals("start.3")) {
                         PlayerController.hotSeatPlayers = 3;
-                        MineBomberApplication.getFSM().doIt(Inputs.start);
+                        MineBomber.startGame();
                     }
                     if (action.equals("start.4")) {
                         PlayerController.hotSeatPlayers = 4;
-                        MineBomberApplication.getFSM().doIt(Inputs.start);
+                        MineBomber.startGame();
                     }
                 }
 

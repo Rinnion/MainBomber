@@ -30,7 +30,6 @@ public class AssetLoader {
         return (Texture)mAssetManager.get(name);
     }
 
-
     public static Model GetModel(String name)
     {
        return (Model)mAssetManager.get(name);
@@ -43,6 +42,10 @@ public class AssetLoader {
     public static <T> void load(String fileName,Class<T> obj)
     {
         mAssetManager.load (fileName,obj);
+    }
+
+    public static <T> void unload(String fileName) {
+        mAssetManager.unload(fileName);
     }
 
     public static void DoCompliteLoading()

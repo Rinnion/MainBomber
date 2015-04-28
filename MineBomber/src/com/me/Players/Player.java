@@ -6,10 +6,10 @@ import com.me.TextManager.TextManager;
 import com.me.bomb.AbstractBomb;
 import com.me.bomb.AnimatedSprite;
 import com.me.bomb.AnimatedSpriteAnimator;
-import com.me.controlers.ActionController;
 import com.me.controlers.actions.ActivateBombAction;
 import com.me.controlers.actions.PutBombAction;
 import com.me.minebomber.MemoryManager;
+import com.me.minebomber.MineBomber;
 import com.me.minebomber.Settings;
 
 import java.util.Calendar;
@@ -44,7 +44,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
         if (bomb != null) {
             bombList.add(bomb);
             PutBombAction take = MemoryManager.take(PutBombAction.class).update(this, Calendar.getInstance().getTime().getTime(), bomb);
-            ActionController.Add(take);
+            MineBomber.ActionController.Add(take);
         }
 
     }
@@ -53,7 +53,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
         if(mDie) return;
         long time=Calendar.getInstance().getTimeInMillis();
         ActivateBombAction take = MemoryManager.take(ActivateBombAction.class).update(this, time);
-        ActionController.Add(take);
+        MineBomber.ActionController.Add(take);
     }
 
     @Override

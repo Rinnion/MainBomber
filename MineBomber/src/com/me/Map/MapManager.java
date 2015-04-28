@@ -11,17 +11,17 @@ import com.me.Map.TiledMapLoader.Loader;
 import com.me.ObjectMaskHelper.Vector2I;
 import com.me.Players.AbstractPlayer;
 import com.me.Players.IPlayer;
-import com.me.Players.PlayerController;
 import com.me.TilesManager.Tile;
 import com.me.TilesManager.TileGroup;
 import com.me.TilesManager.Tiles;
 import com.me.Utility.IntArray;
+import com.me.Utility.IntegerQueue;
 import com.me.bomb.Vector2IDamage;
 import com.me.controlers.TreasureController;
 import com.me.controlers.treasure.SmallChestTreasure;
 import com.me.minebomber.AbstractGameObject;
-import com.me.minebomber.DrawManager;
 import com.me.minebomber.MemoryManager;
+import com.me.minebomber.MineBomber;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +37,7 @@ import java.util.List;
 public class MapManager {
 
     public static final int FIELD_CAPACITY = 16;
+    public static final IntegerQueue redrawArray2 = new IntegerQueue();
     public static MapProperty mapProperty;
     public static int maxCel;
     public static int maxRow;
@@ -58,20 +59,20 @@ public class MapManager {
     {
 
         MapInfo info = mapInfo[mapIndex];
-        //TilesInfo tile=  //mapTiles.get(info.GetId());
 
-        //Tile tile = info.mTile;
+        PixmapHelper.DrawPixmap(info.tile.miniTile[info.mPixmapIndex], info.mX, info.mY);
 
-
-        PixmapHelper.DrawPixmap(info.mTile.miniTile[info.mPixmapIndex], info.mX, info.mY);
         info.view = true;
-
 
     }
 
     public static void BindForeground()
     {
         PixmapHelper.Bind(mTextureForeground);
+    }
+
+    public static void Done() {
+        foreGroundBuffer.dispose();
     }
 
     public static void Initialize() {
@@ -81,7 +82,6 @@ public class MapManager {
         foreGroundBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, mapProperty.width, mapProperty.height, false);
         updateMapInfo(false, true);
 
-
         for (int i = 0; i < 100; i++) {
             int x = (int) (Math.random() * ((double) MapManager.maxCel));
             int y = (int) (Math.random() * ((double) MapManager.maxRow));
@@ -89,8 +89,8 @@ public class MapManager {
             TreasureController.Add(
                     MemoryManager.take(SmallChestTreasure.class).update(x, y)
             );
-
         }
+        redrawArray2.purge();
     }
 
     public static void beginRedrawViewMask(Vector2I[] mask, float sx, float sy) {
@@ -138,8 +138,7 @@ public class MapManager {
     }
 
     public static void applyDamage(long time) {
-        ArrayList<AbstractPlayer> players = PlayerController.players;
-
+        ArrayList<AbstractPlayer> players = MineBomber.PlayerController.players;
 
         final MapInfo[] mapInfos = mapInfo;
         final int[] fieldDamages = fieldDamage;
@@ -147,30 +146,24 @@ public class MapManager {
         final int[] indexArray = applyIndexDamage.getFullArray();
         final int count = applyIndexDamage.size();
 
-        boolean redraw = false;
 
         for (int index = 0; index < count; index++) {
-            redraw = false;
+            boolean redraw = false;
             int i = indexArray[index];
             MapInfo mapInfo = mapInfos[i];
             if (!mapInfo.view) redraw = true;
 
             if (fieldDamages[i] == 0 && fieldDigDamages[i] == 0) {
-                if (redraw) DrawManager.redrawArray2.push(i);
+                if (redraw) redrawArray2.push(i);
                 continue;
             }
 
-
             int life = mapInfo.life - fieldDamages[i] - fieldDigDamages[i];
 
-
             if (life < 0) {
-                //int mNextId = 0;
-                //int mId=mapInfo.mId;
-                Tile tile = mapInfo.mTile; //Tiles.GetTile(mId);
+                Tile tile = mapInfo.tile;
 
                 TileGroup curGroup = tile.group;
-
 
                 while (life < 0) {
                     TileGroup nextTileGroup = curGroup.next;
@@ -178,28 +171,21 @@ public class MapManager {
                     if (nextTileGroup == null)
                         throw new NullPointerException("nextTileGroup is null");
 
-                    life += nextTileGroup.life;   //mapTiles.get(mNextId).mLife;
-
+                    life += nextTileGroup.life;
 
                     if (nextTileGroup.id == tile.group.id) break;
                     tile = nextTileGroup.GetRandomTile();
                     redraw = true;
-                    //Log.d("random tile: " + tile.id);
-
-
-                    //tile = Tiles.GetTile(mId);
 
                     if (nextTileGroup.id == 0) break;
 
                 }
                 if (life < 0) life = 0;
 
-
-                mapInfo.SetInfo(tile, life, tile.group.canmove);
+                mapInfo.SetInfo(tile, life);
             } else {
                 mapInfo.life = life;
             }
-
 
             if (fieldDamages[i] > 0) {
                 for (AbstractGameObject ago : fieldObjects[i]) {
@@ -216,22 +202,17 @@ public class MapManager {
                     float mapY = mapInfo.mY;
                     float mapH = mapY + rowH;
 
-                    //  AbstractPlayer ap =(AbstractPlayer)bm;
-
-
                     if ((sx > mapX) && (sx < mapW) && (sy > mapY) && (sy < mapH)) {
                         bm.DealDamage(fieldDamages[i]);
                         //TODO add floating damage message
                         //TextManager.Add(fieldDamage[i] + "", Color.RED, bm.getX(), bm.getY());
                     }
                 }
-
             }
-
 
             fieldDamages[i] = 0;
             fieldDigDamages[i] = 0;
-            if (redraw) DrawManager.redrawArray2.push(i);
+            if (redraw) redrawArray2.push(i);
         }
 
         applyIndexDamage.clear();
@@ -245,16 +226,14 @@ public class MapManager {
     }
 
     static private void updateMapInfo(boolean flipX, boolean flipY) {
-        //MapLayers layers= mMap.getLayers();
 
         Tile tmpInfo;
-        //TiledMapTileLayer tilesLayer=(TiledMapTileLayer)layers.get(foreGroundIndex[0]);
 
-        int colCount = mapProperty.mapW;  //tilesLayer.getWidth();
-        int rowCount = mapProperty.mapH;  //tilesLayer.getHeight();
+        int colCount = mapProperty.mapW;
+        int rowCount = mapProperty.mapH;
 
-        int h = mapProperty.tileHeight; //(int)tilesLayer.getTileHeight();
-        int w = mapProperty.tileWidth; //(int)tilesLayer.getTileWidth();
+        int h = mapProperty.tileHeight;
+        int w = mapProperty.tileWidth;
 
         int stepY = h / rowH;
         int stepX = w / rowW;
@@ -275,7 +254,7 @@ public class MapManager {
         }
 
 
-        for (int col = 0; col < colCount; col++)
+        for (int col = 0; col < colCount; col++) {
             for (int row = 0; row < rowCount; row++) {
                 int fX = col;
                 int fY = row;
@@ -284,13 +263,7 @@ public class MapManager {
                 if (flipY)
                     fY = rowCount - row - 1;
 
-                //TiledMapTileLayer.Cell cell = tilesLayer.getCell(fX, fY);
-
-                //int id=Integer.parseInt((String) cell.getTile().getProperties().get("id"));
                 tmpInfo = mapProperty.foreGroundMap[fY * colCount + fX];
-
-                //tmpInfo=Tiles.GetTile(id); //mapTiles.get(id);
-
 
                 for (int iY = 0; iY < stepY; iY++)
                     for (int iX = 0; iX < stepX; iX++) {
@@ -304,30 +277,26 @@ public class MapManager {
 
 
                         mapInfo[index] = new MapInfo(index, tmpInfo, rowX, rowY, iY * stepX + iX, tmpInfo.group.life, tmpInfo.group.canmove);
-                    }    /**/
-
-
+                    }
             }
-
-
+        }
         Tiles.UpdateTilesPixmap(stepX, stepY, mapProperty);
-
-
-
-
     }
 
     static public void RedrawMap()
     {
-        DrawManager.RedrawAll();
+        BindForeground();
+        int pop;
+        do {
+            pop = redrawArray2.pop();
+            RedrawPixmap(pop);
+        } while (pop != 0);
     }
 
     static public void Refresh(Camera cam) {
 
         SpriteBatch batch = new SpriteBatch();
         batch.setProjectionMatrix(cam.combined);
-
-        //cam.viewportHeight
 
 
         foreGroundBuffer.begin();
@@ -339,7 +308,7 @@ public class MapManager {
             //mapInfo[i].GetId()
             Tile tile = mapProperty.foreGroundMap[i];
 
-            //Tile tmpTile=Tiles.GetTile(tmpMapInfo.GetId());
+            //tile tmpTile=Tiles.GetTile(tmpMapInfo.GetId());
 
             //Sprite tmpSprite=new Sprite(tmpTile.region.getTexture());
             //tmpSprite.draw(batch);

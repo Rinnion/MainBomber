@@ -19,7 +19,7 @@ public class Arsenal {
     HashMap<Integer, Integer> mArsenal = null;
 
     public Arsenal() {
-        mArsenal = new HashMap<Integer, Integer>();
+        mArsenal = new HashMap<>();
         sindex = 0;
 
         mArsenal.put(BombType.DYNAMITE, 50);

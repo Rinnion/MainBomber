@@ -19,37 +19,35 @@ import com.me.minebomber.Settings;
  */
 public class ArsenalInfo {
 
-    static TextureAtlas atlas=null;
+    static TextureAtlas atlas = null;
     static Pixmap pixmap;
     static Texture texture;
     static TextureRegion textureRegion;
     static Sprite spriteRegion;
     static Sprite sprite;
-    final int stepX=1;
-    final int stepY=1;
-    final Vector2I activBox=new Vector2I(20,20);
-    final Vector2I deactivatedBox=new Vector2I(10,10);
-    final Vector2I pixMapSize=new Vector2I(activBox.x+deactivatedBox.x*2,activBox.y );
+    final int stepX = 1;
+    final int stepY = 1;
+    final Vector2I activBox = new Vector2I(20, 20);
+    final Vector2I deactivatedBox = new Vector2I(10, 10);
+    final Vector2I pixMapSize = new Vector2I(activBox.x + deactivatedBox.x * 2, activBox.y);
     public boolean isVisible = false;
     AbstractPlayer owner;
     Vector2I leftBoxCenter;
     Vector2I centerBoxCenter;
     Vector2I rightBoxCenter;
-    float alpha=1;
-    boolean beginDoitInvisible = false;
-    private DelayTimer mFlashTimer =new DelayTimer(100);
-    private DelayTimer mDisableTimeout=new DelayTimer(1000,false);
+    float alpha = 1;
+    boolean beginDoItInvisible = false;
+    private DelayTimer mFlashTimer = new DelayTimer(100);
+    private DelayTimer mDisableTimeout = new DelayTimer(1000, false);
 
 
-    public ArsenalInfo(AbstractPlayer owner)
-    {
-        if(atlas==null) {
+    public ArsenalInfo(AbstractPlayer owner) {
+        if (true) {
             atlas = AssetLoader.GetAtlas(Settings.BOMB_DYNAMITE);
 
             textureRegion = atlas.findRegion(BombType.ATLAS[0]);
 
             spriteRegion = new Sprite(textureRegion);
-
 
             spriteRegion.setRegion(textureRegion);
 
@@ -57,21 +55,18 @@ public class ArsenalInfo {
 
             spriteRegion.flip(false, true);
 
-
             createPixmapPanel();
-
 
             texture = new Texture(pixmap);
 
             sprite = new Sprite(texture);
             sprite.flip(false, true);
-        }
-        else {
+        } else {
             leftBoxCenter = new Vector2I(deactivatedBox.x / 2, pixMapSize.y / 2);
             centerBoxCenter = new Vector2I(pixMapSize.x / 2, pixMapSize.y / 2);
             rightBoxCenter = new Vector2I((pixMapSize.x - deactivatedBox.x / 2), pixMapSize.y / 2);
         }
-            this.owner = owner;
+        this.owner = owner;
 
     }
 
@@ -99,69 +94,61 @@ public class ArsenalInfo {
         //pixmap.drawRectangle(0,0,pixmap.getWidth(),pixmap.getHeight());
     }
 
-    public void DoItVisible()
-    {
-        alpha=1;
-        beginDoitInvisible=false;
-       mDisableTimeout.Restart();
+    public void DoItVisible() {
+        alpha = 1;
+        beginDoItInvisible = false;
+        mDisableTimeout.Restart();
 
-        isVisible=true;
+        isVisible = true;
     }
 
 
-
-
-    public void Render(Batch batch)
-    {
-        if(isVisible==false)
+    public void Render(Batch batch) {
+        if (isVisible == false)
             return;
 
-        int x=(int)owner.X;
-        int y=(int)owner.Y;
+        int x = (int) owner.X;
+        int y = (int) owner.Y;
         //FIXME: magic constants :)
-        int h=32;
-        int w=32;
-        x=(x+w/2)-pixmap.getWidth()/2;
+        int h = 32;
+        int w = 32;
+        x = (x + w / 2) - pixmap.getWidth() / 2;
 
 
-        if(y-pixMapSize.y<=0)
-            y+=h;
+        if (y - pixMapSize.y <= 0)
+            y += h;
         else
-            y-=pixMapSize.y+5;
+            y -= pixMapSize.y + 5;
 
-        sprite.setPosition(x,y);
+        sprite.setPosition(x, y);
 
-        sprite.draw(batch,alpha);
+        sprite.draw(batch, alpha);
 
-        if(mDisableTimeout.CheckTimeOut())
-        {
-            beginDoitInvisible=true;
+        if (mDisableTimeout.CheckTimeOut()) {
+            beginDoItInvisible = true;
         }
 
 
+        int index1 = owner.arsenal.getFirstWeapon(owner.arsenal.sindex - 1);
+        int index2 = owner.arsenal.getFirstWeapon(owner.arsenal.sindex);
+        int index3 = owner.arsenal.getFirstWeapon(owner.arsenal.sindex + 1);
 
 
-        int index1=owner.arsenal.getFirstWeapon(owner.arsenal.sindex - 1);
-        int index2=owner.arsenal.getFirstWeapon(owner.arsenal.sindex);
-        int index3=owner.arsenal.getFirstWeapon(owner.arsenal.sindex + 1);
+        if ((index1 != -1) && (index1 != index2) && (index1 != index3))
+            drawElement(batch, x + leftBoxCenter.x, y + leftBoxCenter.y, index1, 8, 8);
+        if (index2 != -1)
+            drawElement(batch, x + centerBoxCenter.x, y + centerBoxCenter.y, index2, 10, 10);
+        if ((index3 != -1) && (index3 != index2) && (index3 != index1))
+            drawElement(batch, x + rightBoxCenter.x, y + rightBoxCenter.y, index3, 8, 8);
 
 
-        if((index1!=-1)&&(index1!=index2)&&(index1!=index3))
-        drawElement(batch,x+leftBoxCenter.x,y+leftBoxCenter.y,index1,8,8);
-        if(index2!=-1)
-        drawElement(batch,x+centerBoxCenter.x,y+centerBoxCenter.y,index2,10,10);
-        if((index3!=-1)&&(index3!=index2)&&(index3!=index1))
-        drawElement(batch,x+rightBoxCenter.x,y+rightBoxCenter.y,index3,8,8);
-
-
-
-        if(mFlashTimer.CheckTimeOut()) {
-            if(beginDoitInvisible) {
+        if (mFlashTimer.CheckTimeOut()) {
+            if (beginDoItInvisible) {
                 alpha -= 0.05f;
-             if(alpha<0) {
-                 alpha = 0;
-                 isVisible=true;
-             }
+                if (alpha < 0) {
+                    alpha = 0;
+                    isVisible = true;
+                }
             }
 
         }
@@ -172,15 +159,15 @@ public class ArsenalInfo {
 
     }
 
-    private void drawElement(Batch batch, int x, int y, int type,int w,int h) {
+    private void drawElement(Batch batch, int x, int y, int type, int w, int h) {
 
-        textureRegion=atlas.findRegion(BombType.ATLAS[type]);
+        textureRegion = atlas.findRegion(BombType.ATLAS[type]);
         spriteRegion.setRegion(textureRegion);
-        spriteRegion.flip(false,true);
-        spriteRegion.setSize(w,h);
+        spriteRegion.flip(false, true);
+        spriteRegion.setSize(w, h);
 
-        spriteRegion.setPosition(x-w/2,y-h/2);
-        spriteRegion.draw(batch,alpha);
+        spriteRegion.setPosition(x - w / 2, y - h / 2);
+        spriteRegion.draw(batch, alpha);
     }
 
 

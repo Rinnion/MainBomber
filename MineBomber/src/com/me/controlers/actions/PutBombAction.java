@@ -6,6 +6,7 @@ import com.me.Utility.RecyclableObject;
 import com.me.bomb.AbstractBomb;
 import com.me.controlers.ActionController;
 import com.me.controlers.GameObjectController;
+import com.me.minebomber.MineBomber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +30,7 @@ public class PutBombAction extends RecyclableObject
     @Override
     public void Calculate(long time) {
         logger.trace("PutBombAction: {}", obj.toString());
-        GameObjectController.Add(obj);
+        MineBomber.GameObjectController.Add(obj);
         obj.activator.Calculate(time);
     }
 

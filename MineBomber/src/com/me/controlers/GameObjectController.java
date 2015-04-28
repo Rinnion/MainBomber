@@ -16,12 +16,13 @@ import java.util.ConcurrentModificationException;
  */
 public class GameObjectController {
 
-    public static final int DEF_MAX_OBJECT = 10000;
-    private static final ArrayList<AbstractGameObject> objects = new ArrayList<AbstractGameObject>(DEF_MAX_OBJECT);
-    private static final ArrayList<AbstractGameObject> bombToRemove = new ArrayList<AbstractGameObject>(DEF_MAX_OBJECT);
     static Logger logger = LoggerFactory.getLogger(GameObjectController.class);
 
-    public static void Render(SpriteBatch batch) {
+    public final int DEF_MAX_OBJECT = 10000;
+    private final ArrayList<AbstractGameObject> objects = new ArrayList<>(DEF_MAX_OBJECT);
+    private final ArrayList<AbstractGameObject> bombToRemove = new ArrayList<>(DEF_MAX_OBJECT);
+
+    public void Render(SpriteBatch batch) {
 
         AbstractGameObject obj;
 
@@ -37,7 +38,7 @@ public class GameObjectController {
         }
     }
 
-    public static boolean isRoom(Vector2 position) {
+    public boolean isRoom(Vector2 position) {
         int x = (int) position.x / MapManager.rowW;
         int y = (int) position.y / MapManager.rowH;
         int index = y * MapManager.maxCel + x;
@@ -49,7 +50,7 @@ public class GameObjectController {
         return true;
     }
 
-    public static void calculate(long time) {
+    public void calculate(long time) {
 
         for (AbstractGameObject obj : objects) {
             if (obj.calculate(time))
@@ -64,7 +65,7 @@ public class GameObjectController {
         bombToRemove.clear();
     }
 
-    public static void Add(AbstractGameObject ago) {
+    public void Add(AbstractGameObject ago) {
         objects.add(ago);
         MapManager.fieldObjects[ago.getIndex()].add(ago);
     }

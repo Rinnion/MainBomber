@@ -33,4 +33,9 @@ public class IntegerQueue {
         ++consumed;
         return obj;
     }
+
+    public void purge() {
+        consumed = produced;
+    }
+
 }

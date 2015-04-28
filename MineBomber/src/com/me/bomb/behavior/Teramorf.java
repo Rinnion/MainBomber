@@ -7,7 +7,6 @@ import com.me.TilesManager.Tile;
 import com.me.TilesManager.Tiles;
 import com.me.Utility.RecyclableArray;
 import com.me.bomb.AbstractBomb;
-import com.me.minebomber.DrawManager;
 
 /**
  * Created by alekseev on 18.09.2014.
@@ -63,10 +62,10 @@ public class Teramorf extends RecyclableBehavior implements IBehavior {
         for (int i = 0; i < xycount; i++) {
             index = cy[i] * MapManager.maxCel + cx[i];
 
-            if (mapInfo[index].mTile.group.id != 0) continue;
+            if (mapInfo[index].tile.group.id != 0) continue;
 
-            mapInfo[index].SetInfo(tile, tile.group.life, false);
-            DrawManager.redrawArray2.push(index);
+            mapInfo[index].SetInfo(tile, tile.group.life);
+            MapManager.redrawArray2.push(index);
 
             tx[txycount] = cx[i] + 1;
             ty[txycount] = cy[i];

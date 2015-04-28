@@ -107,6 +107,10 @@ public  class ParticleManager {
 
     }
 
+    public static void Done() {
+        dispose();
+    }
+
     private void Start(float x, float y, IParticleCallback callback) {
         isFree = false;
         pEffect.setPosition(x, y);

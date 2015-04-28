@@ -34,23 +34,22 @@ public class Loader implements IMap {
         loadMap();
     }
 
-    private void loadMapProperty()
-    {
-        mapProperty=new MapProperty();
+    private void loadMapProperty() {
+        mapProperty = new MapProperty();
 
-        int mapH=Integer.parseInt(tiledMap.getProperties().get("height").toString());
-        int mapW=Integer.parseInt(tiledMap.getProperties().get("width").toString());
-        int tileheight=Integer.parseInt(tiledMap.getProperties().get("tileheight").toString());
-        int tilewidth=Integer.parseInt(tiledMap.getProperties().get("tilewidth").toString());
+        int mapH = Integer.parseInt(tiledMap.getProperties().get("height").toString());
+        int mapW = Integer.parseInt(tiledMap.getProperties().get("width").toString());
+        int tileheight = Integer.parseInt(tiledMap.getProperties().get("tileheight").toString());
+        int tilewidth = Integer.parseInt(tiledMap.getProperties().get("tilewidth").toString());
 
-        mapProperty.mapH=mapH;
-        mapProperty.mapW=mapW;
+        mapProperty.mapH = mapH;
+        mapProperty.mapW = mapW;
 
-        mapProperty.tileHeight =tileheight;
-        mapProperty.tileWidth=tilewidth;
+        mapProperty.tileHeight = tileheight;
+        mapProperty.tileWidth = tilewidth;
 
-        mapProperty.width=mapW*tilewidth;
-        mapProperty.height=mapH*tileheight;
+        mapProperty.width = mapW * tilewidth;
+        mapProperty.height = mapH * tileheight;
 
     }
 

@@ -73,4 +73,7 @@ public class TextManager {
         }
     }
 
+    public static void Done() {
+        pool = null;
+    }
 }

@@ -5,20 +5,19 @@ package com.me.Utility;
 public class DelayTimer {
 	private long mPrevTime=-1;
 	private long mDelay=0;
-	private long getTimeMillis()
-	{
-		return System.currentTimeMillis(); 
-	}
 	public DelayTimer(int delayinmilisecond)
 	{
 		mDelay=delayinmilisecond;
 	}
-	
 	public DelayTimer(int delayinmilisecond,boolean autoStart)
 	{
 		mDelay=delayinmilisecond;
 		if(autoStart==true)
 			Reset();
+	}
+
+	private long getTimeMillis() {
+		return System.currentTimeMillis();
 	}
 	
 	public boolean CheckTimeOut()
@@ -26,7 +25,6 @@ public class DelayTimer {
 		 
 		if(mPrevTime==-1)
 		{
-			//mPrevTime=getTimeMillis();
 			Reset();
 			return false;
 		}

@@ -30,4 +30,9 @@ public class TextFont {
             bitmapFont.draw(batch, text, x, y);
         }
     }
+
+    public static void Done() {
+        bitmapFont.dispose();
+        ;
+    }
 }

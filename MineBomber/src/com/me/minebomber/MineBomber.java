@@ -13,7 +13,7 @@ import com.me.TextManager.IText;
 import com.me.TextManager.TextFont;
 import com.me.TextManager.TextManager;
 import com.me.TextManager.TextOut;
-import com.me.TilesManager.TilesLoader;
+import com.me.TilesManager.Tiles;
 import com.me.Utility.RollingQueue;
 import com.me.controlers.ActionController;
 import com.me.controlers.GameObjectController;
@@ -29,6 +29,9 @@ import java.util.TimerTask;
  */
 
 public class MineBomber {
+    public static GameObjectController GameObjectController;
+    public static PlayerController PlayerController;
+    public static ActionController ActionController;
     static OrthographicCamera camera;
     private static long scheduleDtStart;
     private static long scheduleDtBomb;
@@ -62,8 +65,6 @@ public class MineBomber {
     }
 
     private static void Calculate() {
-        Runnable pop = Jobs.pop();
-        if (pop != null) pop.run();
 
         logger.trace("logic in");
         logger.info("Logic frame: {}", logicFrame++);
@@ -85,6 +86,9 @@ public class MineBomber {
         if (diff > 50)
             logger.error("########## LOGIC TIME > {} ({}) !!! ##########", 50, diff);
         logger.trace("logic out");
+
+        Runnable pop = Jobs.pop();
+        if (pop != null) pop.run();
     }
 
     public static void Done() {
@@ -93,6 +97,25 @@ public class MineBomber {
             timer.cancel();
             timer = null;
         }
+
+        doneGraphic();
+        PlayerController.Done();
+        ParticleManager.Done();
+        MapManager.Done();
+        GameObjectController = null;
+        PlayerController = null;
+        ActionController = null;
+        MemoryManager.Done();
+        TextFont.Done();
+        debug = null;
+        TextManager.Done();
+        Tiles.Loader.Unload();
+        Assets.UnloadAll();
+        isInitialized = false;
+        System.gc();
+    }
+
+    private static void doneGraphic() {
         batch.dispose();
     }
 
@@ -103,10 +126,11 @@ public class MineBomber {
         logicFrame = 0;
 
         logger.info("MineBomber");
-        logger.debug("Prepare textures and assets files");
-        PrepareAssetsFiles.Prepare();
-        logger.debug("Initialize tiles from XML");
-        TilesLoader.Initialize();
+        logger.debug("LoadAll textures and assets files");
+        Assets.LoadAll();
+
+        logger.debug("Load tiles from XML");
+        Tiles.Loader.Load();
 
         logger.debug("Initialize TextManager");
         TextManager.Initialize();
@@ -118,6 +142,11 @@ public class MineBomber {
 
         logger.debug("Initialize Memory");
         MemoryManager.Initialize();
+
+        GameObjectController = new GameObjectController();
+        PlayerController = new PlayerController();
+        ActionController = new ActionController();
+
         logger.debug("Initialize MapManager");
         MapManager.Initialize();
 
@@ -144,6 +173,7 @@ public class MineBomber {
     }
 
     public static void render(Rectangle viewPort) {
+        //if (!isInitialized) return;
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glViewport((int) viewPort.getX(), (int) viewPort.getY(), (int) viewPort.getWidth(), (int) viewPort.getHeight());
 
@@ -170,5 +200,25 @@ public class MineBomber {
 
         PlayerController.AfterBatch(camera.combined);
 
+    }
+
+    public static void finishRound() {
+        Gdx.app.postRunnable(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        MineBomberApplication.getFSM().doIt(MineBomberApplication.Inputs.close);
+                    }
+                });
+    }
+
+    public static void startGame() {
+        Gdx.app.postRunnable(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        MineBomberApplication.getFSM().doIt(MineBomberApplication.Inputs.start);
+                    }
+                });
     }
 }

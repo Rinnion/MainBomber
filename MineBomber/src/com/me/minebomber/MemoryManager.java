@@ -29,6 +29,11 @@ public class MemoryManager {
         hm.put(cls, new RecyclableArray(cls, count));
     }
 
+    public static void Done() {
+        hm.clear();
+        hm = null;
+    }
+
     public static void Initialize()
     {
         hm = new HashMap<>();
@@ -107,7 +112,7 @@ public class MemoryManager {
 //            throw new IllegalArgumentException(String.format("Class '%s' must have nested staticclass implementing of '%s'", cls.getCanonicalName(), RecyclableArray.Factory.class));
 //    }
 //
-//    public static void Initialize()
+//    public static void Load()
 //    {
 //        hm = new HashMap<>();
 //        RegisterClass(ActivateBombAction.class, 100);
