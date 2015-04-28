@@ -6,12 +6,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.me.Map.MapManager;
 import com.me.Map.MapProperty;
 import com.me.Map.PixmapHelper;
-import com.me.minebomber.Initializer;
 import com.me.minebomber.Settings;
-import com.sun.xml.internal.ws.api.config.management.policy.ManagementAssertion;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by alekseev on 09.09.2014.

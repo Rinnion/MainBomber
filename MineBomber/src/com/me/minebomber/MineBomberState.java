@@ -1,5 +1,6 @@
 package com.me.minebomber;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.me.fsm.StateImpl;
 
 /**
@@ -10,7 +11,7 @@ public class MineBomberState extends StateImpl {
         super(name);
     }
 
-    public void render() {
+    public void render(Rectangle viewPort) {
 
     }
 }

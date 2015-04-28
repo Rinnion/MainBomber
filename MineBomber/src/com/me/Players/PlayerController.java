@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.me.Graphics.ShapeProgressBar;
-import com.me.minebomber.MineBomber;
+import com.me.minebomber.MineBomberApplication;
 
 import java.util.ArrayList;
 
@@ -105,7 +105,7 @@ public class PlayerController {
         if (alive == 1) Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                MineBomber.getFSM().doIt(MineBomber.Inputs.close);
+                MineBomberApplication.getFSM().doIt(MineBomberApplication.Inputs.close);
             }
         });
     }

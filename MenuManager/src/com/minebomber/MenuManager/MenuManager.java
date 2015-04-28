@@ -1,8 +1,10 @@
 package com.minebomber.MenuManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.menuengine.JsonMenu;
@@ -128,8 +130,6 @@ public class MenuManager {
     {
         //FIXME: load data
         Assets.queueLoading();
-        Assets.manager.finishLoading();
-        Assets.setMenuSkin();
         mSkin=Assets.menuSkin;
         setCamera(new MenuCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
         jsonMenu=jsonMenu.createMenu();
@@ -165,12 +165,12 @@ public class MenuManager {
         camera=curCamera;
     }
 
-
-    public static void Draw()
+    public static void Draw(Rectangle viewPort)
     {
-        //btMenu.UpdateList(new String[]{"hello"});
-        stage.act(Gdx.graphics.getDeltaTime());
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glViewport((int) viewPort.getX(), (int) viewPort.getY(), (int) viewPort.getWidth(), (int) viewPort.getHeight());
 
+        stage.act(Gdx.graphics.getDeltaTime());
 
         stage.draw();
         Batch batch=stage.getBatch();
@@ -180,14 +180,10 @@ public class MenuManager {
         animatedSprite.setPosition(0,0);
         animatedSprite.draw(batch);
         for(int i=0;i<10;i++) {
-
             animatedSprite.setPosition(i*animatedSprite.getWidth(),20);
             animatedSprite.DrawSprite(batch);
-
             animatedSprite.setPosition(i*animatedSprite.getWidth()-10,0);
-
             animatedSprite.DrawSprite(batch);
-
         }
         batch.end();
     }

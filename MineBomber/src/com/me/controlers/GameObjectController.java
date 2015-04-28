@@ -37,7 +37,6 @@ public class GameObjectController {
         }
     }
 
-
     public static boolean isRoom(Vector2 position) {
         int x = (int) position.x / MapManager.rowW;
         int y = (int) position.y / MapManager.rowH;

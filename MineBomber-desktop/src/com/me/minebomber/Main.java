@@ -16,6 +16,6 @@ public class Main {
         cfg.vSyncEnabled=true;
          //cfg.samples=8;
 
-		new LwjglApplication(new MineBomber(), cfg);
+		new LwjglApplication(new MineBomberApplication(), cfg);
 	}
 }
