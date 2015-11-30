@@ -3,8 +3,6 @@ package com.me.bomb.activator;
 import com.me.Utility.RecyclableArray;
 import com.me.bomb.AbstractBomb;
 
-import java.util.Calendar;
-
 public class TimeActivator extends RecyclableActivator implements IActivator {
     public static final long DEFAULT_TIME = 3000;
     public static final long CASUAL_MIN_TIME = 500;
@@ -28,8 +26,8 @@ public class TimeActivator extends RecyclableActivator implements IActivator {
     }
 
     @Override
-    public void Calculate(long time) {
-        bomb.ActivationTime = Calendar.getInstance().getTimeInMillis() + this.time;
+    public boolean logic(long time) {
+        return time >= this.time;
     }
 
     @Override

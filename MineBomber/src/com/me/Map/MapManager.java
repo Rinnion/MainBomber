@@ -190,7 +190,7 @@ public class MapManager {
             if (fieldDamages[i] > 0) {
                 for (AbstractGameObject ago : fieldObjects[i]) {
                     //FIXME: should send which player
-                    ago.applyDamage(null, fieldDamages[i], time);
+                    ago.damage(null, fieldDamages[i], time);
                 }
 
                 for (AbstractPlayer bm : players) {

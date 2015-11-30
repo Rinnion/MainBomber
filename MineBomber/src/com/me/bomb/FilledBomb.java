@@ -6,6 +6,8 @@ import com.me.bomb.activator.TimeActivator;
 import com.me.bomb.behavior.Teramorf;
 import com.me.minebomber.MemoryManager;
 
+import java.util.Calendar;
+
 
 /**
  * Created by alekseev on 27.03.2014.
@@ -22,7 +24,7 @@ public class FilledBomb extends AbstractBomb {
         super.update(player, x, y, animatedSprite);
 
         behavior = MemoryManager.take(Teramorf.class).update(x, y, 81);
-        activator = MemoryManager.take(TimeActivator.class).update(this, 3000);
+        activator = MemoryManager.take(TimeActivator.class).update(this, Calendar.getInstance().getTimeInMillis() + 3000);
 
         return this;
     }

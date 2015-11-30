@@ -6,6 +6,8 @@ import com.me.bomb.activator.TimeActivator;
 import com.me.bomb.behavior.CircleExplosion;
 import com.me.minebomber.MemoryManager;
 
+import java.util.Calendar;
+
 
 /**
  * Created by alekseev on 27.03.2014.
@@ -21,7 +23,7 @@ public class Dynamite extends AbstractBomb {
         super.update(player, x, y, animatedSprite);
 
         behavior = MemoryManager.take(CircleExplosion.class).update(100, 200, 24);
-        activator = MemoryManager.take(TimeActivator.class).update(this, activationTime);
+        activator = MemoryManager.take(TimeActivator.class).update(this, Calendar.getInstance().getTimeInMillis() + activationTime);
 
         return this;
     }

@@ -55,7 +55,7 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
         bomb.position.x = newX;
         bomb.position.y = newY;
         bomb.setActivator(MemoryManager.take(RandomTimeActivator.class).update(bomb));
-        bomb.activator.Calculate(time);
+        bomb.activator.logic(time);
         explosion.update();
 
         //Do not remove bomb from field

@@ -41,7 +41,7 @@ public class MemoryManager {
         RegisterClass(PutBombAction.class, 100);
 
         RegisterClass(RandomBomb.class, 100);
-        RegisterClass(DestBomb.class, 100);
+        RegisterClass(RemoteBomb.class, 100);
         RegisterClass(Dynamite.class, 100);
         RegisterClass(FastFilledBomb.class, 100);
         RegisterClass(FilledBomb.class, 100);

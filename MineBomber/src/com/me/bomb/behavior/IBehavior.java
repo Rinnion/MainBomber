@@ -7,5 +7,8 @@ import com.me.bomb.AbstractBomb;
  */
 public interface IBehavior {
     boolean detonate(AbstractBomb bomb, long time);
+    //boolean damage(AbstractBomb bomb,IPlayer who, int dmg, long time);
+    //boolean take(AbstractBomb bomb,IPlayer who, long time);
+    //boolean dig(AbstractBomb bomb,IPlayer who, long time);
 
 }

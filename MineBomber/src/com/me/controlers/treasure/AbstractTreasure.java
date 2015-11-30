@@ -22,7 +22,7 @@ public abstract class AbstractTreasure extends AbstractGameObject {
     }
 
     @Override
-    public void applyDamage(IPlayer who, int dmg, long time) {
+    public void damage(IPlayer who, int dmg, long time) {
         vanish();
     }
 
@@ -33,11 +33,11 @@ public abstract class AbstractTreasure extends AbstractGameObject {
     }
 
     @Override
-    public void applyDig(IPlayer who, long time) {
+    public void dig(IPlayer who, long time) {
     }
 
     @Override
-    public boolean calculate(long time) {
+    public boolean logic(long time) {
         return collected;
     }
 

@@ -111,7 +111,7 @@ public class Arsenal {
                 bomb = MemoryManager.take(Dynamite.class).update(player, x, y, TimeActivator.DEFAULT_TIME);
                 break;
             case BombType.DESTINATION:
-                bomb = MemoryManager.take(DestBomb.class).update(player, x, y);
+                bomb = MemoryManager.take(RemoteBomb.class).update(player, x, y);
                 break;
             case BombType.RANDOM:
                 bomb = MemoryManager.take(RandomBomb.class).update(player, x, y, JumpBehavior.DEFAULT_JUMPS, JumpBehavior.DEFAULT_RADIUS);

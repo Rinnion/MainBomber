@@ -15,7 +15,7 @@ public abstract class AbstractBomb extends AbstractGameObject {
     public RecyclableBehavior behavior = null;
     public RecyclableActivator activator = null;
 
-    public long ActivationTime = Long.MAX_VALUE;
+    public boolean activated = false;
 
     public AbstractBomb(RecyclableArray array) {
         super(array);
@@ -23,11 +23,14 @@ public abstract class AbstractBomb extends AbstractGameObject {
 
     public void update(IPlayer player, int x, int y, AnimatedSprite animatedSprite) {
         super.update(player, x, y, 1, animatedSprite);
+        activated = false;
     }
 
     @Override
-    public void applyDamage(IPlayer who, int dmg, long time) {
-        detonate(time);
+    public void damage(IPlayer who, int dmg, long time) {
+//        behavior.damage(this, who, dmg, time);
+//        ActivationTime = time;
+        activated = true;
         life -= dmg;
     }
 
@@ -37,24 +40,14 @@ public abstract class AbstractBomb extends AbstractGameObject {
     }
 
     @Override
-    public void applyDig(IPlayer who, long time) {
-        digdamage(time);
+    public void dig(IPlayer who, long time) {
     }
 
     @Override
-    public boolean calculate(long time) {
-        //TODO algorithm for checking activation
-        //if active then detonate
-        if (ActivationTime > time) return false;
+    public boolean logic(long time) {
+        activated = activated | activator.logic(time);
+        if (!activated) return false;
         return behavior.detonate(this, time);
-    }
-
-    public void detonate(long time) {
-        ActivationTime = time;
-    }
-
-    public void digdamage(long time) {
-
     }
 
     @Override

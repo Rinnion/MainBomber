@@ -143,7 +143,7 @@ public abstract class AbstractPlayer implements IPlayer {
     @Override
     public void activateBombs(long time) {
         for (DestinationActivator act : activators) {
-            act.Activate(time);
+            act.Activate();
         }
     }
 

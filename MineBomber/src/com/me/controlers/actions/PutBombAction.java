@@ -5,7 +5,6 @@ import com.me.Utility.RecyclableArray;
 import com.me.Utility.RecyclableObject;
 import com.me.bomb.AbstractBomb;
 import com.me.controlers.ActionController;
-import com.me.controlers.GameObjectController;
 import com.me.minebomber.MineBomber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,7 @@ public class PutBombAction extends RecyclableObject
     public void Calculate(long time) {
         logger.trace("PutBombAction: {}", obj.toString());
         MineBomber.GameObjectController.Add(obj);
-        obj.activator.Calculate(time);
+        obj.activator.logic(time);
     }
 
     public PutBombAction update(IPlayer player, long time, AbstractBomb bomb) {

@@ -1,28 +1,29 @@
 package com.me.bomb.activator;
 
 import com.me.Utility.RecyclableArray;
-import com.me.bomb.DestBomb;
+import com.me.bomb.RemoteBomb;
 
 public class DestinationActivator extends RecyclableActivator implements IActivator {
-    private DestBomb bomb;
+    private RemoteBomb bomb;
+    private boolean activated;
 
     public DestinationActivator(RecyclableArray array) {
         super(array);
     }
 
-    public DestinationActivator update(DestBomb bomb) {
+    public DestinationActivator update(RemoteBomb bomb) {
         this.bomb = bomb;
+        activated = false;
         return this;
     }
 
     @Override
-    public void Calculate(long time) {
-        bomb.getOwner().addActivator(this);
+    public boolean logic(long time) {
+        return activated;
     }
 
-    public boolean Activate(long time) {
-        bomb.ActivationTime = time;
-        return true;
+    public void Activate() {
+        activated = true;
     }
 
     @Override

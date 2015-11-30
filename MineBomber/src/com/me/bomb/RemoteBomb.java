@@ -11,7 +11,7 @@ import com.me.minebomber.MemoryManager;
 /**
  * Created by alekseev on 27.03.2014.
  */
-public class DestBomb extends AbstractBomb {
+public class RemoteBomb extends AbstractBomb {
 
     private static AnimatedSprite animatedSprite=null;
     private static Sprite sprite = null;
@@ -23,11 +23,11 @@ public class DestBomb extends AbstractBomb {
         }
     }
 
-    public DestBomb(RecyclableArray array) {
+    public RemoteBomb(RecyclableArray array) {
         super(array);
     }
 
-    public DestBomb update(IPlayer player, int x, int y) {
+    public RemoteBomb update(IPlayer player, int x, int y) {
         super.update(player, x, y, animatedSprite);
 
         behavior = MemoryManager.take(CircleExplosion.class).update(100, 200, 20);

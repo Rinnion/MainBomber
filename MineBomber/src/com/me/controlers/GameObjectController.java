@@ -53,7 +53,7 @@ public class GameObjectController {
     public void calculate(long time) {
 
         for (AbstractGameObject obj : objects) {
-            if (obj.calculate(time))
+            if (obj.logic(time))
                 bombToRemove.add(obj);
         }
 
