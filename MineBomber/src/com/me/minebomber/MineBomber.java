@@ -67,7 +67,7 @@ public class MineBomber {
     private static void Calculate() {
 
         logger.trace("logic in");
-        logger.info("Logic frame: {}", logicFrame++);
+        logger.debug("Logic frame: {}", logicFrame++);
         scheduleDtStart = Calendar.getInstance().getTimeInMillis();
         GameObjectController.calculate(scheduleDtStart);
 

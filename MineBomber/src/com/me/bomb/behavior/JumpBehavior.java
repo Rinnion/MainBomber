@@ -4,6 +4,7 @@ import com.me.Map.MapManager;
 import com.me.Utility.RecyclableArray;
 import com.me.bomb.AbstractBomb;
 import com.me.bomb.activator.RandomTimeActivator;
+import com.me.controlers.actions.PutBombAction;
 import com.me.minebomber.MemoryManager;
 
 /**
@@ -38,9 +39,8 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
     public boolean detonate(AbstractBomb bomb, long time) {
         explosion.detonate(bomb, time);
 
-        //Exit if this is the last jump
-        if (jumps == 1) return true;
-        jumps--;
+        //Exit if this is last jump;
+        if (--jumps == 0) return true;
 
         int dXInt = ((int) (Math.random() * radius * 2)) - radius;
         int dYInt = ((int) (Math.random() * radius * 2)) - radius;
@@ -54,8 +54,11 @@ public class JumpBehavior extends RecyclableBehavior implements IBehavior {
 
         bomb.position.x = newX;
         bomb.position.y = newY;
+
         bomb.setActivator(MemoryManager.take(RandomTimeActivator.class).update(bomb));
-        bomb.activator.logic(time);
+        //add putbomb action
+        MapManager.fieldObjects[bomb.getIndex()].remove(bomb);
+        MemoryManager.take(PutBombAction.class).update(bomb.getOwner(), time, bomb);
         explosion.update();
 
         //Do not remove bomb from field

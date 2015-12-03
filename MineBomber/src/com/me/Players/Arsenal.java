@@ -22,8 +22,9 @@ public class Arsenal {
         mArsenal = new HashMap<>();
         sindex = 0;
 
-        mArsenal.put(BombType.DYNAMITE, 50);
-        mArsenal.put(BombType.RANDOM, 50);
+        mArsenal.put(BombType.FAST_FILLED, 50);
+        //mArsenal.put(BombType.DYNAMITE, 50);
+        //mArsenal.put(BombType.RANDOM, 50);
         //mArsenal.put(2,5);
         //mArsenal.put(1,5);
     }
@@ -116,9 +117,9 @@ public class Arsenal {
             case BombType.RANDOM:
                 bomb = MemoryManager.take(RandomBomb.class).update(player, x, y, JumpBehavior.DEFAULT_JUMPS, JumpBehavior.DEFAULT_RADIUS);
                 break;
-            case BombType.PUNCH_TERA:
-                bomb = MemoryManager.take(PunchTeraStone.class).update(player, x, y);
-                break;
+            //case BombType.PUNCH_TERA:
+            //    bomb = MemoryManager.take(PunchTeraStone.class).update(player, x, y);
+            //    break;
             case BombType.FAST_FILLED:
                 bomb = MemoryManager.take(FastFilledBomb.class).update(player, x, y);
                 break;

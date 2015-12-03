@@ -6,15 +6,17 @@ import com.me.bomb.activator.RandomTimeActivator;
 import com.me.bomb.activator.RecyclableActivator;
 import com.me.bomb.behavior.RecyclableBehavior;
 import com.me.minebomber.AbstractGameObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by tretyakov on 09.04.2014.
  *
  */
 public abstract class AbstractBomb extends AbstractGameObject {
+    private static Logger logger = LoggerFactory.getLogger(AbstractBomb.class);
     public RecyclableBehavior behavior = null;
     public RecyclableActivator activator = null;
-
     public boolean activated = false;
 
     public AbstractBomb(RecyclableArray array) {
@@ -28,8 +30,7 @@ public abstract class AbstractBomb extends AbstractGameObject {
 
     @Override
     public void damage(IPlayer who, int dmg, long time) {
-//        behavior.damage(this, who, dmg, time);
-//        ActivationTime = time;
+        logger.debug("{} damaged [who:{}] [dmg:{}] [time:{}]", this, who, dmg, time);
         activated = true;
         life -= dmg;
     }
@@ -45,9 +46,11 @@ public abstract class AbstractBomb extends AbstractGameObject {
 
     @Override
     public boolean logic(long time) {
-        activated = activated | activator.logic(time);
-        if (!activated) return false;
-        return behavior.detonate(this, time);
+        if (activated | activator.logic(time)) {
+            activated = false;
+            return behavior.detonate(this, time);
+        }
+        return false;
     }
 
     @Override
@@ -59,10 +62,7 @@ public abstract class AbstractBomb extends AbstractGameObject {
 
     @Override
     public String toString() {
-        String t = this.getClass().getSimpleName();
-        String a = String.valueOf(activator);
-        String b = String.valueOf(behavior);
-        return String.format("%s: [a: %s] [b: %s]", t, a, b);
+        return getClassName() + ":" + getIdentifier() + ":[a:" + String.valueOf(activator) + "][b:" + String.valueOf(behavior) + "]";
     }
 
     public void setActivator(RandomTimeActivator update) {

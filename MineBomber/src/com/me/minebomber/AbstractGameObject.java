@@ -59,12 +59,16 @@ public abstract class AbstractGameObject extends RecyclableObject {
                 position.y * MapManager.rowH);
     }
 
+    //object receive damage
     public abstract void damage(IPlayer who, int dmg, long time);
 
+    //object receive take action from unit
     public abstract boolean applyTake(IPlayer who, long time);
 
+    //object receive dig action from unit
     public abstract void dig(IPlayer who, long time);
 
+    //object logic over time
     //True - удалить обьект, False - обьект не удалится
     public abstract boolean logic(long time);
 

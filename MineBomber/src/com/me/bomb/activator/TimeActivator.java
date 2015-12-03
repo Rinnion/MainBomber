@@ -2,6 +2,8 @@ package com.me.bomb.activator;
 
 import com.me.Utility.RecyclableArray;
 import com.me.bomb.AbstractBomb;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TimeActivator extends RecyclableActivator implements IActivator {
     public static final long DEFAULT_TIME = 3000;
@@ -9,7 +11,7 @@ public class TimeActivator extends RecyclableActivator implements IActivator {
     public static final long CASUAL_MAX_TIME = 5000;
     public static final long MAX_TIME = 3600000; //one hour
     public static final long MIN_TIME = 100;
-
+    private static Logger logger = LoggerFactory.getLogger(TimeActivator.class);
     private AbstractBomb bomb;
     private long time;
 
@@ -18,6 +20,7 @@ public class TimeActivator extends RecyclableActivator implements IActivator {
     }
 
     public TimeActivator update(AbstractBomb bomb, long time) {
+        logger.debug("update {} [bomb:{}][time:{}]", this, bomb, time);
         this.bomb = bomb;
         if (this.time < MIN_TIME) this.time = MIN_TIME;
         if (this.time > MAX_TIME) this.time = MAX_TIME;
@@ -32,7 +35,7 @@ public class TimeActivator extends RecyclableActivator implements IActivator {
 
     @Override
     public String toString() {
-        return (String.format("%s: [time: %s]", getClass().getSimpleName(), time));
+        return (String.format("%1$s:%2$s[time:%3$s]", getClassName(), getIdentifier(), time));
     }
 
 }

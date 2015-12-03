@@ -69,6 +69,9 @@ public class PunchTera extends RecyclableBehavior implements IBehavior {
             for (int i = 0; i < xycount; i++) {
                 index = cy[i] * MapManager.maxCel + cx[i];
 
+                if (index < 0) continue;
+                if (index > MapManager.maxCel * MapManager.maxRow - 1) continue;
+
                 if (mapInfo[index].tile.group.id != 4) continue;
                 mapInfo[index].SetInfo(tile, tile.group.life);
                 MapManager.redrawArray2.push(index);

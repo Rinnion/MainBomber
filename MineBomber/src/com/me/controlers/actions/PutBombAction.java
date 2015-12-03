@@ -30,7 +30,7 @@ public class PutBombAction extends RecyclableObject
     public void Calculate(long time) {
         logger.trace("PutBombAction: {}", obj.toString());
         MineBomber.GameObjectController.Add(obj);
-        obj.activator.logic(time);
+        //obj.activator.logic(time);
     }
 
     public PutBombAction update(IPlayer player, long time, AbstractBomb bomb) {
