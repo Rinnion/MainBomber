@@ -12,8 +12,6 @@ import com.me.minebomber.MemoryManager;
 import com.me.minebomber.MineBomber;
 import com.me.minebomber.Settings;
 
-import java.util.Calendar;
-
 /**
  * Created by alekseev on 20.03.2014.
  */
@@ -43,7 +41,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
         if (bomb != null) {
             bombList.add(bomb);
-            PutBombAction take = MemoryManager.take(PutBombAction.class).update(this, Calendar.getInstance().getTime().getTime(), bomb);
+            PutBombAction take = MemoryManager.take(PutBombAction.class).update(this, 0, bomb);
             MineBomber.ActionController.Add(take);
         }
 
@@ -51,8 +49,7 @@ public class Player extends AbstractPlayer implements IPlayerControls {
 
     public void DetonateBomb() {
         if(mDie) return;
-        long time=Calendar.getInstance().getTimeInMillis();
-        ActivateBombAction take = MemoryManager.take(ActivateBombAction.class).update(this, time);
+        ActivateBombAction take = MemoryManager.take(ActivateBombAction.class).update(this, 0);
         MineBomber.ActionController.Add(take);
     }
 

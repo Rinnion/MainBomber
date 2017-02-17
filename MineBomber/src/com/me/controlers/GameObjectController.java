@@ -50,10 +50,10 @@ public class GameObjectController {
         return true;
     }
 
-    public void calculate(long time) {
+    public void logic(long frame) {
 
         for (AbstractGameObject obj : objects) {
-            if (obj.logic(time))
+            if (obj.logic(frame))
                 bombToRemove.add(obj);
         }
 

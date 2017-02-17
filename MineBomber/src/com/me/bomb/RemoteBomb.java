@@ -1,6 +1,5 @@
 package com.me.bomb;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.me.Players.IPlayer;
 import com.me.Utility.RecyclableArray;
 import com.me.bomb.activator.DestinationActivator;
@@ -13,15 +12,7 @@ import com.me.minebomber.MemoryManager;
  */
 public class RemoteBomb extends AbstractBomb {
 
-    private static AnimatedSprite animatedSprite=null;
-    private static Sprite sprite = null;
-
-    static
-    {
-        if(animatedSprite==null) {
-            animatedSprite = AnimatedSprite.FactoryMethos.CreateBomb("dst_bomb");
-        }
-    }
+    private static AnimatedSprite animatedSprite = AnimatedSprite.FactoryMethos.CreateBomb("dst_bomb");
 
     public RemoteBomb(RecyclableArray array) {
         super(array);

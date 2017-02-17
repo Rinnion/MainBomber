@@ -16,6 +16,7 @@ public abstract class AbstractGameObject extends RecyclableObject {
     public int life;
     public Vector2I position;
     public boolean visible;
+    public long time;
     protected IPlayer owner;
     protected int index;
     protected AnimatedSpriteAnimator sprite;

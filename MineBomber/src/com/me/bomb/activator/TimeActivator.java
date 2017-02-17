@@ -2,15 +2,16 @@ package com.me.bomb.activator;
 
 import com.me.Utility.RecyclableArray;
 import com.me.bomb.AbstractBomb;
+import com.me.minebomber.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TimeActivator extends RecyclableActivator implements IActivator {
-    public static final long DEFAULT_TIME = 3000;
-    public static final long CASUAL_MIN_TIME = 500;
-    public static final long CASUAL_MAX_TIME = 5000;
-    public static final long MAX_TIME = 3600000; //one hour
-    public static final long MIN_TIME = 100;
+    public static final long DEFAULT_TIME = 3000 / Settings.LOGIC_FRAME_INTERVAL;
+    public static final long CASUAL_MIN_TIME = 500 / Settings.LOGIC_FRAME_INTERVAL;
+    public static final long CASUAL_MAX_TIME = 5000 / Settings.LOGIC_FRAME_INTERVAL;
+    public static final long MAX_TIME = 3600000 / Settings.LOGIC_FRAME_INTERVAL; //one hour
+    public static final long MIN_TIME = 100 / Settings.LOGIC_FRAME_INTERVAL;
     private static Logger logger = LoggerFactory.getLogger(TimeActivator.class);
     private AbstractBomb bomb;
     private long time;
@@ -30,7 +31,7 @@ public class TimeActivator extends RecyclableActivator implements IActivator {
 
     @Override
     public boolean logic(long time) {
-        return time >= this.time;
+        return (--this.time) == 0;
     }
 
     @Override

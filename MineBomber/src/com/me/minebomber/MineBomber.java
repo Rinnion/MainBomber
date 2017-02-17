@@ -56,7 +56,7 @@ public class MineBomber {
                     public void run() {
                         Calculate();
                     }
-                }, 0, 50
+                }, 0, Settings.LOGIC_FRAME_INTERVAL
         );
     }
 
@@ -68,17 +68,18 @@ public class MineBomber {
 
         logger.trace("logic in");
         logger.debug("Logic frame: {}", logicFrame++);
+
         scheduleDtStart = Calendar.getInstance().getTimeInMillis();
-        GameObjectController.calculate(scheduleDtStart);
+        GameObjectController.logic(logicFrame);
 
         scheduleDtBomb = Calendar.getInstance().getTimeInMillis();
-        PlayerController.Calculate(scheduleDtStart);
+        PlayerController.Calculate(logicFrame);
 
         scheduleDtPlayer = Calendar.getInstance().getTimeInMillis();
-        MapManager.Calculate(scheduleDtStart);
+        MapManager.Calculate(logicFrame);
 
         scheduleDtMap = Calendar.getInstance().getTimeInMillis();
-        ActionController.Calculate(scheduleDtStart);
+        ActionController.logic(logicFrame);
 
         long diff = scheduleDtMap - scheduleDtStart;
         if (diff > 20)

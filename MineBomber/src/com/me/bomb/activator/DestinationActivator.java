@@ -26,10 +26,5 @@ public class DestinationActivator extends RecyclableActivator implements IActiva
         activated = true;
     }
 
-    @Override
-    public String toString() {
-        return (String.format("%s", getClass().getSimpleName()));
-    }
-
 }
 

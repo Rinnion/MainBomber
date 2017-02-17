@@ -3,8 +3,6 @@ package com.me.bomb.activator;
 import com.me.Utility.RecyclableArray;
 import com.me.bomb.AbstractBomb;
 
-import java.util.Calendar;
-
 public class RandomTimeActivator extends TimeActivator {
 
     public RandomTimeActivator(RecyclableArray array) {
@@ -16,7 +14,7 @@ public class RandomTimeActivator extends TimeActivator {
     }
 
     public RandomTimeActivator update(AbstractBomb bomb) {
-        super.update(bomb, Calendar.getInstance().getTimeInMillis() + getRandomTime());
+        super.update(bomb, getRandomTime());
         return this;
     }
 

@@ -27,9 +27,10 @@ public class PutBombAction extends RecyclableObject
     }
 
     @Override
-    public void Calculate(long time) {
+    public void logic(long time) {
         logger.trace("PutBombAction: {}", obj.toString());
         MineBomber.GameObjectController.Add(obj);
+        obj.time = time;
         //obj.activator.logic(time);
     }
 

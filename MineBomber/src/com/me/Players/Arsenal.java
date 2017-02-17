@@ -22,9 +22,9 @@ public class Arsenal {
         mArsenal = new HashMap<>();
         sindex = 0;
 
-        mArsenal.put(BombType.FAST_FILLED, 50);
+        //mArsenal.put(BombType.FAST_FILLED, 50);
         //mArsenal.put(BombType.DYNAMITE, 50);
-        //mArsenal.put(BombType.RANDOM, 50);
+        mArsenal.put(BombType.RANDOM, 50);
         //mArsenal.put(2,5);
         //mArsenal.put(1,5);
     }

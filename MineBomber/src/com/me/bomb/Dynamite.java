@@ -5,14 +5,15 @@ import com.me.Utility.RecyclableArray;
 import com.me.bomb.activator.TimeActivator;
 import com.me.bomb.behavior.CircleExplosion;
 import com.me.minebomber.MemoryManager;
-
-import java.util.Calendar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * Created by alekseev on 27.03.2014.
  */
 public class Dynamite extends AbstractBomb {
+    private static Logger logger = LoggerFactory.getLogger(Dynamite.class);
     AnimatedSprite animatedSprite = AnimatedSprite.FactoryMethos.CreateBomb("dyn");
 
     public Dynamite(RecyclableArray array) {
@@ -22,8 +23,10 @@ public class Dynamite extends AbstractBomb {
     public Dynamite update(IPlayer player, int x, int y, long activationTime) {
         super.update(player, x, y, animatedSprite);
 
+        logger.debug("update {} [player:{}][x:{}][y:{}][t:{}]", this, player, x, y, activationTime);
+
         behavior = MemoryManager.take(CircleExplosion.class).update(100, 200, 24);
-        activator = MemoryManager.take(TimeActivator.class).update(this, Calendar.getInstance().getTimeInMillis() + activationTime);
+        activator = MemoryManager.take(TimeActivator.class).update(this, activationTime);
 
         return this;
     }

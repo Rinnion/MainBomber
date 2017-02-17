@@ -14,10 +14,10 @@ public class ActionController {
 
     private final RollingQueue<IGameAction> actionsQuery = new RollingQueue<>(IGameAction.class);
 
-    public void Calculate(long time) {
+    public void logic(long frame) {
         IGameAction action = actionsQuery.pop();
         while (action != null) {
-            action.Calculate(time);
+            action.logic(frame);
             ((IRecyclable) action).recycle();
             action = actionsQuery.pop();
         }
@@ -28,7 +28,7 @@ public class ActionController {
     }
 
     public interface IGameAction {
-        void Calculate(long time);
+        void logic(long time);
     }
 }
 

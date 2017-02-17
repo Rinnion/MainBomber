@@ -12,13 +12,8 @@ import com.me.minebomber.MemoryManager;
  */
 public final class RandomBomb extends AbstractBomb {
 
-    private static AnimatedSprite animatedSprite=null;
-
-    static
-    {
-        if(animatedSprite==null)
-            animatedSprite= AnimatedSprite.FactoryMethos.CreateBomb("bomb");
-    }
+    private static AnimatedSprite animatedSprite = AnimatedSprite.FactoryMethos.CreateBomb("bomb");
+    ;
 
     public RandomBomb(RecyclableArray array) {
         super(array);

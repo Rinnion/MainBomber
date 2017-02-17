@@ -20,7 +20,7 @@ public class ActivateBombAction extends RecyclableAction
     }
 
     @Override
-    public void Calculate(long time) {
+    public void logic(long time) {
         owner.activateBombs(time);
     }
 

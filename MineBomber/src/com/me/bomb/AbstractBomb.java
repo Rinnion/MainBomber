@@ -45,10 +45,10 @@ public abstract class AbstractBomb extends AbstractGameObject {
     }
 
     @Override
-    public boolean logic(long time) {
-        if (activated | activator.logic(time)) {
+    public boolean logic(long frame) {
+        if (activated | activator.logic(frame)) {
             activated = false;
-            return behavior.detonate(this, time);
+            return behavior.detonate(this, frame);
         }
         return false;
     }

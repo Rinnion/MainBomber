@@ -20,4 +20,5 @@ public class Settings {
     public static final String PAK_OBJECTS="data/Textures/objects.txt";
 
 
+    public static final long LOGIC_FRAME_INTERVAL = 50; //20 frame in second
 }
