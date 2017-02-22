@@ -22,7 +22,7 @@ public class NameBase {
     }
 
     private String getPreferredClassName() {
-        if (this instanceof com.sun.corba.se.spi.orbutil.fsm.Action)
+        if (this instanceof Action)
             return "Action";
         if (this instanceof State)
             return "State";
